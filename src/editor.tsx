@@ -4,8 +4,7 @@ import isHotkey from 'is-hotkey'
 import {Editable, ReactEditor, Slate, useSlate, withReact} from 'slate-react'
 import {createEditor, Descendant, Editor, Element as SlateElement, Transforms} from 'slate'
 import {withHistory} from 'slate-history'
-import {Toolbar} from './components'
-import {Button, Icon} from 'semantic-ui-react'
+import {Button, Divider, Icon, Menu} from 'semantic-ui-react'
 
 const HOTKEYS = {
     'mod+b': 'bold',
@@ -25,7 +24,7 @@ const RichTextExample = () => {
     return (
         <div>
             <Slate editor={editor} value={initialValue}>
-                <Toolbar>
+                <Menu secondary>
                     <MarkButton format="bold" icon="bold icon"/>
                     <MarkButton format="italic" icon="italic icon"/>
                     <MarkButton format="underline" icon="underline icon"/>
@@ -39,7 +38,8 @@ const RichTextExample = () => {
                     <BlockButton format="center" icon="align center icon"/>
                     <BlockButton format="right" icon="align right icon"/>
                     <BlockButton format="justify" icon="align justify icon"/>
-                </Toolbar>
+                </Menu>
+                <Divider/>
                 <Editable
                     renderElement={renderElement}
                     renderLeaf={renderLeaf}
