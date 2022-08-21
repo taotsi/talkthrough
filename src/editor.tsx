@@ -31,19 +31,19 @@ const RichTextExample = () => {
     return (
         <Slate editor={editor} value={initialValue}>
             <Toolbar>
-                <MarkButton format="bold" icon="format_bold" />
-                <MarkButton format="italic" icon="format_italic" />
-                <MarkButton format="underline" icon="format_underlined" />
-                <MarkButton format="code" icon="code" />
-                <BlockButton format="heading-one" icon="looks_one" />
-                <BlockButton format="heading-two" icon="looks_two" />
-                <BlockButton format="block-quote" icon="format_quote" />
-                <BlockButton format="numbered-list" icon="format_list_numbered" />
-                <BlockButton format="bulleted-list" icon="format_list_bulleted" />
-                <BlockButton format="left" icon="format_align_left" />
-                <BlockButton format="center" icon="format_align_center" />
-                <BlockButton format="right" icon="format_align_right" />
-                <BlockButton format="justify" icon="format_align_justify" />
+                <MarkButton format="bold" icon="bold icon" />
+                <MarkButton format="italic" icon="italic icon" />
+                <MarkButton format="underline" icon="underline icon" />
+                <MarkButton format="code" icon="code icon" />
+                <BlockButton format="heading-one" icon="heading icon" />
+                <BlockButton format="heading-two" icon="heading icon" />
+                <BlockButton format="block-quote" icon="quote right icon" />
+                <BlockButton format="numbered-list" icon="list ol icon" />
+                <BlockButton format="bulleted-list" icon="list ul icon" />
+                <BlockButton format="left" icon="align left icon" />
+                <BlockButton format="center" icon="align center icon" />
+                <BlockButton format="right" icon="align right icon" />
+                <BlockButton format="justify" icon="align justify icon" />
             </Toolbar>
             <Editable
                 renderElement={renderElement}
@@ -213,7 +213,7 @@ const BlockButton = ({ format, icon }) => {
                 toggleBlock(editor, format)
             }}
         >
-            <Icon>{icon}</Icon>
+            <Icon className={icon}>{icon}</Icon>
         </Button>
     )
 }
@@ -228,7 +228,7 @@ const MarkButton = ({ format, icon }) => {
                 toggleMark(editor, format)
             }}
         >
-            <Icon>{icon}</Icon>
+            <Icon className={icon}>{icon}</Icon>
         </Button>
     )
 }
