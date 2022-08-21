@@ -24,20 +24,26 @@ const RichTextExample = () => {
     return (
         <div>
             <Slate editor={editor} value={initialValue}>
-                <Menu secondary>
-                    <MarkButton format="bold" icon="bold icon"/>
-                    <MarkButton format="italic" icon="italic icon"/>
-                    <MarkButton format="underline" icon="underline icon"/>
-                    <BlockButton format="heading-one" icon="heading icon" label="1"/>
-                    <BlockButton format="heading-two" icon="heading icon" label="2"/>
-                    <MarkButton format="code" icon="code icon"/>
-                    <BlockButton format="block-quote" icon="quote right icon"/>
-                    <BlockButton format="numbered-list" icon="list ol icon"/>
-                    <BlockButton format="bulleted-list" icon="list ul icon"/>
-                    <BlockButton format="left" icon="align left icon"/>
-                    <BlockButton format="center" icon="align center icon"/>
-                    <BlockButton format="right" icon="align right icon"/>
-                    <BlockButton format="justify" icon="align justify icon"/>
+                <Menu secondary size='small'>
+                    <Button.Group>
+                        <MarkButton format="bold" icon="bold icon"/>
+                        <MarkButton format="italic" icon="italic icon"/>
+                        <MarkButton format="underline" icon="underline icon"/>
+
+                        <BlockButton format="heading-one" icon="heading icon" label="1"/>
+                        <BlockButton format="heading-two" icon="heading icon" label="2"/>
+
+                        <MarkButton format="code" icon="code icon"/>
+                        <BlockButton format="block-quote" icon="quote right icon"/>
+
+                        <BlockButton format="numbered-list" icon="list ol icon"/>
+                        <BlockButton format="bulleted-list" icon="list ul icon"/>
+
+                        <BlockButton format="left" icon="align left icon"/>
+                        <BlockButton format="center" icon="align center icon"/>
+                        <BlockButton format="right" icon="align right icon"/>
+                        <BlockButton format="justify" icon="align justify icon"/>
+                    </Button.Group>
                 </Menu>
                 <Divider/>
                 <Editable
