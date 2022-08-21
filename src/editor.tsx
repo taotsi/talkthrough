@@ -1,11 +1,11 @@
 // @ts-nocheck
-import React, { useCallback, useMemo } from 'react'
+import React, {useCallback, useMemo} from 'react'
 import isHotkey from 'is-hotkey'
-import { Editable, withReact, useSlate, Slate, ReactEditor } from 'slate-react'
-import {Editor, Transforms, createEditor, Descendant, Element as SlateElement} from 'slate'
-import { withHistory } from 'slate-history'
-import { Toolbar } from './components'
-import { Button, Icon } from 'semantic-ui-react'
+import {Editable, ReactEditor, Slate, useSlate, withReact} from 'slate-react'
+import {createEditor, Descendant, Editor, Element as SlateElement, Transforms} from 'slate'
+import {withHistory} from 'slate-history'
+import {Toolbar} from './components'
+import {Button, Icon} from 'semantic-ui-react'
 
 const HOTKEYS = {
     'mod+b': 'bold',
@@ -26,19 +26,19 @@ const RichTextExample = () => {
         <div>
             <Slate editor={editor} value={initialValue}>
                 <Toolbar>
-                    <MarkButton format="bold" icon="bold icon" />
-                    <MarkButton format="italic" icon="italic icon" />
-                    <MarkButton format="underline" icon="underline icon" />
-                    <BlockButton format="heading-one" icon="heading icon" label="1" />
-                    <BlockButton format="heading-two" icon="heading icon" label="2" />
-                    <MarkButton format="code" icon="code icon" />
-                    <BlockButton format="block-quote" icon="quote right icon" />
-                    <BlockButton format="numbered-list" icon="list ol icon" />
-                    <BlockButton format="bulleted-list" icon="list ul icon" />
-                    <BlockButton format="left" icon="align left icon" />
-                    <BlockButton format="center" icon="align center icon" />
-                    <BlockButton format="right" icon="align right icon" />
-                    <BlockButton format="justify" icon="align justify icon" />
+                    <MarkButton format="bold" icon="bold icon"/>
+                    <MarkButton format="italic" icon="italic icon"/>
+                    <MarkButton format="underline" icon="underline icon"/>
+                    <BlockButton format="heading-one" icon="heading icon" label="1"/>
+                    <BlockButton format="heading-two" icon="heading icon" label="2"/>
+                    <MarkButton format="code" icon="code icon"/>
+                    <BlockButton format="block-quote" icon="quote right icon"/>
+                    <BlockButton format="numbered-list" icon="list ol icon"/>
+                    <BlockButton format="bulleted-list" icon="list ul icon"/>
+                    <BlockButton format="left" icon="align left icon"/>
+                    <BlockButton format="center" icon="align center icon"/>
+                    <BlockButton format="right" icon="align right icon"/>
+                    <BlockButton format="justify" icon="align justify icon"/>
                 </Toolbar>
                 <Editable
                     renderElement={renderElement}
@@ -90,7 +90,7 @@ const toggleBlock = (editor, format) => {
     Transforms.setNodes<SlateElement>(editor, newProperties)
 
     if (!isActive && isList) {
-        const block = { type: format, children: [] }
+        const block = {type: format, children: []}
         Transforms.wrapNodes(editor, block)
     }
 }
@@ -106,7 +106,7 @@ const toggleMark = (editor, format) => {
 }
 
 const isBlockActive = (editor, format, blockType = 'type') => {
-    const { selection } = editor
+    const {selection} = editor
     if (!selection) return false
 
     const [match] = Array.from(
@@ -127,8 +127,8 @@ const isMarkActive = (editor, format) => {
     return marks ? marks[format] === true : false
 }
 
-const Element = ({ attributes, children, element }) => {
-    const style = { textAlign: element.align }
+const Element = ({attributes, children, element}) => {
+    const style = {textAlign: element.align}
     switch (element.type) {
         case 'block-quote':
             return (
@@ -175,7 +175,7 @@ const Element = ({ attributes, children, element }) => {
     }
 }
 
-const Leaf = ({ attributes, children, leaf }) => {
+const Leaf = ({attributes, children, leaf}) => {
     if (leaf.bold) {
         children = <strong>{children}</strong>
     }
@@ -195,7 +195,7 @@ const Leaf = ({ attributes, children, leaf }) => {
     return <span {...attributes}>{children}</span>
 }
 
-const BlockButton = ({ format, icon, label }) => {
+const BlockButton = ({format, icon, label}) => {
     const editor = useSlate()
     return (
         <Button
@@ -217,7 +217,7 @@ const BlockButton = ({ format, icon, label }) => {
     )
 }
 
-const MarkButton = ({ format, icon }) => {
+const MarkButton = ({format, icon}) => {
     const editor = useSlate()
     return (
         <Button
@@ -238,13 +238,13 @@ const initialValue: Descendant[] = [
     {
         type: 'paragraph',
         children: [
-            { text: 'This is editable ' },
-            { text: 'rich', bold: true },
-            { text: ' text, ' },
-            { text: 'much', italic: true },
-            { text: ' better than a ' },
-            { text: '<textarea>', code: true },
-            { text: '!' },
+            {text: 'This is editable '},
+            {text: 'rich', bold: true},
+            {text: ' text, '},
+            {text: 'much', italic: true},
+            {text: ' better than a '},
+            {text: '<textarea>', code: true},
+            {text: '!'},
         ],
     },
     {
@@ -254,7 +254,7 @@ const initialValue: Descendant[] = [
                 text:
                     "Since it's rich text, you can do things like turn a selection of text ",
             },
-            { text: 'bold', bold: true },
+            {text: 'bold', bold: true},
             {
                 text:
                     ', or add a semantically rendered block quote in the middle of the page, like this:',
@@ -263,12 +263,12 @@ const initialValue: Descendant[] = [
     },
     {
         type: 'block-quote',
-        children: [{ text: 'A wise quote.' }],
+        children: [{text: 'A wise quote.'}],
     },
     {
         type: 'paragraph',
         align: 'center',
-        children: [{ text: 'Try it out for yourself!' }],
+        children: [{text: 'Try it out for yourself!'}],
     },
 ]
 
