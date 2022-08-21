@@ -11,7 +11,7 @@ function App() {
                     <Container>
                         <Menu.Item>TODO：标志</Menu.Item>
                         <Menu.Item position='left'>
-                            <Input className='icon' icon='search' placeholder='TODO'/>
+                            <Input icon='search' placeholder='TODO'/>
                         </Menu.Item>
                         <Menu.Item>
                             <Button>Log in</Button>

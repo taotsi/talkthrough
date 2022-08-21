@@ -2,16 +2,10 @@
 import React, { useCallback, useMemo } from 'react'
 import isHotkey from 'is-hotkey'
 import { Editable, withReact, useSlate, Slate, ReactEditor } from 'slate-react'
-import {
-    Editor,
-    Transforms,
-    createEditor,
-    Descendant,
-    Element as SlateElement,
-} from 'slate'
+import {Editor, Transforms, createEditor, Descendant, Element as SlateElement} from 'slate'
 import { withHistory } from 'slate-history'
-
-import { Button, Icon, Toolbar } from './components'
+import { Toolbar } from './components'
+import { Button, Icon } from 'semantic-ui-react'
 
 const HOTKEYS = {
     'mod+b': 'bold',
@@ -29,39 +23,41 @@ const RichTextExample = () => {
     const editor = useMemo(() => withHistory(withReact(createEditor() as ReactEditor)), [])
 
     return (
-        <Slate editor={editor} value={initialValue}>
-            <Toolbar>
-                <MarkButton format="bold" icon="bold icon" />
-                <MarkButton format="italic" icon="italic icon" />
-                <MarkButton format="underline" icon="underline icon" />
-                <MarkButton format="code" icon="code icon" />
-                <BlockButton format="heading-one" icon="heading icon" />
-                <BlockButton format="heading-two" icon="heading icon" />
-                <BlockButton format="block-quote" icon="quote right icon" />
-                <BlockButton format="numbered-list" icon="list ol icon" />
-                <BlockButton format="bulleted-list" icon="list ul icon" />
-                <BlockButton format="left" icon="align left icon" />
-                <BlockButton format="center" icon="align center icon" />
-                <BlockButton format="right" icon="align right icon" />
-                <BlockButton format="justify" icon="align justify icon" />
-            </Toolbar>
-            <Editable
-                renderElement={renderElement}
-                renderLeaf={renderLeaf}
-                placeholder="Enter some rich text…"
-                spellCheck
-                autoFocus
-                onKeyDown={event => {
-                    for (const hotkey in HOTKEYS) {
-                        if (isHotkey(hotkey, event as any)) {
-                            event.preventDefault()
-                            const mark = HOTKEYS[hotkey]
-                            toggleMark(editor, mark)
+        <div>
+            <Slate editor={editor} value={initialValue}>
+                <Toolbar>
+                    <MarkButton format="bold" icon="bold icon" />
+                    <MarkButton format="italic" icon="italic icon" />
+                    <MarkButton format="underline" icon="underline icon" />
+                    <BlockButton format="heading-one" icon="heading icon" label="1" />
+                    <BlockButton format="heading-two" icon="heading icon" label="2" />
+                    <MarkButton format="code" icon="code icon" />
+                    <BlockButton format="block-quote" icon="quote right icon" />
+                    <BlockButton format="numbered-list" icon="list ol icon" />
+                    <BlockButton format="bulleted-list" icon="list ul icon" />
+                    <BlockButton format="left" icon="align left icon" />
+                    <BlockButton format="center" icon="align center icon" />
+                    <BlockButton format="right" icon="align right icon" />
+                    <BlockButton format="justify" icon="align justify icon" />
+                </Toolbar>
+                <Editable
+                    renderElement={renderElement}
+                    renderLeaf={renderLeaf}
+                    placeholder="Enter some rich text…"
+                    spellCheck
+                    autoFocus
+                    onKeyDown={event => {
+                        for (const hotkey in HOTKEYS) {
+                            if (isHotkey(hotkey, event as any)) {
+                                event.preventDefault()
+                                const mark = HOTKEYS[hotkey]
+                                toggleMark(editor, mark)
+                            }
                         }
-                    }
-                }}
-            />
-        </Slate>
+                    }}
+                />
+            </Slate>
+        </div>
     )
 }
 
@@ -199,21 +195,24 @@ const Leaf = ({ attributes, children, leaf }) => {
     return <span {...attributes}>{children}</span>
 }
 
-const BlockButton = ({ format, icon }) => {
+const BlockButton = ({ format, icon, label }) => {
     const editor = useSlate()
     return (
         <Button
+            basic
             active={isBlockActive(
                 editor,
                 format,
                 TEXT_ALIGN_TYPES.includes(format) ? 'align' : 'type'
             )}
-            onMouseDown={event => {
+            onClick={event => {
                 event.preventDefault()
                 toggleBlock(editor, format)
             }}
+            icon
         >
-            <Icon className={icon}>{icon}</Icon>
+            <Icon name={icon}/>
+            {label}
         </Button>
     )
 }
@@ -222,13 +221,15 @@ const MarkButton = ({ format, icon }) => {
     const editor = useSlate()
     return (
         <Button
+            basic
             active={isMarkActive(editor, format)}
-            onMouseDown={event => {
+            onClick={event => {
                 event.preventDefault()
                 toggleMark(editor, format)
             }}
+            icon
         >
-            <Icon className={icon}>{icon}</Icon>
+            <Icon name={icon}/>
         </Button>
     )
 }
