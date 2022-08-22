@@ -46,10 +46,16 @@ const RichTextExample = () => {
 
                 <Popup
                     content='提交文章'
+                    size='tiny'
+                    mouseEnterDelay={500}
+                    mouseLeaveDelay={500}
                     trigger={<Button icon='save' color='green' floated='right'/>}
                 />
                 <Popup
                     content='删除文章'
+                    size='mini'
+                    mouseEnterDelay={500}
+                    mouseLeaveDelay={500}
                     trigger={<Button icon='trash' basic color='red' floated='right'/>}
                 />
 
