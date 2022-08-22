@@ -77,7 +77,7 @@ function App() {
                                         <span className='text'>设置</span>
                                     </Dropdown.Item>
                                     <Dropdown.Item>
-                                        <Icon name='help'/>
+                                        <Icon name='book'/>
                                         <span className='text'>帮助</span>
                                     </Dropdown.Item>
 
