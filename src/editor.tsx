@@ -4,7 +4,7 @@ import isHotkey from 'is-hotkey'
 import {Editable, ReactEditor, Slate, useSlate, withReact} from 'slate-react'
 import {createEditor, Descendant, Editor, Element as SlateElement, Transforms} from 'slate'
 import {withHistory} from 'slate-history'
-import {Button, Divider, Icon, Menu} from 'semantic-ui-react'
+import {Button, Divider, Icon, Popup} from 'semantic-ui-react'
 
 const HOTKEYS = {
     'mod+b': 'bold',
@@ -24,27 +24,35 @@ const RichTextExample = () => {
     return (
         <div>
             <Slate editor={editor} value={initialValue}>
-                <Menu secondary size='small'>
-                    <Button.Group>
-                        <MarkButton format="bold" icon="bold icon"/>
-                        <MarkButton format="italic" icon="italic icon"/>
-                        <MarkButton format="underline" icon="underline icon"/>
+                <Button.Group>
+                    <MarkButton format="bold" icon="bold"/>
+                    <MarkButton format="italic" icon="italic"/>
+                    <MarkButton format="underline" icon="underline"/>
 
-                        <BlockButton format="heading-one" icon="heading icon" label="1"/>
-                        <BlockButton format="heading-two" icon="heading icon" label="2"/>
+                    <BlockButton format="heading-one" icon="heading" label="1"/>
+                    <BlockButton format="heading-two" icon="heading" label="2"/>
 
-                        <MarkButton format="code" icon="code icon"/>
-                        <BlockButton format="block-quote" icon="quote right icon"/>
+                    <MarkButton format="code" icon="code icon"/>
+                    <BlockButton format="block-quote" icon="quote right"/>
 
-                        <BlockButton format="numbered-list" icon="list ol icon"/>
-                        <BlockButton format="bulleted-list" icon="list ul icon"/>
+                    <BlockButton format="numbered-list" icon="list ol"/>
+                    <BlockButton format="bulleted-list" icon="list ul"/>
 
-                        <BlockButton format="left" icon="align left icon"/>
-                        <BlockButton format="center" icon="align center icon"/>
-                        <BlockButton format="right" icon="align right icon"/>
-                        <BlockButton format="justify" icon="align justify icon"/>
-                    </Button.Group>
-                </Menu>
+                    <BlockButton format="left" icon="align left"/>
+                    <BlockButton format="center" icon="align center"/>
+                    <BlockButton format="right" icon="align right"/>
+                    <BlockButton format="justify" icon="align justify"/>
+                </Button.Group>
+
+                <Popup
+                    content='提交文章'
+                    trigger={<Button icon='save' color='green' floated='right'/>}
+                />
+                <Popup
+                    content='删除文章'
+                    trigger={<Button icon='trash' basic color='red' floated='right'/>}
+                />
+
                 <Divider/>
                 <Editable
                     renderElement={renderElement}
