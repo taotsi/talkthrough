@@ -16,7 +16,7 @@ const HOTKEYS = {
 const LIST_TYPES = ['numbered-list', 'bulleted-list']
 const TEXT_ALIGN_TYPES = ['left', 'center', 'right', 'justify']
 
-const RichTextExample = () => {
+const TtEditor = () => {
     const renderElement = useCallback(props => <Element {...props} />, [])
     const renderLeaf = useCallback(props => <Leaf {...props} />, [])
     const editor = useMemo(() => withHistory(withReact(createEditor() as ReactEditor)), [])
@@ -292,4 +292,4 @@ const initialValue: Descendant[] = [
     },
 ]
 
-export default RichTextExample
+export default TtEditor
