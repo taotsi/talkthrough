@@ -1,49 +1,42 @@
-import React, {Component} from "react";
-import {Container, Dropdown, Icon, Image, Input, Menu, Sticky} from "semantic-ui-react";
+import React, {Component} from "react"
+import {Container, Dropdown, Icon, Image, Input, Menu, Sticky} from "semantic-ui-react"
+import {Link, Outlet} from "react-router-dom"
 
-export default class NavBar extends Component {
+export default class Navbar extends Component {
     render() {
         return (
             <div>
                 <Sticky>
                     <Menu borderless attached size='tiny' inverted>
                         <Container>
-                            <Menu.Item>
+                            <Menu.Item as={Link} to="/">
                                 <Image src={'parthenon.png'} size={'mini'} fluid></Image>
                             </Menu.Item>
                             <Menu.Item>
-                                <Input icon='search' placeholder='TODO'/>
+                                <Input icon='search' placeholder='搜索或跳转...'/>
                             </Menu.Item>
-                            <Menu.Item
-                                name='合并请求'
-                                onClick={() => {
-                                    console.log("MR clicked")
-                                }}
-                            />
-                            <Menu.Item
-                                name='质疑'
-                                onClick={() => {
-                                    console.log("issue clicked")
-                                }}
-                            />
-                            <Menu.Item
-                                name='探索'
-                                onClick={() => {
-                                    console.log("explore clicked")
-                                }}
-                            />
 
                             <Menu.Item position='right'>
                                 <Dropdown item icon='bell' className='icon' direction='left'>
+                                    <Dropdown.Menu>
+                                        <Dropdown.Item as={Link} to="/pulls">
+                                            <Icon name='code branch'/>
+                                            <span className='text'>合并请求</span>
+                                        </Dropdown.Item>
+                                        <Dropdown.Item as={Link} to='/issues'>
+                                            <Icon name='question'/>
+                                            <span className='text'>质疑</span>
+                                        </Dropdown.Item>
+                                    </Dropdown.Menu>
                                 </Dropdown>
 
                                 <Dropdown item icon='plus' className='icon' direction='left'>
                                     <Dropdown.Menu>
-                                        <Dropdown.Item>
+                                        <Dropdown.Item as={Link} to="/new-paper">
                                             <Icon name='book'/>
                                             <span className='text'>文章</span>
                                         </Dropdown.Item>
-                                        <Dropdown.Item>
+                                        <Dropdown.Item as={Link} to='/new-material'>
                                             <Icon name='lightbulb'/>
                                             <span className='text'>素材</span>
                                         </Dropdown.Item>
@@ -92,6 +85,7 @@ export default class NavBar extends Component {
                         </Container>
                     </Menu>
                 </Sticky>
+                <Outlet/>
             </div>
         )
     }

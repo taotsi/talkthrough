@@ -19,8 +19,8 @@ const TEXT_ALIGN_TYPES = ['left', 'center', 'right', 'justify']
 
 export class TtEditor extends React.Component {
     constructor(props) {
-        super(props);
-        this.state = {};
+        super(props)
+        this.state = {}
         this.renderElement = this.renderElement.bind(this)
         this.renderLeaf = this.renderLeaf.bind(this)
         this.editor = withHistory(withReact(createEditor() as ReactEditor))
