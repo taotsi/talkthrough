@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, {useCallback, useMemo} from 'react'
+import React from 'react'
 import isHotkey from 'is-hotkey'
 import {Editable, ReactEditor, Slate, useSlate, withReact} from 'slate-react'
 import {createEditor, Descendant, Editor, Element as SlateElement, Transforms} from 'slate'
@@ -19,9 +19,7 @@ const TEXT_ALIGN_TYPES = ['left', 'center', 'right', 'justify']
 export class TtEditor extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-
-        };
+        this.state = {};
         this.renderElement = this.renderElement.bind(this)
         this.renderLeaf = this.renderLeaf.bind(this)
         this.editor = withHistory(withReact(createEditor() as ReactEditor))
@@ -40,7 +38,6 @@ export class TtEditor extends React.Component {
     }
 
     render() {
-        console.log(this.editor)
         return (
             <div>
                 <Slate editor={this.editor} value={initialValue}>
@@ -52,7 +49,7 @@ export class TtEditor extends React.Component {
                         <BlockButton format="heading-one" icon="heading" label="1"/>
                         <BlockButton format="heading-two" icon="heading" label="2"/>
 
-                        <MarkButton format="code" icon="code icon"/>
+                        <MarkButton format="code" icon="code"/>
                         <BlockButton format="block-quote" icon="quote right"/>
 
                         <BlockButton format="numbered-list" icon="list ol"/>
