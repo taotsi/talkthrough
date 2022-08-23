@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, {useCallback, useMemo} from 'react'
+import React from 'react'
 import isHotkey from 'is-hotkey'
 import {Editable, ReactEditor, Slate, useSlate, withReact} from 'slate-react'
 import {createEditor, Descendant, Editor, Element as SlateElement, Transforms} from 'slate'
@@ -16,63 +16,87 @@ const HOTKEYS = {
 const LIST_TYPES = ['numbered-list', 'bulleted-list']
 const TEXT_ALIGN_TYPES = ['left', 'center', 'right', 'justify']
 
-const RichTextExample = () => {
-    const renderElement = useCallback(props => <Element {...props} />, [])
-    const renderLeaf = useCallback(props => <Leaf {...props} />, [])
-    const editor = useMemo(() => withHistory(withReact(createEditor() as ReactEditor)), [])
+export class TtEditor extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {};
+        this.renderElement = this.renderElement.bind(this)
+        this.renderLeaf = this.renderLeaf.bind(this)
+        this.editor = withHistory(withReact(createEditor() as ReactEditor))
+    }
 
-    return (
-        <div>
-            <Slate editor={editor} value={initialValue}>
-                <Button.Group>
-                    <MarkButton format="bold" icon="bold"/>
-                    <MarkButton format="italic" icon="italic"/>
-                    <MarkButton format="underline" icon="underline"/>
+    renderElement(props) {
+        return <Element {...props}/>
+    }
 
-                    <BlockButton format="heading-one" icon="heading" label="1"/>
-                    <BlockButton format="heading-two" icon="heading" label="2"/>
+    renderLeaf(props) {
+        return <Leaf {...props}/>
+    }
 
-                    <MarkButton format="code" icon="code icon"/>
-                    <BlockButton format="block-quote" icon="quote right"/>
+    constructEditor() {
+        return () => withHistory(withReact(createEditor() as ReactEditor))
+    }
 
-                    <BlockButton format="numbered-list" icon="list ol"/>
-                    <BlockButton format="bulleted-list" icon="list ul"/>
+    render() {
+        return (
+            <div>
+                <Slate editor={this.editor} value={initialValue}>
+                    <Button.Group>
+                        <MarkButton format="bold" icon="bold"/>
+                        <MarkButton format="italic" icon="italic"/>
+                        <MarkButton format="underline" icon="underline"/>
 
-                    <BlockButton format="left" icon="align left"/>
-                    <BlockButton format="center" icon="align center"/>
-                    <BlockButton format="right" icon="align right"/>
-                    <BlockButton format="justify" icon="align justify"/>
-                </Button.Group>
+                        <BlockButton format="heading-one" icon="heading" label="1"/>
+                        <BlockButton format="heading-two" icon="heading" label="2"/>
 
-                <Popup
-                    content='提交文章'
-                    trigger={<Button icon='save' color='green' floated='right'/>}
-                />
-                <Popup
-                    content='删除文章'
-                    trigger={<Button icon='trash' basic color='red' floated='right'/>}
-                />
+                        <MarkButton format="code" icon="code"/>
+                        <BlockButton format="block-quote" icon="quote right"/>
 
-                <Divider/>
-                <Editable
-                    renderElement={renderElement}
-                    renderLeaf={renderLeaf}
-                    placeholder="Enter some rich text…"
-                    spellCheck
-                    autoFocus
-                    onKeyDown={event => {
-                        for (const hotkey in HOTKEYS) {
-                            if (isHotkey(hotkey, event as any)) {
-                                event.preventDefault()
-                                const mark = HOTKEYS[hotkey]
-                                toggleMark(editor, mark)
+                        <BlockButton format="numbered-list" icon="list ol"/>
+                        <BlockButton format="bulleted-list" icon="list ul"/>
+
+                        <BlockButton format="left" icon="align left"/>
+                        <BlockButton format="center" icon="align center"/>
+                        <BlockButton format="right" icon="align right"/>
+                        <BlockButton format="justify" icon="align justify"/>
+                    </Button.Group>
+
+                    <Popup
+                        content='提交文章'
+                        size='tiny'
+                        mouseEnterDelay={500}
+                        mouseLeaveDelay={500}
+                        trigger={<Button icon='save' color='green' floated='right'/>}
+                    />
+                    <Popup
+                        content='删除文章'
+                        size='mini'
+                        mouseEnterDelay={500}
+                        mouseLeaveDelay={500}
+                        trigger={<Button icon='trash' basic color='red' floated='right'/>}
+                    />
+
+                    <Divider/>
+                    <Editable
+                        renderElement={this.renderElement}
+                        renderLeaf={this.renderLeaf}
+                        placeholder="Enter some rich text…"
+                        spellCheck
+                        autoFocus
+                        onKeyDown={event => {
+                            for (const hotkey in HOTKEYS) {
+                                if (isHotkey(hotkey, event as any)) {
+                                    event.preventDefault()
+                                    const mark = HOTKEYS[hotkey]
+                                    toggleMark(this.editor, mark)
+                                }
                             }
-                        }
-                    }}
-                />
-            </Slate>
-        </div>
-    )
+                        }}
+                    />
+                </Slate>
+            </div>
+        )
+    }
 }
 
 const toggleBlock = (editor, format) => {
@@ -285,5 +309,3 @@ const initialValue: Descendant[] = [
         children: [{text: 'Try it out for yourself!'}],
     },
 ]
-
-export default RichTextExample
