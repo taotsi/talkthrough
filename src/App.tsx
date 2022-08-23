@@ -1,5 +1,5 @@
 import React from 'react';
-import TtEditor from './editor';
+import {TtEditor} from './editor';
 import {Container, Dropdown, Icon, Image, Input, Menu, Segment, Sticky} from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 
