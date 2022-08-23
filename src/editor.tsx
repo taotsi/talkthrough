@@ -2,9 +2,10 @@
 import React from 'react'
 import isHotkey from 'is-hotkey'
 import {Editable, ReactEditor, Slate, useSlate, withReact} from 'slate-react'
-import {createEditor, Descendant, Editor, Element as SlateElement, Transforms} from 'slate'
+import {createEditor, Editor, Element as SlateElement, Transforms} from 'slate'
 import {withHistory} from 'slate-history'
 import {Button, Divider, Icon, Popup} from 'semantic-ui-react'
+import editor_value_example from './editor_value_example.json'
 
 const HOTKEYS = {
     'mod+b': 'bold',
@@ -40,7 +41,7 @@ export class TtEditor extends React.Component {
     render() {
         return (
             <div>
-                <Slate editor={this.editor} value={initialValue}>
+                <Slate editor={this.editor} value={editor_value_example}>
                     <Button.Group>
                         <MarkButton format="bold" icon="bold"/>
                         <MarkButton format="italic" icon="italic"/>
@@ -271,41 +272,3 @@ const MarkButton = ({format, icon}) => {
         </Button>
     )
 }
-
-const initialValue: Descendant[] = [
-    {
-        type: 'paragraph',
-        children: [
-            {text: 'This is editable '},
-            {text: 'rich', bold: true},
-            {text: ' text, '},
-            {text: 'much', italic: true},
-            {text: ' better than a '},
-            {text: '<textarea>', code: true},
-            {text: '!'},
-        ],
-    },
-    {
-        type: 'paragraph',
-        children: [
-            {
-                text:
-                    "Since it's rich text, you can do things like turn a selection of text ",
-            },
-            {text: 'bold', bold: true},
-            {
-                text:
-                    ', or add a semantically rendered block quote in the middle of the page, like this:',
-            },
-        ],
-    },
-    {
-        type: 'block-quote',
-        children: [{text: 'A wise quote.'}],
-    },
-    {
-        type: 'paragraph',
-        align: 'center',
-        children: [{text: 'Try it out for yourself!'}],
-    },
-]
