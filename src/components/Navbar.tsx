@@ -1,8 +1,16 @@
 import React, {Component} from "react"
 import {Container, Dropdown, Icon, Image, Input, Menu, Sticky} from "semantic-ui-react"
 import {Link, Outlet} from "react-router-dom"
+import getUserInfo from "./getUserInfo";
 
 export default class Navbar extends Component {
+    private userInfo: { user: string };
+
+    constructor(props: any) {
+        super(props)
+        this.userInfo = getUserInfo()
+    }
+
     render() {
         return (
             <div>
@@ -19,7 +27,7 @@ export default class Navbar extends Component {
                             <Menu.Item position='right'>
                                 <Dropdown item icon='bell' className='icon' direction='left'>
                                     <Dropdown.Menu>
-                                        <Dropdown.Item as={Link} to="/pulls">
+                                        <Dropdown.Item as={Link} to='/pulls'>
                                             <Icon name='code branch'/>
                                             <span className='text'>合并请求</span>
                                         </Dropdown.Item>
@@ -32,11 +40,11 @@ export default class Navbar extends Component {
 
                                 <Dropdown item icon='plus' className='icon' direction='left'>
                                     <Dropdown.Menu>
-                                        <Dropdown.Item as={Link} to="/new-paper">
+                                        <Dropdown.Item as={Link} to="/new/paper">
                                             <Icon name='book'/>
                                             <span className='text'>文章</span>
                                         </Dropdown.Item>
-                                        <Dropdown.Item as={Link} to='/new-material'>
+                                        <Dropdown.Item as={Link} to='/new/material'>
                                             <Icon name='lightbulb'/>
                                             <span className='text'>素材</span>
                                         </Dropdown.Item>
@@ -50,25 +58,25 @@ export default class Navbar extends Component {
                                         </Dropdown.Item>
 
                                         <Dropdown.Divider/>
-                                        <Dropdown.Item active={false}>
+                                        <Dropdown.Item as={Link} to={'/' + this.userInfo.user}>
                                             <Icon name='id card'/>
                                             <span className='text'>你的档案</span>
                                         </Dropdown.Item>
-                                        <Dropdown.Item>
+                                        <Dropdown.Item as={Link} to={'/' + this.userInfo.user + '?tab=papers'}>
                                             <Icon name='book'/>
                                             <span className='text'>你的文章</span>
                                         </Dropdown.Item>
-                                        <Dropdown.Item>
-                                            <Icon name='lightbulb'/>
+                                        <Dropdown.Item as={Link} to={'/' + this.userInfo.user + '?tab=materials'}>
+                                            <Icon name='lightbulb' />
                                             <span className='text'>你的素材</span>
                                         </Dropdown.Item>
 
                                         <Dropdown.Divider/>
-                                        <Dropdown.Item>
+                                        <Dropdown.Item as={Link} to='/settings'>
                                             <Icon name='setting'/>
                                             <span className='text'>设置</span>
                                         </Dropdown.Item>
-                                        <Dropdown.Item>
+                                        <Dropdown.Item as={Link} to='/doc'>
                                             <Icon name='book'/>
                                             <span className='text'>帮助</span>
                                         </Dropdown.Item>
