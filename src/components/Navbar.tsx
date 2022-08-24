@@ -24,20 +24,14 @@ export default class Navbar extends Component {
                                 <Input icon='search' placeholder='搜索或跳转...'/>
                             </Menu.Item>
 
-                            <Menu.Item position='right'>
-                                <Dropdown item icon='bell' className='icon' direction='left'>
-                                    <Dropdown.Menu>
-                                        <Dropdown.Item as={Link} to='/pulls'>
-                                            <Icon name='code branch'/>
-                                            <span className='text'>合并请求</span>
-                                        </Dropdown.Item>
-                                        <Dropdown.Item as={Link} to='/issues'>
-                                            <Icon name='question'/>
-                                            <span className='text'>质疑</span>
-                                        </Dropdown.Item>
-                                    </Dropdown.Menu>
-                                </Dropdown>
+                            <Menu.Item as={Link} to='/pulls'>
+                                <span className='text'>合并请求</span>
+                            </Menu.Item>
+                            <Menu.Item as={Link} to='/issues'>
+                                <span className='text'>质疑</span>
+                            </Menu.Item>
 
+                            <Menu.Item position='right'>
                                 <Dropdown item icon='plus' className='icon' direction='left'>
                                     <Dropdown.Menu>
                                         <Dropdown.Item as={Link} to="/new/paper">
@@ -77,7 +71,7 @@ export default class Navbar extends Component {
                                             <span className='text'>设置</span>
                                         </Dropdown.Item>
                                         <Dropdown.Item as={Link} to='/doc'>
-                                            <Icon name='book'/>
+                                            <Icon name='question'/>
                                             <span className='text'>帮助</span>
                                         </Dropdown.Item>
 
