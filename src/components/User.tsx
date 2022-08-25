@@ -5,6 +5,7 @@ import { useParams, useSearchParams } from "react-router-dom"
 
 const User = () => {
     const params = useParams()
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [searchParams, _] = useSearchParams();
     return (
         <div>

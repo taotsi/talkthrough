@@ -5,7 +5,7 @@ import {Editable, ReactEditor, Slate, useSlate, withReact} from 'slate-react'
 import {createEditor, Editor, Element as SlateElement, Transforms} from 'slate'
 import {withHistory} from 'slate-history'
 import {Button, Divider, Icon, Popup} from 'semantic-ui-react'
-import editor_value_example from './editor_value_example.json'
+import editor_value_example from './examples/editor_value.json'
 
 const HOTKEYS = {
     'mod+b': 'bold',

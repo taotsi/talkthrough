@@ -5,7 +5,7 @@ import reportWebVitals from './reportWebVitals'
 import {BrowserRouter, Route, Routes} from "react-router-dom"
 import Navbar from './components/Navbar'
 import NewPaper from './components/NewPaper'
-import Home from './components/Home'
+import Explore from './components/Explore'
 import Page404 from './components/Page404'
 import Settings from './components/Settings'
 import Doc from './components/Doc'
@@ -22,7 +22,7 @@ root.render(
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Navbar/>}>
-                    <Route index element={<Home/>}/>
+                    <Route index element={<Explore/>}/>
                     <Route path='pulls' element={<Pulls/>}></Route>
                     <Route path='issues' element={<Issues/>}></Route>
                     <Route path='new/paper' element={<NewPaper/>}></Route>
