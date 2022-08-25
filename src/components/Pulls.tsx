@@ -1,6 +1,11 @@
+import {Outlet} from "react-router-dom";
+
 const Pulls = () => {
     return (
-        <div>pulls</div>
+        <div>
+            pulls
+            <Outlet/>
+        </div>
     )
 }
 

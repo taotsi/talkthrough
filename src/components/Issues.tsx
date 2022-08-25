@@ -1,6 +1,11 @@
+import {Outlet} from "react-router-dom";
+
 const Issues = () => {
     return (
-        <div>issues</div>
+        <div>
+            issues
+            <Outlet/>
+        </div>
     )
 }
 
