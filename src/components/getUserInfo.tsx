@@ -1,6 +1,6 @@
 const getUserInfo = ()=> {
     return {
-        "user": "hubugui"
+        "user": "胡不归"
     }
 }
 
