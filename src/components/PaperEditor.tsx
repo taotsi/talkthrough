@@ -17,7 +17,7 @@ const HOTKEYS = {
 const LIST_TYPES = ['numbered-list', 'bulleted-list']
 const TEXT_ALIGN_TYPES = ['left', 'center', 'right', 'justify']
 
-export class TtEditor extends React.Component {
+export class PaperEditor extends React.Component {
     constructor(props) {
         super(props)
         this.state = {}

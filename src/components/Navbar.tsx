@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-import {Container, Dropdown, Icon, Image, Input, Menu, Sticky} from "semantic-ui-react"
+import {Dropdown, Icon, Image, Input, Menu, Sticky} from "semantic-ui-react"
 import {Link, Outlet} from "react-router-dom"
 import getUserInfo from "./getUserInfo";
 
@@ -16,9 +16,8 @@ export default class Navbar extends Component {
             <div>
                 <Sticky>
                     <Menu borderless attached size='tiny' inverted>
-                        <Container>
                             <Menu.Item as={Link} to="/">
-                                <Image src={'parthenon.png'} size={'mini'} fluid></Image>
+                                <Image src={'/parthenon.png'} size={'mini'} fluid></Image>
                             </Menu.Item>
                             <Menu.Item>
                                 <Input icon='search' placeholder='搜索或跳转...'/>
@@ -83,8 +82,6 @@ export default class Navbar extends Component {
                                     </Dropdown.Menu>
                                 </Dropdown>
                             </Menu.Item>
-
-                        </Container>
                     </Menu>
                 </Sticky>
                 <Outlet/>
