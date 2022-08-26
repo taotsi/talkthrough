@@ -2,7 +2,7 @@
     {
         "id": 1,
         "title": "Black hole collisions could help us measure how fast the universe is expanding",
-        "author": "Louise Lerner",
+        "owner": "Louise Lerner",
         "repository": "black_hole",
         "pulls": 0,
         "issues": 0,
@@ -12,7 +12,7 @@
     {
         "id": 2,
         "title": "“内卷化”概念新理解",
-        "author": "郭继强",
+        "owner": "郭继强",
         "repository": "内卷",
         "pulls": 3,
         "issues": 2,

@@ -1,16 +1,16 @@
 import React from "react";
-import {Icon, Item} from "semantic-ui-react"
+import {Icon, Item, Button} from "semantic-ui-react"
 import {Link} from "react-router-dom"
 
 export default function ExploreRepositoryItem(props: any) {
     const header = props.header
-    const repoUrl = header.author + '/' + header.repository
-    const repoUrlRender = header.author + ' / ' + header.repository
+
     return (
         <Item>
             <Item.Content>
-                <Item.Header as={Link} to={repoUrl}>
+                <Item.Header as={Link} to={header.owner + '/' + header.repository}>
                     {header.title}
+                    <Button>123</Button>
                 </Item.Header>
                 <Item.Meta>
                     <Link to={header.repository + '/pulls'}>
@@ -25,9 +25,14 @@ export default function ExploreRepositoryItem(props: any) {
                     </Link>
                     &nbsp;&nbsp;&nbsp;&nbsp;
 
-                    <Link to={repoUrl}>
-                        {repoUrlRender}
+                    <Link to={header.owner}>
+                        {header.owner}
                     </Link>
+                    {" / "}
+                    <Link to={header.owner + '/' + header.repository}>
+                        {header.repository}
+                    </Link>
+
                 </Item.Meta>
             </Item.Content>
         </Item>

@@ -2,7 +2,7 @@
     {
         "id": 1,
         "title": "文艺投机主义",
-        "author": "胡不归",
+        "owner": "胡不归",
         "project": "art_opportunist",
         "thumb_ups": 0,
         "thumb_downs": 1,
@@ -11,7 +11,7 @@
     {
         "id": 2,
         "title": "Pas de liberté pour les ennemis de la liberté",
-        "author": "Louis Antoine",
+        "owner": "Louis Antoine",
         "project": "liberte",
         "thumb_ups": 5,
         "thumb_downs": 2,
@@ -20,7 +20,7 @@
     {
         "id": 3,
         "title": "tears in rain",
-        "author": "Roy Batty",
+        "owner": "Roy Batty",
         "project": "tears_in_rain",
         "thumb_ups": 10,
         "thumb_downs": 0,
