@@ -68,7 +68,8 @@ export class TheEditor extends React.Component {
                         size='mini'
                         mouseEnterDelay={500}
                         mouseLeaveDelay={500}
-                        trigger={<Button basic icon='arrow alternate circle up' color='green' floated='right' size='tiny'/>}
+                        trigger={<Button basic icon='arrow alternate circle up' color='green' floated='right'
+                                         size='tiny'/>}
                     />
                     <Popup
                         content='保存'

@@ -1,6 +1,6 @@
 import React from 'react'
 // import {TtEditor} from './editor'
-import {Container, Form, Divider} from 'semantic-ui-react'
+import {Container, Divider, Form} from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 import {Outlet} from "react-router-dom"
 import getUserInfo from "./getUserInfo";
@@ -22,7 +22,8 @@ class NewRepository extends React.Component {
                         <Divider/>
 
                         <Form.Group>
-                            <Form.Select required fluid label='用户' placeholder={user} options={availableUsers}></Form.Select>
+                            <Form.Select required fluid label='用户' placeholder={user}
+                                         options={availableUsers}></Form.Select>
                             <h2>/</h2>
                             <Form.Input required label='项目名称'></Form.Input>
                         </Form.Group>
@@ -55,7 +56,7 @@ class NewRepository extends React.Component {
                         <Form.Group>
                             <Form.Select label='选择许可协议' options={licenses}></Form.Select>
                         </Form.Group>
-                        <Form.Checkbox label='初始化为通用论文格式' />
+                        <Form.Checkbox label='初始化为通用论文格式'/>
                         <Divider/>
 
                         <Form.Button positive>创建项目</Form.Button>

@@ -1,5 +1,5 @@
 import React from "react"
-import {Container, Menu, Item} from 'semantic-ui-react'
+import {Container, Item, Menu} from 'semantic-ui-react'
 import materials from "./examples/materials.json"
 import papers from "./examples/repositories.json"
 import ExploreRepositoryItem from "./ExploreRepositoryItem";

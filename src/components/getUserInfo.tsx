@@ -1,4 +1,4 @@
-const getUserInfo = ()=> {
+const getUserInfo = () => {
     return {
         "name": "胡不归"
     }

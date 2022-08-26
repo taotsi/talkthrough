@@ -1,5 +1,5 @@
 import React from "react";
-import {Item, Icon} from "semantic-ui-react"
+import {Icon, Item} from "semantic-ui-react"
 import {Link} from "react-router-dom"
 
 export default function ExploreRepositoryItem(props: any) {
