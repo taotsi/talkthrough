@@ -34,7 +34,7 @@ export default class Explore extends React.Component<any, any> {
     render() {
         return (
             <div>
-                <Container text>
+                <Container>
                     <Menu pointing secondary>
                         <Menu.Item
                             name={TAB.PAPERS}
