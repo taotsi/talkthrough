@@ -1,9 +1,10 @@
 import React from "react"
-import {Container, Divider, Menu, Segment} from 'semantic-ui-react'
+import {Container, Menu, Item} from 'semantic-ui-react'
 import materials from "./examples/materials.json"
 import papers from "./examples/papers.json"
-import ExploreItem from "./ExploreItem";
+import ExplorePaperItem from "./ExplorePaperItem";
 import {Outlet} from "react-router-dom";
+import ExploreMaterialItem from "./ExploreMaterialItem";
 
 const TAB = {
     PAPERS: "文章",
@@ -16,7 +17,7 @@ export default class Explore extends React.Component<any, any> {
         this.handleItemClick = this.handleItemClick.bind(this);
 
         this.state = {
-            activeItem: TAB.PAPERS,
+            tab: TAB.PAPERS,
             headers: getHeaders(TAB.PAPERS)
         };
     }
@@ -24,7 +25,7 @@ export default class Explore extends React.Component<any, any> {
     handleItemClick(e: any, {name}: any) {
         this.setState(
             {
-                activeItem: name,
+                tab: name,
                 headers: getHeaders(name)
             }
         )
@@ -37,16 +38,18 @@ export default class Explore extends React.Component<any, any> {
                     <Menu pointing secondary>
                         <Menu.Item
                             name={TAB.PAPERS}
-                            active={this.state.activeItem === TAB.PAPERS}
+                            active={this.state.tab === TAB.PAPERS}
                             onClick={this.handleItemClick}
                         />
                         <Menu.Item
                             name={TAB.MATERIALS}
-                            active={this.state.activeItem === TAB.MATERIALS}
+                            active={this.state.tab === TAB.MATERIALS}
                             onClick={this.handleItemClick}
                         />
                     </Menu>
-                    {this.renderItems(this.state.headers)}
+                    <Item.Group>
+                        {this.renderItems(this.state.headers)}
+                    </Item.Group>
                 </Container>
                 <Outlet/>
             </div>
@@ -59,12 +62,16 @@ export default class Explore extends React.Component<any, any> {
         if (n < 1) {
             return result
         }
-        result.push(<ExploreItem header={headers[0]}/>)
-        for (let i = 1; i < n; i++) {
-            const header = headers[i]
-            result.push(<Divider/>)
-            result.push(<ExploreItem header={header}/>)
+        if (this.state.tab === TAB.PAPERS) {
+            for (let i = 0; i < n; i++) {
+                result.push(<ExplorePaperItem header={headers[i]}/>)
+            }
+        } else if (this.state.tab === TAB.MATERIALS) {
+            for (let i = 0; i < n; i++) {
+                result.push(<ExploreMaterialItem header={headers[i]}/>)
+            }
         }
+
         return result
     }
 }
@@ -85,22 +92,22 @@ const queryMaterials = () => {
     return materials
 }
 
-const queryPaper = (id: number) => {
-    for (let i = 0; i < papers.length; i++) {
-        const paper = papers[i]
-        if (paper.id === id) {
-            return paper
-        }
-    }
-    return null
-}
-
-const queryMaterial = (id: number) => {
-    for (let i = 0; i < materials.length; i++) {
-        const material = materials[i]
-        if (material.id === id) {
-            return material
-        }
-    }
-    return null
-}
+// const queryPaper = (id: number) => {
+//     for (let i = 0; i < papers.length; i++) {
+//         const paper = papers[i]
+//         if (paper.id === id) {
+//             return paper
+//         }
+//     }
+//     return null
+// }
+//
+// const queryMaterial = (id: number) => {
+//     for (let i = 0; i < materials.length; i++) {
+//         const material = materials[i]
+//         if (material.id === id) {
+//             return material
+//         }
+//     }
+//     return null
+// }
