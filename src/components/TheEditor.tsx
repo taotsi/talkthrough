@@ -17,7 +17,7 @@ const HOTKEYS = {
 const LIST_TYPES = ['numbered-list', 'bulleted-list']
 const TEXT_ALIGN_TYPES = ['left', 'center', 'right', 'justify']
 
-export class PaperEditor extends React.Component {
+export class TheEditor extends React.Component {
     constructor(props) {
         super(props)
         this.state = {}
@@ -62,19 +62,20 @@ export class PaperEditor extends React.Component {
                         <BlockButton format="justify" icon="align justify"/>
                     </Button.Group>
 
+
                     <Popup
-                        content='提交文章'
-                        size='tiny'
-                        mouseEnterDelay={500}
-                        mouseLeaveDelay={500}
-                        trigger={<Button icon='save' color='green' floated='right'/>}
-                    />
-                    <Popup
-                        content='删除文章'
+                        content='提交'
                         size='mini'
                         mouseEnterDelay={500}
                         mouseLeaveDelay={500}
-                        trigger={<Button icon='trash' basic color='red' floated='right'/>}
+                        trigger={<Button basic icon='arrow alternate circle up' color='green' floated='right' size='tiny'/>}
+                    />
+                    <Popup
+                        content='保存'
+                        size='tiny'
+                        mouseEnterDelay={500}
+                        mouseLeaveDelay={500}
+                        trigger={<Button basic icon='save' floated='right' size='tiny'></Button>}
                     />
 
                     <Divider/>
