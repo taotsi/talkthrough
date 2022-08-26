@@ -4,7 +4,7 @@ import {Link, Outlet} from "react-router-dom"
 import getUserInfo from "./getUserInfo";
 
 export default class Navbar extends Component {
-    private userInfo: { user: string };
+    private userInfo: { name: string };
 
     constructor(props: any) {
         super(props)
@@ -15,7 +15,7 @@ export default class Navbar extends Component {
         return (
             <div>
                 <Sticky>
-                    <Menu borderless attached size='tiny' inverted>
+                    <Menu borderless attached size='small' inverted>
                             <Menu.Item as={Link} to="/">
                                 <Image src={'/parthenon.png'} size={'mini'} fluid></Image>
                             </Menu.Item>
@@ -35,7 +35,7 @@ export default class Navbar extends Component {
                                     <Dropdown.Menu>
                                         <Dropdown.Item as={Link} to="/new/paper">
                                             <Icon name='book'/>
-                                            <span className='text'>文章</span>
+                                            <span className='text'>写作项目</span>
                                         </Dropdown.Item>
                                         <Dropdown.Item as={Link} to='/new/material'>
                                             <Icon name='lightbulb'/>
@@ -47,19 +47,19 @@ export default class Navbar extends Component {
                                 <Dropdown item icon='user' className='icon' direction='left' position='right'>
                                     <Dropdown.Menu>
                                         <Dropdown.Item disabled={true}>
-                                            <span>hi，<strong>XXX</strong></span>
+                                            <span>hi，<strong>{this.userInfo.name}</strong></span>
                                         </Dropdown.Item>
 
                                         <Dropdown.Divider/>
-                                        <Dropdown.Item as={Link} to={'/' + this.userInfo.user}>
+                                        <Dropdown.Item as={Link} to={'/' + this.userInfo.name}>
                                             <Icon name='id card'/>
                                             <span className='text'>你的档案</span>
                                         </Dropdown.Item>
-                                        <Dropdown.Item as={Link} to={'/' + this.userInfo.user + '?tab=papers'}>
+                                        <Dropdown.Item as={Link} to={'/' + this.userInfo.name + '?tab=papers'}>
                                             <Icon name='book'/>
                                             <span className='text'>你的文章</span>
                                         </Dropdown.Item>
-                                        <Dropdown.Item as={Link} to={'/' + this.userInfo.user + '?tab=materials'}>
+                                        <Dropdown.Item as={Link} to={'/' + this.userInfo.name + '?tab=materials'}>
                                             <Icon name='lightbulb' />
                                             <span className='text'>你的素材</span>
                                         </Dropdown.Item>
