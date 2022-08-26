@@ -1,8 +1,8 @@
 import React from "react"
 import {Container, Menu, Item} from 'semantic-ui-react'
 import materials from "./examples/materials.json"
-import papers from "./examples/papers.json"
-import ExplorePaperItem from "./ExplorePaperItem";
+import papers from "./examples/repositories.json"
+import ExploreRepositoryItem from "./ExploreRepositoryItem";
 import {Outlet} from "react-router-dom";
 import ExploreMaterialItem from "./ExploreMaterialItem";
 
@@ -64,7 +64,7 @@ export default class Explore extends React.Component<any, any> {
         }
         if (this.state.tab === TAB.PAPERS) {
             for (let i = 0; i < n; i++) {
-                result.push(<ExplorePaperItem header={headers[i]}/>)
+                result.push(<ExploreRepositoryItem header={headers[i]}/>)
             }
         } else if (this.state.tab === TAB.MATERIALS) {
             for (let i = 0; i < n; i++) {
@@ -78,13 +78,13 @@ export default class Explore extends React.Component<any, any> {
 
 function getHeaders(name: string) {
     if (name === TAB.PAPERS) {
-        return queryPaperHeaders()
+        return queryRepoHeaders()
     } else if (name === TAB.MATERIALS) {
         return queryMaterials()
     }
 }
 
-const queryPaperHeaders = () => {
+const queryRepoHeaders = () => {
     return papers
 }
 

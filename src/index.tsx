@@ -13,6 +13,8 @@ import Doc from './components/Doc'
 import User from "./components/User"
 import Pulls from "./components/Pulls"
 import Issues from "./components/Issues"
+import Repository from "./components/Repository";
+import Material from "./components/Material";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -30,7 +32,9 @@ root.render(
                     <Route path='new/material' element={<NewMaterial/>}></Route>
                     <Route path='settings' element={<Settings/>}></Route>
                     <Route path='doc' element={<Doc/>}></Route>
-                    <Route path={':user'} element={<User/>}/>
+                    <Route path=':user' element={<User/>}/>
+                    <Route path=':user/:repository' element={<Repository/>}></Route>
+                    <Route path=':user/materials/:material' element={<Material/>}></Route>
                     <Route path="*" element={<Page404/>}/>
                 </Route>
             </Routes>
