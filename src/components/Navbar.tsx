@@ -33,7 +33,7 @@ export default class Navbar extends Component {
                             <Menu.Item position='right'>
                                 <Dropdown item icon='plus' className='icon' direction='left'>
                                     <Dropdown.Menu>
-                                        <Dropdown.Item as={Link} to="/new/paper">
+                                        <Dropdown.Item as={Link} to="/new/repository">
                                             <Icon name='book'/>
                                             <span className='text'>写作项目</span>
                                         </Dropdown.Item>

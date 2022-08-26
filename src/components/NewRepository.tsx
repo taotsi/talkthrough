@@ -5,7 +5,7 @@ import 'semantic-ui-css/semantic.min.css'
 import {Outlet} from "react-router-dom"
 import getUserInfo from "./getUserInfo";
 
-class NewPaper extends React.Component {
+class NewRepository extends React.Component {
     render() {
         const licenses = [{text: "GPL 3.0", value: "GPL 3.0"}, {text: "CC By 4.0", value: "CC By 4.0"}]
         const user = getUserInfo().name
@@ -67,4 +67,4 @@ class NewPaper extends React.Component {
     }
 }
 
-export default NewPaper
+export default NewRepository
