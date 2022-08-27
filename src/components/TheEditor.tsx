@@ -1,7 +1,7 @@
 // @ts-nocheck
-import React from 'react'
+import React, { useCallback, useMemo } from 'react'
 import isHotkey from 'is-hotkey'
-import {Editable, ReactEditor, Slate, useSlate, withReact} from 'slate-react'
+import {Editable, Slate, useSlate, withReact} from 'slate-react'
 import {createEditor, Editor, Element as SlateElement, Transforms} from 'slate'
 import {withHistory} from 'slate-history'
 import {Button, Divider, Icon, Popup} from 'semantic-ui-react'
@@ -17,89 +17,69 @@ const HOTKEYS = {
 const LIST_TYPES = ['numbered-list', 'bulleted-list']
 const TEXT_ALIGN_TYPES = ['left', 'center', 'right', 'justify']
 
-export class TheEditor extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {}
-        this.renderElement = this.renderElement.bind(this)
-        this.renderLeaf = this.renderLeaf.bind(this)
-        this.editor = withHistory(withReact(createEditor() as ReactEditor))
-    }
+const TheEditor = () => {
+    const renderElement = useCallback(props => <Element {...props} />, [])
+    const renderLeaf = useCallback(props => <Leaf {...props} />, [])
+    const editor = useMemo(() => withHistory(withReact(createEditor())), [])
 
-    renderElement(props) {
-        return <Element {...props}/>
-    }
+    return (
+        <Slate editor={editor} value={editor_value_example}>
+            <Button.Group>
+                <MarkButton format="bold" icon="bold"/>
+                <MarkButton format="italic" icon="italic"/>
+                <MarkButton format="underline" icon="underline"/>
 
-    renderLeaf(props) {
-        return <Leaf {...props}/>
-    }
+                <BlockButton format="heading-one" icon="heading" label="1"/>
+                <BlockButton format="heading-two" icon="heading" label="2"/>
 
-    constructEditor() {
-        return () => withHistory(withReact(createEditor() as ReactEditor))
-    }
+                <MarkButton format="code" icon="code"/>
+                <BlockButton format="block-quote" icon="quote left"/>
 
-    render() {
-        return (
-            <div>
-                <Slate editor={this.editor} value={editor_value_example}>
-                    <Button.Group>
-                        <MarkButton format="bold" icon="bold"/>
-                        <MarkButton format="italic" icon="italic"/>
-                        <MarkButton format="underline" icon="underline"/>
+                <BlockButton format="numbered-list" icon="list ol"/>
+                <BlockButton format="bulleted-list" icon="list ul"/>
 
-                        <BlockButton format="heading-one" icon="heading" label="1"/>
-                        <BlockButton format="heading-two" icon="heading" label="2"/>
+                <BlockButton format="left" icon="align left"/>
+                <BlockButton format="center" icon="align center"/>
+                <BlockButton format="right" icon="align right"/>
+                <BlockButton format="justify" icon="align justify"/>
+            </Button.Group>
 
-                        <MarkButton format="code" icon="code"/>
-                        <BlockButton format="block-quote" icon="quote right"/>
+            <Popup
+                content='提交'
+                size='mini'
+                mouseEnterDelay={500}
+                mouseLeaveDelay={500}
+                trigger={<Button basic icon='arrow alternate circle up' color='green' floated='right'
+                                 size='tiny'/>}
+            />
+            <Popup
+                content='保存'
+                size='mini'
+                mouseEnterDelay={500}
+                mouseLeaveDelay={500}
+                trigger={<Button basic icon='save' floated='right' size='tiny'></Button>}
+            />
 
-                        <BlockButton format="numbered-list" icon="list ol"/>
-                        <BlockButton format="bulleted-list" icon="list ul"/>
+            <Divider/>
 
-                        <BlockButton format="left" icon="align left"/>
-                        <BlockButton format="center" icon="align center"/>
-                        <BlockButton format="right" icon="align right"/>
-                        <BlockButton format="justify" icon="align justify"/>
-                    </Button.Group>
-
-
-                    <Popup
-                        content='提交'
-                        size='mini'
-                        mouseEnterDelay={500}
-                        mouseLeaveDelay={500}
-                        trigger={<Button basic icon='arrow alternate circle up' color='green' floated='right'
-                                         size='tiny'/>}
-                    />
-                    <Popup
-                        content='保存'
-                        size='tiny'
-                        mouseEnterDelay={500}
-                        mouseLeaveDelay={500}
-                        trigger={<Button basic icon='save' floated='right' size='tiny'></Button>}
-                    />
-
-                    <Divider/>
-                    <Editable
-                        renderElement={this.renderElement}
-                        renderLeaf={this.renderLeaf}
-                        placeholder="Enter some rich text…"
-                        spellCheck
-                        autoFocus
-                        onKeyDown={event => {
-                            for (const hotkey in HOTKEYS) {
-                                if (isHotkey(hotkey, event as any)) {
-                                    event.preventDefault()
-                                    const mark = HOTKEYS[hotkey]
-                                    toggleMark(this.editor, mark)
-                                }
-                            }
-                        }}
-                    />
-                </Slate>
-            </div>
-        )
-    }
+            <Editable
+                renderElement={renderElement}
+                renderLeaf={renderLeaf}
+                placeholder="Enter some rich text…"
+                spellCheck
+                autoFocus
+                onKeyDown={event => {
+                    for (const hotkey in HOTKEYS) {
+                        if (isHotkey(hotkey, event as any)) {
+                            event.preventDefault()
+                            const mark = HOTKEYS[hotkey]
+                            toggleMark(editor, mark)
+                        }
+                    }
+                }}
+            />
+        </Slate>
+    )
 }
 
 const toggleBlock = (editor, format) => {
@@ -269,8 +249,11 @@ const MarkButton = ({format, icon}) => {
                 toggleMark(editor, format)
             }}
             icon
+            size='small'
         >
             <Icon name={icon}/>
         </Button>
     )
 }
+
+export default TheEditor
