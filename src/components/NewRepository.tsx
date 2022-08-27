@@ -16,7 +16,7 @@ class NewRepository extends React.Component {
             <div>
                 <Container text>
                     <Form>
-                        <p/><p/><p/><p/>
+                        <br/>
                         <h2>新建写作项目</h2>
                         <div className="ui disabled input">包含<strong>一篇</strong>文章和相关的素材</div>
                         <Divider/>

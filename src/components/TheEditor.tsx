@@ -1,11 +1,13 @@
 // @ts-nocheck
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo, useState  } from 'react'
 import isHotkey from 'is-hotkey'
-import {Editable, Slate, useSlate, withReact} from 'slate-react'
+import {Editable, Slate, useSlate, withReact, ReactEditor} from 'slate-react'
 import {createEditor, Editor, Element as SlateElement, Transforms} from 'slate'
 import {withHistory} from 'slate-history'
-import {Button, Divider, Icon, Popup} from 'semantic-ui-react'
+import {Button, Icon} from 'semantic-ui-react'
+import { createPortal } from 'react-dom'
 import editor_value_example from './examples/editor_value.json'
+import './TheEditor.css'
 
 const HOTKEYS = {
     'mod+b': 'bold',
@@ -21,6 +23,7 @@ const TheEditor = () => {
     const renderElement = useCallback(props => <Element {...props} />, [])
     const renderLeaf = useCallback(props => <Leaf {...props} />, [])
     const editor = useMemo(() => withHistory(withReact(createEditor())), [])
+    const handleBlur = useCallback(() => ReactEditor.deselect(editor), [editor])
 
     return (
         <Slate editor={editor} value={editor_value_example}>
@@ -28,13 +31,11 @@ const TheEditor = () => {
                 <MarkButton format="bold" icon="bold"/>
                 <MarkButton format="italic" icon="italic"/>
                 <MarkButton format="underline" icon="underline"/>
+                <MarkButton format="code" icon="code"/>
 
+                <BlockButton format="block-quote" icon="quote left"/>
                 <BlockButton format="heading-one" icon="heading" label="1"/>
                 <BlockButton format="heading-two" icon="heading" label="2"/>
-
-                <MarkButton format="code" icon="code"/>
-                <BlockButton format="block-quote" icon="quote left"/>
-
                 <BlockButton format="numbered-list" icon="list ol"/>
                 <BlockButton format="bulleted-list" icon="list ul"/>
 
@@ -44,24 +45,7 @@ const TheEditor = () => {
                 <BlockButton format="justify" icon="align justify"/>
             </Button.Group>
 
-            <Popup
-                content='提交'
-                size='mini'
-                mouseEnterDelay={500}
-                mouseLeaveDelay={500}
-                trigger={<Button basic icon='arrow alternate circle up' color='green' floated='right'
-                                 size='tiny'/>}
-            />
-            <Popup
-                content='保存'
-                size='mini'
-                mouseEnterDelay={500}
-                mouseLeaveDelay={500}
-                trigger={<Button basic icon='save' floated='right' size='tiny'></Button>}
-            />
-
-            <Divider/>
-
+            <IFrame onBlur={handleBlur}>
             <Editable
                 renderElement={renderElement}
                 renderLeaf={renderLeaf}
@@ -78,7 +62,20 @@ const TheEditor = () => {
                     }
                 }}
             />
+            </IFrame>
         </Slate>
+    )
+}
+
+const IFrame = ({ children, ...props }) => {
+    const [iframeBody, setIframeBody] = useState(null)
+    const handleLoad = e => {
+        setIframeBody(e.target.contentDocument.body)
+    }
+    return (
+        <iframe srcDoc={`<!DOCTYPE html>`} {...props} onLoad={handleLoad}>
+            {iframeBody && createPortal(children, iframeBody)}
+        </iframe>
     )
 }
 
