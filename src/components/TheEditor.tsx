@@ -1,11 +1,13 @@
 // @ts-nocheck
-import React from 'react'
+import React, { useCallback, useMemo, useState  } from 'react'
 import isHotkey from 'is-hotkey'
-import {Editable, ReactEditor, Slate, useSlate, withReact} from 'slate-react'
+import {Editable, Slate, useSlate, withReact, ReactEditor} from 'slate-react'
 import {createEditor, Editor, Element as SlateElement, Transforms} from 'slate'
 import {withHistory} from 'slate-history'
-import {Button, Divider, Icon, Popup} from 'semantic-ui-react'
+import {Button, Icon} from 'semantic-ui-react'
+import { createPortal } from 'react-dom'
 import editor_value_example from './examples/editor_value.json'
+import './TheEditor.css'
 
 const HOTKEYS = {
     'mod+b': 'bold',
@@ -17,87 +19,64 @@ const HOTKEYS = {
 const LIST_TYPES = ['numbered-list', 'bulleted-list']
 const TEXT_ALIGN_TYPES = ['left', 'center', 'right', 'justify']
 
-export class PaperEditor extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {}
-        this.renderElement = this.renderElement.bind(this)
-        this.renderLeaf = this.renderLeaf.bind(this)
-        this.editor = withHistory(withReact(createEditor() as ReactEditor))
+const TheEditor = () => {
+    const renderElement = useCallback(props => <Element {...props} />, [])
+    const renderLeaf = useCallback(props => <Leaf {...props} />, [])
+    const editor = useMemo(() => withHistory(withReact(createEditor())), [])
+    const handleBlur = useCallback(() => ReactEditor.deselect(editor), [editor])
+
+    return (
+        <Slate editor={editor} value={editor_value_example}>
+            <Button.Group>
+                <MarkButton format="bold" icon="bold"/>
+                <MarkButton format="italic" icon="italic"/>
+                <MarkButton format="underline" icon="underline"/>
+                <MarkButton format="code" icon="code"/>
+
+                <BlockButton format="block-quote" icon="quote left"/>
+                <BlockButton format="heading-one" icon="heading" label="1"/>
+                <BlockButton format="heading-two" icon="heading" label="2"/>
+                <BlockButton format="numbered-list" icon="list ol"/>
+                <BlockButton format="bulleted-list" icon="list ul"/>
+
+                <BlockButton format="left" icon="align left"/>
+                <BlockButton format="center" icon="align center"/>
+                <BlockButton format="right" icon="align right"/>
+                <BlockButton format="justify" icon="align justify"/>
+            </Button.Group>
+
+            <IFrame onBlur={handleBlur}>
+            <Editable
+                renderElement={renderElement}
+                renderLeaf={renderLeaf}
+                placeholder="Enter some rich text…"
+                spellCheck
+                autoFocus
+                onKeyDown={event => {
+                    for (const hotkey in HOTKEYS) {
+                        if (isHotkey(hotkey, event as any)) {
+                            event.preventDefault()
+                            const mark = HOTKEYS[hotkey]
+                            toggleMark(editor, mark)
+                        }
+                    }
+                }}
+            />
+            </IFrame>
+        </Slate>
+    )
+}
+
+const IFrame = ({ children, ...props }) => {
+    const [iframeBody, setIframeBody] = useState(null)
+    const handleLoad = e => {
+        setIframeBody(e.target.contentDocument.body)
     }
-
-    renderElement(props) {
-        return <Element {...props}/>
-    }
-
-    renderLeaf(props) {
-        return <Leaf {...props}/>
-    }
-
-    constructEditor() {
-        return () => withHistory(withReact(createEditor() as ReactEditor))
-    }
-
-    render() {
-        return (
-            <div>
-                <Slate editor={this.editor} value={editor_value_example}>
-                    <Button.Group>
-                        <MarkButton format="bold" icon="bold"/>
-                        <MarkButton format="italic" icon="italic"/>
-                        <MarkButton format="underline" icon="underline"/>
-
-                        <BlockButton format="heading-one" icon="heading" label="1"/>
-                        <BlockButton format="heading-two" icon="heading" label="2"/>
-
-                        <MarkButton format="code" icon="code"/>
-                        <BlockButton format="block-quote" icon="quote right"/>
-
-                        <BlockButton format="numbered-list" icon="list ol"/>
-                        <BlockButton format="bulleted-list" icon="list ul"/>
-
-                        <BlockButton format="left" icon="align left"/>
-                        <BlockButton format="center" icon="align center"/>
-                        <BlockButton format="right" icon="align right"/>
-                        <BlockButton format="justify" icon="align justify"/>
-                    </Button.Group>
-
-                    <Popup
-                        content='提交文章'
-                        size='tiny'
-                        mouseEnterDelay={500}
-                        mouseLeaveDelay={500}
-                        trigger={<Button icon='save' color='green' floated='right'/>}
-                    />
-                    <Popup
-                        content='删除文章'
-                        size='mini'
-                        mouseEnterDelay={500}
-                        mouseLeaveDelay={500}
-                        trigger={<Button icon='trash' basic color='red' floated='right'/>}
-                    />
-
-                    <Divider/>
-                    <Editable
-                        renderElement={this.renderElement}
-                        renderLeaf={this.renderLeaf}
-                        placeholder="Enter some rich text…"
-                        spellCheck
-                        autoFocus
-                        onKeyDown={event => {
-                            for (const hotkey in HOTKEYS) {
-                                if (isHotkey(hotkey, event as any)) {
-                                    event.preventDefault()
-                                    const mark = HOTKEYS[hotkey]
-                                    toggleMark(this.editor, mark)
-                                }
-                            }
-                        }}
-                    />
-                </Slate>
-            </div>
-        )
-    }
+    return (
+        <iframe srcDoc={`<!DOCTYPE html>`} {...props} onLoad={handleLoad}>
+            {iframeBody && createPortal(children, iframeBody)}
+        </iframe>
+    )
 }
 
 const toggleBlock = (editor, format) => {
@@ -267,8 +246,11 @@ const MarkButton = ({format, icon}) => {
                 toggleMark(editor, format)
             }}
             icon
+            size='small'
         >
             <Icon name={icon}/>
         </Button>
     )
 }
+
+export default TheEditor

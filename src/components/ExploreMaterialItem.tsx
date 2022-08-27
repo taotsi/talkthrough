@@ -7,12 +7,12 @@ export default function ExploreMaterialItem(props: any) {
     return (
         <Item>
             <Item.Content>
-                <Item.Header as={Link} to={header.author + "/materials/" + header.project}>
+                <Item.Header as={Link} to={header.owner + "/materials/" + header.project}>
                     {header.title}
                 </Item.Header>
                 <Item.Meta>
-                    <Link to={header.author}>
-                        {header.author}
+                    <Link to={header.owner}>
+                        {header.owner}
                     </Link>
                 </Item.Meta>
             </Item.Content>
