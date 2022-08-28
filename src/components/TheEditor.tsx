@@ -1,23 +1,23 @@
 // @ts-nocheck
-import React, { useCallback, useMemo, useState  } from 'react'
-import isHotkey from 'is-hotkey'
-import {Editable, Slate, useSlate, withReact, ReactEditor} from 'slate-react'
-import {createEditor, Editor, Element as SlateElement, Transforms} from 'slate'
-import {withHistory} from 'slate-history'
-import {Button, Icon} from 'semantic-ui-react'
-import { createPortal } from 'react-dom'
-import editor_value_example from './examples/editor_value.json'
-import './TheEditor.css'
+import React, {useCallback, useMemo, useState} from "react"
+import isHotkey from "is-hotkey"
+import {Editable, ReactEditor, Slate, useSlate, withReact} from "slate-react"
+import {createEditor, Editor, Element as SlateElement, Transforms} from "slate"
+import {withHistory} from "slate-history"
+import {Button, Icon} from "semantic-ui-react"
+import {createPortal} from "react-dom"
+import editor_value_example from "./examples/editor_value.json"
+import "./TheEditor.css"
 
 const HOTKEYS = {
-    'mod+b': 'bold',
-    'mod+i': 'italic',
-    'mod+u': 'underline',
-    'mod+`': 'code',
+    "mod+b": "bold",
+    "mod+i": "italic",
+    "mod+u": "underline",
+    "mod+`": "code"
 }
 
-const LIST_TYPES = ['numbered-list', 'bulleted-list']
-const TEXT_ALIGN_TYPES = ['left', 'center', 'right', 'justify']
+const LIST_TYPES = ["numbered-list", "bulleted-list"]
+const TEXT_ALIGN_TYPES = ["left", "center", "right", "justify"]
 
 export default function TheEditor() {
     const renderElement = useCallback(props => <Element {...props} />, [])
@@ -46,34 +46,34 @@ export default function TheEditor() {
             </Button.Group>
 
             <IFrame onBlur={handleBlur}>
-            <Editable
-                renderElement={renderElement}
-                renderLeaf={renderLeaf}
-                placeholder="Enter some rich text…"
-                spellCheck
-                autoFocus
-                onKeyDown={event => {
-                    for (const hotkey in HOTKEYS) {
-                        if (isHotkey(hotkey, event as any)) {
-                            event.preventDefault()
-                            const mark = HOTKEYS[hotkey]
-                            toggleMark(editor, mark)
+                <Editable
+                    renderElement={renderElement}
+                    renderLeaf={renderLeaf}
+                    placeholder="Enter some rich text…"
+                    spellCheck
+                    autoFocus
+                    onKeyDown={event => {
+                        for (const hotkey in HOTKEYS) {
+                            if (isHotkey(hotkey, event as any)) {
+                                event.preventDefault()
+                                const mark = HOTKEYS[hotkey]
+                                toggleMark(editor, mark)
+                            }
                         }
-                    }
-                }}
-            />
+                    }}
+                />
             </IFrame>
         </Slate>
     )
 }
 
-const IFrame = ({ children, ...props }) => {
+const IFrame = ({children, ...props}) => {
     const [iframeBody, setIframeBody] = useState(null)
     const handleLoad = e => {
         setIframeBody(e.target.contentDocument.body)
     }
     return (
-        <iframe title='the_editor' srcDoc={`<!DOCTYPE html>`} {...props} onLoad={handleLoad}>
+        <iframe title="the_editor" srcDoc={`<!DOCTYPE html>`} {...props} onLoad={handleLoad}>
             {iframeBody && createPortal(children, iframeBody)}
         </iframe>
     )
@@ -83,7 +83,7 @@ const toggleBlock = (editor, format) => {
     const isActive = isBlockActive(
         editor,
         format,
-        TEXT_ALIGN_TYPES.includes(format) ? 'align' : 'type'
+        TEXT_ALIGN_TYPES.includes(format) ? "align" : "type"
     )
     const isList = LIST_TYPES.includes(format)
 
@@ -93,16 +93,16 @@ const toggleBlock = (editor, format) => {
             SlateElement.isElement(n) &&
             LIST_TYPES.includes(n.type) &&
             !TEXT_ALIGN_TYPES.includes(format),
-        split: true,
+        split: true
     })
     let newProperties: Partial<SlateElement>
     if (TEXT_ALIGN_TYPES.includes(format)) {
         newProperties = {
-            align: isActive ? undefined : format,
+            align: isActive ? undefined : format
         }
     } else {
         newProperties = {
-            type: isActive ? 'paragraph' : isList ? 'list-item' : format,
+            type: isActive ? "paragraph" : isList ? "list-item" : format
         }
     }
     Transforms.setNodes<SlateElement>(editor, newProperties)
@@ -123,7 +123,7 @@ const toggleMark = (editor, format) => {
     }
 }
 
-const isBlockActive = (editor, format, blockType = 'type') => {
+const isBlockActive = (editor, format, blockType = "type") => {
     const {selection} = editor
     if (!selection) return false
 
@@ -133,7 +133,7 @@ const isBlockActive = (editor, format, blockType = 'type') => {
             match: n =>
                 !Editor.isEditor(n) &&
                 SlateElement.isElement(n) &&
-                n[blockType] === format,
+                n[blockType] === format
         })
     )
 
@@ -148,37 +148,37 @@ const isMarkActive = (editor, format) => {
 const Element = ({attributes, children, element}) => {
     const style = {textAlign: element.align}
     switch (element.type) {
-        case 'block-quote':
+        case "block-quote":
             return (
                 <blockquote style={style} {...attributes}>
                     {children}
                 </blockquote>
             )
-        case 'bulleted-list':
+        case "bulleted-list":
             return (
                 <ul style={style} {...attributes}>
                     {children}
                 </ul>
             )
-        case 'heading-one':
+        case "heading-one":
             return (
                 <h1 style={style} {...attributes}>
                     {children}
                 </h1>
             )
-        case 'heading-two':
+        case "heading-two":
             return (
                 <h2 style={style} {...attributes}>
                     {children}
                 </h2>
             )
-        case 'list-item':
+        case "list-item":
             return (
                 <li style={style} {...attributes}>
                     {children}
                 </li>
             )
-        case 'numbered-list':
+        case "numbered-list":
             return (
                 <ol style={style} {...attributes}>
                     {children}
@@ -221,7 +221,7 @@ const BlockButton = ({format, icon, label}) => {
             active={isBlockActive(
                 editor,
                 format,
-                TEXT_ALIGN_TYPES.includes(format) ? 'align' : 'type'
+                TEXT_ALIGN_TYPES.includes(format) ? "align" : "type"
             )}
             onClick={event => {
                 event.preventDefault()
@@ -246,7 +246,7 @@ const MarkButton = ({format, icon}) => {
                 toggleMark(editor, format)
             }}
             icon
-            size='small'
+            size="small"
         >
             <Icon name={icon}/>
         </Button>

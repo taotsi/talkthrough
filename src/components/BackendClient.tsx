@@ -1,4 +1,4 @@
-import papers from "./examples/repositories.json";
+import papers from "./examples/repositories.json"
 import materials from "./examples/materials.json"
 
 export function queryCurrentUser() {

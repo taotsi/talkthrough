@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 import {Item} from "semantic-ui-react"
 import {Link} from "react-router-dom"
 

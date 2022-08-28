@@ -1,10 +1,11 @@
 // @ts-ignore
-import React, { Ref, PropsWithChildren } from 'react'
-import { cx, css } from '@emotion/css'
+import React, {PropsWithChildren, Ref} from "react"
+import {css, cx} from "@emotion/css"
 
 interface BaseProps {
-    className: string
-    [key: string]: unknown
+    className: string;
+
+    [key: string]: unknown;
 }
 
 export const Button = React.forwardRef(
@@ -14,12 +15,10 @@ export const Button = React.forwardRef(
             active,
             reversed,
             ...props
-        }: PropsWithChildren<
-            {
-                active: boolean
-                reversed: boolean
-            } & BaseProps
-            >,
+        }: PropsWithChildren<{
+            active: boolean
+            reversed: boolean
+        } & BaseProps>,
         ref: Ref<HTMLSpanElement>
     ) => (
         <span
@@ -28,15 +27,15 @@ export const Button = React.forwardRef(
             className={cx(
                 className,
                 css`
-          cursor: pointer;
-          color: ${reversed
-                    ? active
-                        ? 'white'
-                        : '#aaa'
-                    : active
-                        ? 'black'
-                        : '#ccc'};
-        `
+                  cursor: pointer;
+                  color: ${reversed
+                          ? active
+                                  ? "white"
+                                  : "#aaa"
+                          : active
+                                  ? "black"
+                                  : "#ccc"};
+                `
             )}
         />
     )
@@ -44,19 +43,19 @@ export const Button = React.forwardRef(
 
 export const Icon = React.forwardRef(
     (
-        { className, ...props }: PropsWithChildren<BaseProps>,
+        {className, ...props}: PropsWithChildren<BaseProps>,
         ref: Ref<HTMLSpanElement>
     ) => (
         <span
             {...props}
             ref={ref}
             className={cx(
-                'material-icons',
+                "material-icons",
                 className,
                 css`
-          font-size: 18px;
-          vertical-align: text-bottom;
-        `
+                  font-size: 18px;
+                  vertical-align: text-bottom;
+                `
             )}
         />
     )
@@ -64,7 +63,7 @@ export const Icon = React.forwardRef(
 
 export const Menu = React.forwardRef(
     (
-        { className, ...props }: PropsWithChildren<BaseProps>,
+        {className, ...props}: PropsWithChildren<BaseProps>,
         ref: Ref<HTMLDivElement>
     ) => (
         <div
@@ -73,14 +72,14 @@ export const Menu = React.forwardRef(
             className={cx(
                 className,
                 css`
-          & > * {
-            display: inline-block;
-          }
+                  & > * {
+                    display: inline-block;
+                  }
 
-          & > * + * {
-            margin-left: 15px;
-          }
-        `
+                  & > * + * {
+                    margin-left: 15px;
+                  }
+                `
             )}
         />
     )
@@ -88,7 +87,7 @@ export const Menu = React.forwardRef(
 
 export const Toolbar = React.forwardRef(
     (
-        { className, ...props }: PropsWithChildren<BaseProps>,
+        {className, ...props}: PropsWithChildren<BaseProps>,
         ref: Ref<HTMLDivElement>
     ) => (
         <Menu
@@ -97,12 +96,12 @@ export const Toolbar = React.forwardRef(
             className={cx(
                 className,
                 css`
-          position: relative;
-          padding: 1px 18px 17px;
-          margin: 0 -20px;
-          border-bottom: 2px solid #eee;
-          margin-bottom: 20px;
-        `
+                  position: relative;
+                  padding: 1px 18px 17px;
+                  margin: 0 -20px;
+                  border-bottom: 2px solid #eee;
+                  margin-bottom: 20px;
+                `
             )}
         />
     )
