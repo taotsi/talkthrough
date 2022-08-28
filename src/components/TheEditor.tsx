@@ -19,7 +19,7 @@ const HOTKEYS = {
 const LIST_TYPES = ['numbered-list', 'bulleted-list']
 const TEXT_ALIGN_TYPES = ['left', 'center', 'right', 'justify']
 
-const TheEditor = () => {
+export default function TheEditor() {
     const renderElement = useCallback(props => <Element {...props} />, [])
     const renderLeaf = useCallback(props => <Leaf {...props} />, [])
     const editor = useMemo(() => withHistory(withReact(createEditor())), [])
@@ -73,7 +73,7 @@ const IFrame = ({ children, ...props }) => {
         setIframeBody(e.target.contentDocument.body)
     }
     return (
-        <iframe srcDoc={`<!DOCTYPE html>`} {...props} onLoad={handleLoad}>
+        <iframe title='the_editor' srcDoc={`<!DOCTYPE html>`} {...props} onLoad={handleLoad}>
             {iframeBody && createPortal(children, iframeBody)}
         </iframe>
     )
@@ -252,5 +252,3 @@ const MarkButton = ({format, icon}) => {
         </Button>
     )
 }
-
-export default TheEditor

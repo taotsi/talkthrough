@@ -2,7 +2,7 @@
 import {Outlet, useParams, useSearchParams} from "react-router-dom";
 import React from "react";
 
-const User = () => {
+export default function User() {
     const params = useParams()
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [searchParams, _] = useSearchParams();
@@ -13,5 +13,3 @@ const User = () => {
         </div>
     )
 }
-
-export default User;

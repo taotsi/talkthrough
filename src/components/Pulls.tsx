@@ -1,6 +1,6 @@
 import {Outlet} from "react-router-dom";
 
-const Pulls = () => {
+export default function Pulls() {
     return (
         <div>
             pulls
@@ -8,5 +8,3 @@ const Pulls = () => {
         </div>
     )
 }
-
-export default Pulls
