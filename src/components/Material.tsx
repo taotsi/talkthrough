@@ -1,6 +1,6 @@
-import {Outlet, useParams} from "react-router-dom";
+import {Outlet, useParams} from "react-router-dom"
 
-export default function Material(props: any) {
+export default function Material() {
     const params = useParams()
 
     return (

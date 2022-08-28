@@ -1,6 +1,6 @@
-import {Outlet} from "react-router-dom";
+import {Outlet} from "react-router-dom"
 
-const Issues = () => {
+export default function Issues() {
     return (
         <div>
             issues
@@ -8,5 +8,3 @@ const Issues = () => {
         </div>
     )
 }
-
-export default Issues;

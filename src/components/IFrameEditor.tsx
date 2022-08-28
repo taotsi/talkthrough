@@ -1,25 +1,25 @@
 // @ts-ignore
-import React, { useCallback, useMemo, useState } from 'react'
-import { createPortal } from 'react-dom'
-import isHotkey from 'is-hotkey'
-import { Editable, withReact, useSlate, Slate, ReactEditor } from 'slate-react'
-import { Editor, createEditor, Descendant } from 'slate'
-import { withHistory } from 'slate-history'
+import React, {useCallback, useMemo, useState} from "react"
+import {createPortal} from "react-dom"
+import isHotkey from "is-hotkey"
+import {Editable, ReactEditor, Slate, useSlate, withReact} from "slate-react"
+import {createEditor, Editor} from "slate"
+import {withHistory} from "slate-history"
 
-import { Button, Icon, Toolbar } from './components'
+import {Button, Icon, Toolbar} from "./components"
 
 const HOTKEYS = {
-    'mod+b': 'bold',
-    'mod+i': 'italic',
-    'mod+u': 'underline',
-    'mod+`': 'code',
+    "mod+b": "bold",
+    "mod+i": "italic",
+    "mod+u": "underline",
+    "mod+`": "code"
 }
 
 const IFrameExample = () => {
     // @ts-ignore
     const renderElement = useCallback(
         // @ts-ignore
-        ({ attributes, children }) => <p {...attributes}>{children}</p>,
+        ({attributes, children}) => <p {...attributes}>{children}</p>,
         []
     )
     // @ts-ignore
@@ -32,10 +32,10 @@ const IFrameExample = () => {
     return (
         <Slate editor={editor} value={initialValue}>
             <Toolbar>
-                <MarkButton format="bold" icon="format_bold" />
-                <MarkButton format="italic" icon="format_italic" />
-                <MarkButton format="underline" icon="format_underlined" />
-                <MarkButton format="code" icon="code" />
+                <MarkButton format="bold" icon="format_bold"/>
+                <MarkButton format="italic" icon="format_italic"/>
+                <MarkButton format="underline" icon="format_underlined"/>
+                <MarkButton format="code" icon="code"/>
             </Toolbar>
             <IFrame onBlur={handleBlur}>
                 <Editable
@@ -78,7 +78,7 @@ const isMarkActive = (editor, format) => {
 }
 
 // @ts-ignore
-const Leaf = ({ attributes, children, leaf }) => {
+const Leaf = ({attributes, children, leaf}) => {
     if (leaf.bold) {
         children = <strong>{children}</strong>
     }
@@ -99,7 +99,7 @@ const Leaf = ({ attributes, children, leaf }) => {
 }
 
 // @ts-ignore
-const MarkButton = ({ format, icon }) => {
+const MarkButton = ({format, icon}) => {
     const editor = useSlate()
     return (
         <Button
@@ -116,14 +116,14 @@ const MarkButton = ({ format, icon }) => {
 }
 
 // @ts-ignore
-const IFrame = ({ children, ...props }) => {
+const IFrame = ({children, ...props}) => {
     const [iframeBody, setIframeBody] = useState(null)
     // @ts-ignore
     const handleLoad = e => {
         setIframeBody(e.target.contentDocument.body)
     }
     return (
-        <iframe srcDoc={`<!DOCTYPE html>`} {...props} onLoad={handleLoad}>
+        <iframe title="the_editor_editable" srcDoc={`<!DOCTYPE html>`} {...props} onLoad={handleLoad}>
             {iframeBody && createPortal(children, iframeBody)}
         </iframe>
     )
@@ -131,40 +131,38 @@ const IFrame = ({ children, ...props }) => {
 
 const initialValue = [
     {
-        type: 'paragraph',
+        type: "paragraph",
         children: [
             {
-                text: 'In this example, the document gets rendered into a controlled ',
+                text: "In this example, the document gets rendered into a controlled "
             },
-            { text: '<iframe>', code: true },
+            {text: "<iframe>", code: true},
             {
-                text: '. This is ',
+                text: ". This is "
             },
             {
-                text: 'particularly',
-                italic: true,
+                text: "particularly",
+                italic: true
             },
             {
                 text:
-                    ' useful, when you need to separate the styles for your editor contents from the ones addressing your UI.',
-            },
-        ],
+                    " useful, when you need to separate the styles for your editor contents from the ones addressing your UI."
+            }
+        ]
     },
     {
-        type: 'paragraph',
+        type: "paragraph",
         children: [
             {
-                text: 'This also the only reliable method to preview any ',
+                text: "This also the only reliable method to preview any "
             },
             {
-                text: 'media queries',
-                bold: true,
+                text: "media queries",
+                bold: true
             },
             {
-                text: ' in your CSS.',
-            },
-        ],
-    },
+                text: " in your CSS."
+            }
+        ]
+    }
 ]
-
-export default IFrameExample
