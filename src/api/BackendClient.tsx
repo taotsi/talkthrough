@@ -1,5 +1,5 @@
-import papers from "./examples/repositories.json"
-import materials from "./examples/materials.json"
+import papers from "./mocked_values/repositories.json"
+import materials from "./mocked_values/materials.json"
 
 export function queryCurrentUser() {
     return {
