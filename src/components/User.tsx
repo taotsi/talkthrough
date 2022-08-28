@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {Outlet, useParams, useSearchParams} from "react-router-dom"
 import React from "react"
 

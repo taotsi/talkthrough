@@ -123,7 +123,7 @@ const IFrame = ({children, ...props}) => {
         setIframeBody(e.target.contentDocument.body)
     }
     return (
-        <iframe srcDoc={`<!DOCTYPE html>`} {...props} onLoad={handleLoad}>
+        <iframe title="the_editor_editable" srcDoc={`<!DOCTYPE html>`} {...props} onLoad={handleLoad}>
             {iframeBody && createPortal(children, iframeBody)}
         </iframe>
     )
@@ -166,5 +166,3 @@ const initialValue = [
         ]
     }
 ]
-
-export default IFrameExample
