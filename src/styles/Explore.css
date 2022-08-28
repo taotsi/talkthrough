@@ -1,7 +1,7 @@
 .explore_header {
     color: black;
     text-decoration: none;
-    line-height: 1.2;
+    line-height: 2;
 }
 
 .explore_header:hover {
@@ -12,7 +12,6 @@
 .explore_subheader {
     color: #828282;
     text-decoration: none;
-    line-height: 1.6;
 }
 
 .explore_subheader:hover {

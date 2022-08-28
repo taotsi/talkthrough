@@ -1,5 +1,5 @@
 import React, {useState} from "react"
-import {Container, Menu} from "semantic-ui-react"
+import {Container, Menu, Table} from "semantic-ui-react"
 import ExploreRepositoryItem from "./ExploreRepositoryItem"
 import {Outlet} from "react-router-dom"
 import ExploreMaterialItem from "./ExploreMaterialItem"
@@ -23,7 +23,12 @@ export default function Explore() {
                         onClick={() => handleItemClick(EXPLORE_TAB.MATERIALS, setTab, setHeaders)}
                     />
                 </Menu>
-                {renderItems(headers, tab)}
+
+                <Table basic='very'>
+                    <Table.Body>
+                        {renderItems(headers, tab)}
+                    </Table.Body>
+                </Table>
             </Container>
             <Outlet/>
         </div>
