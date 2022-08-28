@@ -1,39 +1,43 @@
 import React from "react"
-import {Icon, Item} from "semantic-ui-react"
+import {Header, Icon} from "semantic-ui-react"
 import {Link} from "react-router-dom"
+import "../styles/Explore.css"
 
 export default function ExploreRepositoryItem(props: any) {
     const header = props.header
 
     return (
-        <Item>
-            <Item.Content>
-                <Item.Header as={Link} to={header.owner + "/" + header.repository}>
-                    {header.title}
-                </Item.Header>
-                <Item.Meta>
-                    <Link to={header.repository + "/pulls"}>
-                        <Icon name="code branch" size="small"/>
-                        {header.pulls}
-                    </Link>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
+        <Header as="h3">
+            <Link className="explore_header" to={header.owner + "/" + header.repository}>
+                {header.title}
+            </Link>
+            <Header.Subheader>
+                <Link className="explore_subheader" to={header.repository + "/pulls"}>
+                    <Icon name="star outline" size="small" fitted/>
+                    {" " + header.stars}
+                </Link>
+                &nbsp;&nbsp;&nbsp;&nbsp;
 
-                    <Link to={header.repository + "/issues"}>
-                        <Icon name="bug" size="small"/>
-                        {header.issues}
-                    </Link>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
+                <Link className="explore_subheader" to={header.repository + "/pulls"}>
+                    <Icon name="code branch" size="small" fitted/>
+                    {" " + header.pulls}
+                </Link>
+                &nbsp;&nbsp;&nbsp;&nbsp;
 
-                    <Link to={header.owner}>
-                        {header.owner}
-                    </Link>
-                    {" / "}
-                    <Link to={header.owner + "/" + header.repository}>
-                        {header.repository}
-                    </Link>
+                <Link className="explore_subheader" to={header.repository + "/issues"}>
+                    <Icon name="bug" size="small" fitted/>
+                    {" " + header.issues}
+                </Link>
+                &nbsp;&nbsp;&nbsp;&nbsp;
 
-                </Item.Meta>
-            </Item.Content>
-        </Item>
+                <Link className="explore_subheader" to={header.owner}>
+                    {header.owner}
+                </Link>
+                {<strong style={{color: "#505050"}}>{" / "}</strong>}
+                <Link className="explore_subheader" to={header.owner + "/" + header.repository}>
+                    {header.repository}
+                </Link>
+            </Header.Subheader>
+        </Header>
     )
 }
