@@ -7,7 +7,7 @@ import {withHistory} from "slate-history"
 import {Button, Icon} from "semantic-ui-react"
 import {createPortal} from "react-dom"
 import editor_value_example from "../api/mocked_values/editor_value.json"
-import "../assets/css/TheEditor.css"
+import "../styles/css/TheEditor.css"
 
 const HOTKEYS = {
     "mod+b": "bold",
