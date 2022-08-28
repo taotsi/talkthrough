@@ -3,7 +3,7 @@ import React from "react"
 import {Container, Divider, Form} from "semantic-ui-react"
 import "semantic-ui-css/semantic.min.css"
 import {Outlet} from "react-router-dom"
-import {LICENSES, queryCurrentUser} from "./BackendClient"
+import {LICENSES, queryCurrentUser} from "../api/BackendClient"
 
 export default function NewRepository() {
     const user = queryCurrentUser().name

@@ -1,7 +1,7 @@
 import React, {useState} from "react"
 import {Dropdown, Icon, Image, Input, Menu, Sticky} from "semantic-ui-react"
 import {Link, Outlet} from "react-router-dom"
-import {queryCurrentUser} from "./BackendClient"
+import {queryCurrentUser} from "../api/BackendClient"
 
 export default function NavBar() {
     const [user] = useState(queryCurrentUser())
