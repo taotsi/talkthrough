@@ -3,7 +3,7 @@ import {Container, Menu, Table} from "semantic-ui-react"
 import ExploreRepositoryItem from "./ExploreRepositoryItem"
 import {Outlet} from "react-router-dom"
 import ExploreMaterialItem from "./ExploreMaterialItem"
-import {EXPLORE_TAB, queryExploreHeaders} from "../api/BackendClient"
+import {EXPLORE_TAB, queryExploreHeaders} from "../../api/BackendClient"
 
 export default function Explore() {
     const [tab, setTab] = useState(EXPLORE_TAB.PAPERS)

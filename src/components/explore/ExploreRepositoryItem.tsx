@@ -1,7 +1,7 @@
 import React from "react"
 import {Header, Icon, Button, Table} from "semantic-ui-react"
 import {Link} from "react-router-dom"
-import "../styles/Explore.css"
+import "../../styles/Explore.css"
 
 export default function ExploreRepositoryItem(props: any) {
     const header = props.header
@@ -10,7 +10,7 @@ export default function ExploreRepositoryItem(props: any) {
         <Table.Row>
             <Table.Cell>
                 <Header as="h3">
-                    <Link className="explore_header" to={header.owner + "/" + header.repository}>
+                    <Link className="explore_header" to={header.owner + "/" + header.repository + "/publication"}>
                         {header.title}
                     </Link>
                     <Header.Subheader>
