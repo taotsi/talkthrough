@@ -4,9 +4,9 @@
     overflow-y: scroll;
 }
 
-.editable {
-    min-height: 80vh;
-}
+/*.editable {*/
+/*    min-height: 80vh;*/
+/*}*/
 
 .container {
     display: flex;
@@ -14,12 +14,16 @@
     height: 90vh;
 }
 
-.left-col {
-    flex: 1;
+.right-col {
     display: flex;
+    flex: 1;
 }
 
 .center-col {
     flex: 1;
+    display: flex;
     overflow: scroll;
+    border: 1px solid grey;
+    /*border-radius: 3px;*/
+    box-shadow: 2px 4px lightgrey;
 }
