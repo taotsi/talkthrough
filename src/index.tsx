@@ -16,6 +16,7 @@ import Issues from "./components/Issues"
 import Repository from "./components/repo/Repository"
 import Material from "./components/Material"
 import Publication from "./components/repo/Publication"
+import "semantic-ui-css/semantic.min.css"
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement

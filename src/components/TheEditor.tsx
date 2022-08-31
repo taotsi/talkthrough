@@ -1,11 +1,10 @@
 // @ts-nocheck
-import React, {useCallback, useMemo, useState} from "react"
+import React, {useCallback, useMemo} from "react"
 import isHotkey from "is-hotkey"
-import {Editable, ReactEditor, Slate, useSlate, withReact} from "slate-react"
+import {Editable, Slate, useSlate, withReact} from "slate-react"
 import {createEditor, Editor, Element as SlateElement, Transforms} from "slate"
 import {withHistory} from "slate-history"
 import {Button, Icon} from "semantic-ui-react"
-import {createPortal} from "react-dom"
 import editor_value_example from "../api/mocked_values/editor_value.json"
 import "../styles/TheEditor.css"
 
@@ -23,7 +22,6 @@ export default function TheEditor() {
     const renderElement = useCallback(props => <Element {...props} />, [])
     const renderLeaf = useCallback(props => <Leaf {...props} />, [])
     const editor = useMemo(() => withHistory(withReact(createEditor())), [])
-    const handleBlur = useCallback(() => ReactEditor.deselect(editor), [editor])
 
     return (
         <Slate editor={editor} value={editor_value_example}>
@@ -45,13 +43,15 @@ export default function TheEditor() {
                 <BlockButton format="justify" icon="align justify"/>
             </Button.Group>
 
-            <IFrame onBlur={handleBlur}>
+            {/*<IFrame onBlur={handleBlur}>*/}
                 <Editable
                     renderElement={renderElement}
                     renderLeaf={renderLeaf}
                     placeholder="Enter some rich text…"
                     spellCheck
                     autoFocus
+                    className="editable"
+                    // style={"min-height: 558px"}
                     onKeyDown={event => {
                         for (const hotkey in HOTKEYS) {
                             if (isHotkey(hotkey, event as any)) {
@@ -62,20 +62,8 @@ export default function TheEditor() {
                         }
                     }}
                 />
-            </IFrame>
+            {/*</IFrame>*/}
         </Slate>
-    )
-}
-
-const IFrame = ({children, ...props}) => {
-    const [iframeBody, setIframeBody] = useState(null)
-    const handleLoad = e => {
-        setIframeBody(e.target.contentDocument.body)
-    }
-    return (
-        <iframe title="the_editor" srcDoc={`<!DOCTYPE html>`} {...props} onLoad={handleLoad}>
-            {iframeBody && createPortal(children, iframeBody)}
-        </iframe>
     )
 }
 

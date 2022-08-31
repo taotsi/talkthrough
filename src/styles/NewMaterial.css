@@ -1,0 +1,25 @@
+.new_material_editor {
+    flex: 1;
+    background: #aaa;
+    overflow-y: scroll;
+}
+
+.editable {
+    min-height: 80vh;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    height: 90vh;
+}
+
+.left-col {
+    flex: 1;
+    display: flex;
+}
+
+.center-col {
+    flex: 1;
+    overflow: scroll;
+}
