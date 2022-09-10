@@ -1,29 +1,11 @@
-.new_material_editor {
-    flex: 1;
-    background: #aaa;
+.editingArea {
+    display: grid;
+    height: 100%;
+    width: 100%;
+    min-width: 500px;
+    min-height: 500px;
+    max-height: 80vh;
     overflow-y: scroll;
-}
-
-/*.editable {*/
-/*    min-height: 80vh;*/
-/*}*/
-
-.container {
-    display: flex;
-    flex-direction: row;
-    height: 90vh;
-}
-
-.right-col {
-    display: flex;
-    flex: 1;
-}
-
-.center-col {
-    flex: 1;
-    display: flex;
-    overflow: scroll;
-    border: 1px solid grey;
-    /*border-radius: 3px;*/
-    box-shadow: 2px 4px lightgrey;
+    border: 2px solid grey;
+    padding: 20px;
 }

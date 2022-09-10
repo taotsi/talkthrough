@@ -24,42 +24,42 @@ export default function TheEditor() {
 
     return (
         <Slate editor={editor} value={editor_value_example}>
-            {/*<Button.Group>*/}
-            {/*    <MarkButton format="bold" icon="bold"/>*/}
-            {/*    <MarkButton format="italic" icon="italic"/>*/}
-            {/*    <MarkButton format="underline" icon="underline"/>*/}
-            {/*    <MarkButton format="code" icon="code"/>*/}
+            <Button.Group>
+                <MarkButton format="bold" icon="bold"/>
+                <MarkButton format="italic" icon="italic"/>
+                <MarkButton format="underline" icon="underline"/>
+                <MarkButton format="code" icon="code"/>
 
-            {/*    <BlockButton format="block-quote" icon="quote left"/>*/}
-            {/*    <BlockButton format="heading-one" icon="heading" label="1"/>*/}
-            {/*    <BlockButton format="heading-two" icon="heading" label="2"/>*/}
-            {/*    <BlockButton format="numbered-list" icon="list ol"/>*/}
-            {/*    <BlockButton format="bulleted-list" icon="list ul"/>*/}
+                <BlockButton format="block-quote" icon="quote left"/>
+                <BlockButton format="heading-one" icon="heading" label="1"/>
+                <BlockButton format="heading-two" icon="heading" label="2"/>
+                <BlockButton format="numbered-list" icon="list ol"/>
+                <BlockButton format="bulleted-list" icon="list ul"/>
 
-            {/*    <BlockButton format="left" icon="align left"/>*/}
-            {/*    <BlockButton format="center" icon="align center"/>*/}
-            {/*    <BlockButton format="right" icon="align right"/>*/}
-            {/*    <BlockButton format="justify" icon="align justify"/>*/}
-            {/*</Button.Group>*/}
+                <BlockButton format="left" icon="align left"/>
+                <BlockButton format="center" icon="align center"/>
+                <BlockButton format="right" icon="align right"/>
+                <BlockButton format="justify" icon="align justify"/>
+            </Button.Group>
 
-            <Editable
-                renderElement={renderElement}
-                renderLeaf={renderLeaf}
-                placeholder="Enter some rich text…"
-                spellCheck
-                autoFocus
-                className="editable"
-                // style={"min-height: 558px"}
-                onKeyDown={event => {
-                    for (const hotkey in HOTKEYS) {
-                        if (isHotkey(hotkey, event as any)) {
-                            event.preventDefault()
-                            const mark = HOTKEYS[hotkey]
-                            toggleMark(editor, mark)
+            <div class='editingArea'>
+                <Editable
+                    renderElement={renderElement}
+                    renderLeaf={renderLeaf}
+                    placeholder="说些什么吧..."
+                    spellCheck
+                    autoFocus
+                    onKeyDown={event => {
+                        for (const hotkey in HOTKEYS) {
+                            if (isHotkey(hotkey, event as any)) {
+                                event.preventDefault()
+                                const mark = HOTKEYS[hotkey]
+                                toggleMark(editor, mark)
+                            }
                         }
-                    }
-                }}
-            />
+                    }}
+                />
+            </div>
         </Slate>
     )
 }
