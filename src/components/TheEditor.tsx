@@ -4,8 +4,9 @@ import isHotkey from "is-hotkey"
 import {Editable, Slate, useSlate, withReact} from "slate-react"
 import {createEditor, Editor, Element as SlateElement, Transforms} from "slate"
 import {withHistory} from "slate-history"
-import {Button, Icon} from "semantic-ui-react"
+import {Icon, Menu, Dropdown} from "semantic-ui-react"
 import editor_value_example from "../api/mocked_values/editor_value.json"
+import "../styles/TheEditor.css"
 
 const HOTKEYS = {
     "mod+b": "bold",
@@ -17,6 +18,34 @@ const HOTKEYS = {
 const LIST_TYPES = ["numbered-list", "bulleted-list"]
 const TEXT_ALIGN_TYPES = ["left", "center", "right", "justify"]
 
+const HEADING_OPTIONS = [
+    {
+        key: "text",
+        text: "正文",
+        value: "text"
+    },
+    {
+        key: "h1",
+        text: "一级标题",
+        value: "heading-one"
+    },
+    {
+        key: "h2",
+        text: "二级标题",
+        value: "heading-two"
+    },
+    {
+        key: "h3",
+        text: "三级标题",
+        value: "heading-three"
+    },
+    {
+        key: "h4",
+        text: "四级标题",
+        value: "heading-four"
+    }
+]
+
 export default function TheEditor() {
     const renderElement = useCallback(props => <Element {...props} />, [])
     const renderLeaf = useCallback(props => <Leaf {...props} />, [])
@@ -24,25 +53,18 @@ export default function TheEditor() {
 
     return (
         <Slate editor={editor} value={editor_value_example}>
-            <Button.Group>
+            <Menu icon attached borderless size={"tiny"}>
+                <HeadingButton/>
                 <MarkButton format="bold" icon="bold"/>
                 <MarkButton format="italic" icon="italic"/>
                 <MarkButton format="underline" icon="underline"/>
                 <MarkButton format="code" icon="code"/>
-
                 <BlockButton format="block-quote" icon="quote left"/>
-                <BlockButton format="heading-one" icon="heading" label="1"/>
-                <BlockButton format="heading-two" icon="heading" label="2"/>
                 <BlockButton format="numbered-list" icon="list ol"/>
                 <BlockButton format="bulleted-list" icon="list ul"/>
+            </Menu>
 
-                <BlockButton format="left" icon="align left"/>
-                <BlockButton format="center" icon="align center"/>
-                <BlockButton format="right" icon="align right"/>
-                <BlockButton format="justify" icon="align justify"/>
-            </Button.Group>
-
-            <div class='editingArea'>
+            <div class="editingArea">
                 <Editable
                     renderElement={renderElement}
                     renderLeaf={renderLeaf}
@@ -100,7 +122,6 @@ const toggleBlock = (editor, format) => {
 
 const toggleMark = (editor, format) => {
     const isActive = isMarkActive(editor, format)
-
     if (isActive) {
         Editor.removeMark(editor, format)
     } else {
@@ -108,10 +129,35 @@ const toggleMark = (editor, format) => {
     }
 }
 
+const getHeading = (editor) => {
+    console.log("getHeading")
+    const {selection} = editor
+    if (!selection) {
+        return "正文"
+    }
+    const [node] = Array.from(
+        Editor.nodes(editor, {
+            at: Editor.unhangRange(editor, selection),
+            match: n =>
+                !Editor.isEditor(n) &&
+                SlateElement.isElement(n)
+        })
+    )
+    const type = node[0]["type"]
+
+    let result = "正文"
+    for (let i = 0; i < HEADING_OPTIONS.length; i++) {
+        const option = HEADING_OPTIONS[i]
+        if (option["value"] === type) {
+            result = option["text"]
+        }
+    }
+    return result
+}
+
 const isBlockActive = (editor, format, blockType = "type") => {
     const {selection} = editor
     if (!selection) return false
-
     const [match] = Array.from(
         Editor.nodes(editor, {
             at: Editor.unhangRange(editor, selection),
@@ -157,6 +203,18 @@ const Element = ({attributes, children, element}) => {
                     {children}
                 </h2>
             )
+        case "heading-three":
+            return (
+                <h3 style={style} {...attributes}>
+                    {children}
+                </h3>
+            )
+        case "heading-four":
+            return (
+                <h4 style={style} {...attributes}>
+                    {children}
+                </h4>
+            )
         case "list-item":
             return (
                 <li style={style} {...attributes}>
@@ -198,11 +256,44 @@ const Leaf = ({attributes, children, leaf}) => {
     return <span {...attributes}>{children}</span>
 }
 
-const BlockButton = ({format, icon, label}) => {
+const HeadingButton = () => {
+    const editor = useSlate()
+
+    return (
+        <Dropdown
+            item
+            className="heading_dropdown"
+            options={HEADING_OPTIONS}
+            text={getHeading(editor)}
+            onChange={(event, props) => {
+                event.preventDefault()
+                toggleBlock(editor, props.value)
+            }}
+        />
+    )
+}
+
+const MarkButton = ({format, icon}) => {
     const editor = useSlate()
     return (
-        <Button
-            basic
+        <Menu.Item
+            name={format}
+            active={isMarkActive(editor, format)}
+            onClick={event => {
+                event.preventDefault()
+                toggleMark(editor, format)
+            }}
+        >
+            <Icon name={icon}/>
+        </Menu.Item>
+    )
+}
+
+const BlockButton = ({format, icon}) => {
+    const editor = useSlate()
+    return (
+        <Menu.Item
+            name={format}
             active={isBlockActive(
                 editor,
                 format,
@@ -212,28 +303,8 @@ const BlockButton = ({format, icon, label}) => {
                 event.preventDefault()
                 toggleBlock(editor, format)
             }}
-            icon
         >
             <Icon name={icon}/>
-            {label}
-        </Button>
-    )
-}
-
-const MarkButton = ({format, icon}) => {
-    const editor = useSlate()
-    return (
-        <Button
-            basic
-            active={isMarkActive(editor, format)}
-            onClick={event => {
-                event.preventDefault()
-                toggleMark(editor, format)
-            }}
-            icon
-            size="small"
-        >
-            <Icon name={icon}/>
-        </Button>
+        </Menu.Item>
     )
 }
