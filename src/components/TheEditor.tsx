@@ -68,7 +68,7 @@ export default function TheEditor(props) {
                 <BlockButton format="bulleted-list" icon="list ul"/>
             </Menu>
 
-            <div class="editingArea">
+            <div class="editing_area">
                 <Editable
                     renderElement={renderElement}
                     renderLeaf={renderLeaf}
