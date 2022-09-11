@@ -1,22 +1,18 @@
-import {Outlet, useParams} from "react-router-dom"
+import {Navigate, Outlet, useParams} from "react-router-dom"
 import {Container} from "semantic-ui-react"
-import RepoHeader from "./RepoHeader"
-import RepoTab from "./RepoTab"
 import {queryRepository} from "../../api/BackendClient"
-import Page404 from "../Page404"
 import TheEditor from "../TheEditor"
 
-export default function Repository() {
+export default function RepoMain() {
     const params = useParams()
     const repo = queryRepository(params.owner, params.repository)
     if (repo === undefined) {
-        return <Page404/>
+        return <Navigate to="/404" replace={true}/>
     }
+    console.log("repo main")
 
     return (
         <div>
-            <RepoHeader stars={repo.stars} owner={repo.owner}/>
-            <RepoTab/>
             <Container text>
                 <TheEditor readOnly={true} text={repo.text}></TheEditor>
             </Container>

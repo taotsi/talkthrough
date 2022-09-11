@@ -3,8 +3,9 @@ import React from "react"
 import {Container, Divider, Form} from "semantic-ui-react"
 import "semantic-ui-css/semantic.min.css"
 import {Outlet} from "react-router-dom"
-import {LICENSES, queryCurrentUser} from "../api/BackendClient"
+import {queryCurrentUser} from "../../api/BackendClient"
 
+export const LICENSES = [{text: "GPL 3.0", value: "GPL 3.0"}, {text: "CC By 4.0", value: "CC By 4.0"}]
 export default function NewRepository() {
     const user = queryCurrentUser().name
     const availableUsers = [{text: user, value: user}]

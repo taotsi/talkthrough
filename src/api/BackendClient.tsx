@@ -1,13 +1,6 @@
 import repositories from "./mocked_values/repositories.json"
 import materials from "./mocked_values/materials.json"
-
-// TODO: use enum instead
-export const EXPLORE_TAB = {
-    PAPERS: "文章",
-    MATERIALS: "素材"
-}
-
-export const LICENSES = [{text: "GPL 3.0", value: "GPL 3.0"}, {text: "CC By 4.0", value: "CC By 4.0"}]
+import {EXPLORE_TAB} from "../components/explore/ExploreNav"
 
 export function queryCurrentUser() {
     return {
@@ -24,9 +17,9 @@ export function queryMaterialHeaders(): any[] {
 }
 
 export function queryExploreHeaders(tab: string): any[] {
-    if (tab === EXPLORE_TAB.PAPERS) {
+    if (tab === EXPLORE_TAB.PAPERS.en) {
         return queryPaperHeaders()
-    } else if (tab === EXPLORE_TAB.MATERIALS) {
+    } else if (tab === EXPLORE_TAB.MATERIALS.en) {
         return queryMaterialHeaders()
     }
     return []

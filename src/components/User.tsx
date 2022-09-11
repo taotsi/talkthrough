@@ -6,7 +6,7 @@ export default function User() {
     const [searchParams,] = useSearchParams()
     return (
         <div>
-            user: {params.owner}, tab: {searchParams.get("tab")}
+            user: {params.user}, tab: {searchParams.get("tab")}
             <Outlet/>
         </div>
     )

@@ -4,8 +4,7 @@ import isHotkey from "is-hotkey"
 import {Editable, Slate, useSlate, withReact} from "slate-react"
 import {createEditor, Editor, Element as SlateElement, Transforms} from "slate"
 import {withHistory} from "slate-history"
-import {Icon, Menu, Dropdown} from "semantic-ui-react"
-import editor_value_example from "../api/mocked_values/editor_value.json"
+import {Dropdown, Icon, Menu} from "semantic-ui-react"
 import "../styles/TheEditor.css"
 
 const HOTKEYS = {
@@ -71,25 +70,12 @@ export default function TheEditor(props) {
             value={value}
         >
             {!readOnly && toolBar()}
-            <div class="editing_area">
-                <Editable
-                    renderElement={renderElement}
-                    renderLeaf={renderLeaf}
-                    placeholder="..."
-                    spellCheck
-                    autoFocus
-                    readOnly={readOnly}
-                    onKeyDown={event => {
-                        for (const hotkey in HOTKEYS) {
-                            if (isHotkey(hotkey, event as any)) {
-                                event.preventDefault()
-                                const mark = HOTKEYS[hotkey]
-                                toggleMark(editor, mark)
-                            }
-                        }
-                    }}
-                />
-            </div>
+            <EditingArea
+                readOnly={readOnly}
+                renderElement={renderElement}
+                renderLeaf={renderLeaf}
+            />
+
         </Slate>
     )
 }
@@ -106,6 +92,33 @@ const toolBar = () => {
             <BlockButton format="numbered-list" icon="list ol"/>
             <BlockButton format="bulleted-list" icon="list ul"/>
         </Menu>
+    )
+}
+
+const EditingArea = (props) => {
+    const readOnly = props.readOnly === undefined ? false : props.readOnly
+
+    return (
+        <div className="editing_area">
+            <Editable
+                renderElement={props.renderElement}
+                renderLeaf={props.renderLeaf}
+                placeholder="..."
+                spellCheck
+                autoFocus
+                readOnly={readOnly}
+                onKeyDown={event => {
+                    console.log(event)
+                    for (const hotkey in HOTKEYS) {
+                        if (isHotkey(hotkey, event as any)) {
+                            event.preventDefault()
+                            const mark = HOTKEYS[hotkey]
+                            toggleMark(editor, mark)
+                        }
+                    }
+                }}
+            />
+        </div>
     )
 }
 
@@ -153,7 +166,6 @@ const toggleMark = (editor, format) => {
 }
 
 const getHeading = (editor) => {
-    console.log("getHeading")
     const {selection} = editor
     if (!selection) {
         return "正文"
@@ -169,8 +181,7 @@ const getHeading = (editor) => {
     const type = node[0]["type"]
 
     let result = "正文"
-    for (let i = 0; i < HEADING_OPTIONS.length; i++) {
-        const option = HEADING_OPTIONS[i]
+    for (const option in HEADING_OPTIONS) {
         if (option["value"] === type) {
             result = option["text"]
         }

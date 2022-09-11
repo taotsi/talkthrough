@@ -2,3 +2,9 @@
     font-size: 20px;
     display:inline;
 }
+
+.repo_header_container {
+    display: grid;
+    padding: 15px;
+    height: 35px;
+}

@@ -1,15 +1,68 @@
-import {Button, Icon, Segment} from "semantic-ui-react"
-import {Link, useParams} from "react-router-dom"
+import {Button, Icon, Menu} from "semantic-ui-react"
+import {Link, Navigate, Outlet, useLocation, useParams} from "react-router-dom"
 import "../../styles/Repo.css"
+import {queryRepository} from "../../api/BackendClient"
+import {constantArrayByKey, pathTail} from "../utils"
+import TabItem from "../common/TabItem"
 
-export default function RepoHeader(props: any) {
-    const param = useParams()
-    const repoName = param.repository
-    const owner = param.owner
+export const REPO_TAB = {
+    INDEX: {
+        en: "repository",
+        route: "",
+        cn: "项目",
+        icon: "wrench"
+    },
+    MATERIALS: {
+        en: "materials",
+        route: "materials",
+        cn: "素材",
+        icon: "lightbulb"
+    },
+    ISSUES: {
+        en: "issues",
+        route: "issues",
+        cn: "质疑",
+        icon: "bug"
+    },
+    PUBLICATION: {
+        en: "publication",
+        route: "publication",
+        cn: "发表",
+        icon: "book"
+    },
+    PULLS: {
+        en: "pulls",
+        route: "pulls",
+        cn: "合并请求",
+        icon: "fork"
+    },
+    SETTINGS: {
+        en: "settings",
+        route: "settings",
+        cn: "设置",
+        icon: "setting"
+    }
+}
+
+export default function RepoHeader() {
+    let currentTab = pathTail(useLocation().pathname)
+    const params = useParams()
+    const repoName = params.repository
+    const owner = params.owner
+    const repo = queryRepository(params.owner, params.repository)
+
+    if (repo === undefined) {
+        return <Navigate to="/404" replace={true}/>
+    }
+
+    const validTabs = constantArrayByKey(REPO_TAB, "en")
+    if (!validTabs.includes(currentTab)) {
+        currentTab = REPO_TAB.INDEX.en
+    }
 
     return (
         <div>
-            <Segment>
+            <div className="repo_header_container">
                 <div className="repo_header">
                     <Icon name="book"/>
                     <Link to={"/" + owner}>{owner}</Link>
@@ -18,14 +71,20 @@ export default function RepoHeader(props: any) {
 
                     <Button basic floated="right">
                         <Icon name="star"/>
-                        {"Star "}{props.stars}
+                        {"Star "}{repo.stars}
                     </Button>
                 </div>
-                <br/>
-                <br/>
-            </Segment>
+            </div>
+
+            <Menu secondary pointing>
+                <TabItem value={REPO_TAB.INDEX} currentTab={currentTab}/>
+                <TabItem value={REPO_TAB.PUBLICATION} currentTab={currentTab}/>
+                <TabItem value={REPO_TAB.MATERIALS} currentTab={currentTab}/>
+                <TabItem value={REPO_TAB.ISSUES} currentTab={currentTab}/>
+                <TabItem value={REPO_TAB.PULLS} currentTab={currentTab}/>
+                <TabItem value={REPO_TAB.SETTINGS} currentTab={currentTab}/>
+            </Menu>
+            <Outlet/>
         </div>
-
-
     )
 }
