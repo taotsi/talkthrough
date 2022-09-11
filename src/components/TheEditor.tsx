@@ -50,24 +50,14 @@ export default function TheEditor(props) {
     const renderElement = useCallback(props => <Element {...props} />, [])
     const renderLeaf = useCallback(props => <Leaf {...props} />, [])
     const editor = useMemo(() => withHistory(withReact(createEditor())), [])
-    const {readOnly} = props
+    const readOnly = props.readOnly === undefined ? false : props.readOnly
 
     return (
         <Slate
             editor={editor}
             value={editor_value_example}
         >
-            <Menu icon attached borderless size={"tiny"}>
-                <HeadingButton/>
-                <MarkButton format="bold" icon="bold"/>
-                <MarkButton format="italic" icon="italic"/>
-                <MarkButton format="underline" icon="underline"/>
-                <MarkButton format="code" icon="code"/>
-                <BlockButton format="block-quote" icon="quote left"/>
-                <BlockButton format="numbered-list" icon="list ol"/>
-                <BlockButton format="bulleted-list" icon="list ul"/>
-            </Menu>
-
+            {!readOnly && toolBar()}
             <div class="editing_area">
                 <Editable
                     renderElement={renderElement}
@@ -75,7 +65,7 @@ export default function TheEditor(props) {
                     placeholder="说些什么吧..."
                     spellCheck
                     autoFocus
-                    readOnly={readOnly === undefined ? false : readOnly}
+                    readOnly={readOnly}
                     onKeyDown={event => {
                         for (const hotkey in HOTKEYS) {
                             if (isHotkey(hotkey, event as any)) {
@@ -88,6 +78,21 @@ export default function TheEditor(props) {
                 />
             </div>
         </Slate>
+    )
+}
+
+const toolBar = () => {
+    return (
+        <Menu icon attached borderless size={"tiny"}>
+            <HeadingButton/>
+            <MarkButton format="bold" icon="bold"/>
+            <MarkButton format="italic" icon="italic"/>
+            <MarkButton format="underline" icon="underline"/>
+            <MarkButton format="code" icon="code"/>
+            <BlockButton format="block-quote" icon="quote left"/>
+            <BlockButton format="numbered-list" icon="list ol"/>
+            <BlockButton format="bulleted-list" icon="list ul"/>
+        </Menu>
     )
 }
 
