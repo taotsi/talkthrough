@@ -1,14 +1,14 @@
-import {Outlet, useParams, Link} from "react-router-dom"
+import {Outlet, useParams, Link, Navigate} from "react-router-dom"
 import {Container, Button, Icon} from "semantic-ui-react"
 import TheEditor from "../TheEditor"
 import {queryRepository} from "../../api/BackendClient"
-import Page404 from "../Page404"
 
 export default function Publication() {
     const params = useParams()
     const repo = queryRepository(params.owner, params.repository)
+
     if (repo === undefined) {
-        return <Page404/>
+        return <Navigate to="/404" replace={true} />
     }
 
     return (
