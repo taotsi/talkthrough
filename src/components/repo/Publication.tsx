@@ -1,5 +1,5 @@
-import {Outlet, useParams, Link, Navigate} from "react-router-dom"
-import {Container, Button, Icon} from "semantic-ui-react"
+import {Link, Navigate, Outlet, useParams} from "react-router-dom"
+import {Button, Container, Icon} from "semantic-ui-react"
 import TheEditor from "../TheEditor"
 import {queryRepository} from "../../api/BackendClient"
 
@@ -8,7 +8,7 @@ export default function Publication() {
     const repo = queryRepository(params.owner, params.repository)
 
     if (repo === undefined) {
-        return <Navigate to="/404" replace={true} />
+        return <Navigate to="/404" replace={true}/>
     }
 
     return (

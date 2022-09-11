@@ -1,6 +1,6 @@
 import React from "react"
 import {Outlet} from "react-router-dom"
-import {Container, Button} from "semantic-ui-react"
+import {Button, Container} from "semantic-ui-react"
 import TheEditor from "./TheEditor"
 import "../styles/NewMaterial.css"
 

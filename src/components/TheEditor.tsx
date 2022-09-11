@@ -4,7 +4,7 @@ import isHotkey from "is-hotkey"
 import {Editable, Slate, useSlate, withReact} from "slate-react"
 import {createEditor, Editor, Element as SlateElement, Transforms} from "slate"
 import {withHistory} from "slate-history"
-import {Icon, Menu, Dropdown} from "semantic-ui-react"
+import {Dropdown, Icon, Menu} from "semantic-ui-react"
 import "../styles/TheEditor.css"
 
 const HOTKEYS = {

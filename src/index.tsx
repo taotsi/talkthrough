@@ -21,7 +21,13 @@ import RepoSettings from "./components/repo/RepoSettings"
 import Material from "./components/Material"
 import Publication from "./components/repo/Publication"
 import "semantic-ui-css/semantic.min.css"
-import RepoHeader from "./components/repo/RepoHeader"
+import RepoHeader, {
+    REPO_TAB_ISSUES,
+    REPO_TAB_MATERIALS,
+    REPO_TAB_PUBLICATION,
+    REPO_TAB_PULLS,
+    REPO_TAB_SETTINGS
+} from "./components/repo/RepoHeader"
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
@@ -44,12 +50,12 @@ root.render(
 
                     <Route path=":owner/:repository" element={<RepoHeader/>}>
                         <Route index element={<RepoMain/>}/>
-                        <Route path="materials" element={<RepoMaterials/>}/>
-                        <Route path="issues" element={<RepoIssues/>}/>
-                        <Route path="pulls" element={<RepoPulls/>}/>
-                        <Route path="settings" element={<RepoSettings/>}/>
+                        <Route path={REPO_TAB_MATERIALS} element={<RepoMaterials/>}/>
+                        <Route path={REPO_TAB_ISSUES} element={<RepoIssues/>}/>
+                        <Route path={REPO_TAB_PULLS} element={<RepoPulls/>}/>
+                        <Route path={REPO_TAB_SETTINGS} element={<RepoSettings/>}/>
                     </Route>
-                    <Route path=":owner/:repository/publication" element={<Publication/>}/>
+                    <Route path={":owner/:repository/" + REPO_TAB_PUBLICATION} element={<Publication/>}/>
                     <Route path="404" element={<Page404/>}/>
                 </Route>
                 {/*<Route path="*" element={<Page404/>}/>*/}

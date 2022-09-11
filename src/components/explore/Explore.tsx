@@ -24,7 +24,7 @@ export default function Explore() {
                     />
                 </Menu>
 
-                <Table basic='very'>
+                <Table basic="very">
                     <Table.Body>
                         {renderItems(headers, tab)}
                     </Table.Body>

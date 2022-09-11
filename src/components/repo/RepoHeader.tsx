@@ -40,11 +40,16 @@ export default function RepoHeader() {
 
             <Menu secondary pointing>
                 <TabItem tab={""} icon="" name="项目" currentTab={currentTab} setCurrentTab={setCurrentTab}/>
-                <TabItem tab={REPO_TAB_PUBLICATION} icon="" name="发表" currentTab={currentTab} setCurrentTab={setCurrentTab}/>
-                <TabItem tab={REPO_TAB_MATERIALS} icon="" name="素材" currentTab={currentTab} setCurrentTab={setCurrentTab}/>
-                <TabItem tab={REPO_TAB_ISSUES} icon="question" name="质疑" currentTab={currentTab} setCurrentTab={setCurrentTab}/>
-                <TabItem tab={REPO_TAB_PULLS} icon="fork" name="合并请求" currentTab={currentTab} setCurrentTab={setCurrentTab}/>
-                <TabItem tab={REPO_TAB_SETTINGS} icon="setting" name="设置" currentTab={currentTab} setCurrentTab={setCurrentTab}/>
+                <TabItem tab={REPO_TAB_PUBLICATION} icon="" name="发表" currentTab={currentTab}
+                         setCurrentTab={setCurrentTab}/>
+                <TabItem tab={REPO_TAB_MATERIALS} icon="" name="素材" currentTab={currentTab}
+                         setCurrentTab={setCurrentTab}/>
+                <TabItem tab={REPO_TAB_ISSUES} icon="question" name="质疑" currentTab={currentTab}
+                         setCurrentTab={setCurrentTab}/>
+                <TabItem tab={REPO_TAB_PULLS} icon="fork" name="合并请求" currentTab={currentTab}
+                         setCurrentTab={setCurrentTab}/>
+                <TabItem tab={REPO_TAB_SETTINGS} icon="setting" name="设置" currentTab={currentTab}
+                         setCurrentTab={setCurrentTab}/>
             </Menu>
             <Outlet/>
         </div>
@@ -56,7 +61,9 @@ const TabItem = (props: any) => {
         <Menu.Item
             as={Link} to={props.tab}
             active={props.tab === props.currentTab}
-            onClick = {() => {props.setCurrentTab(props.tab)}}
+            onClick={() => {
+                props.setCurrentTab(props.tab)
+            }}
         >
             <Icon name={props.icon}/>
             {props.name}

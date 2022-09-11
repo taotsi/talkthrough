@@ -7,7 +7,7 @@ export default function RepoMain() {
     const params = useParams()
     const repo = queryRepository(params.owner, params.repository)
     if (repo === undefined) {
-        return <Navigate to="/404" replace={true} />
+        return <Navigate to="/404" replace={true}/>
     }
     console.log("repo main")
 

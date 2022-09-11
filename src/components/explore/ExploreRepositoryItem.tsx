@@ -1,5 +1,5 @@
 import React from "react"
-import {Header, Icon, Button, Table} from "semantic-ui-react"
+import {Button, Header, Icon, Table} from "semantic-ui-react"
 import {Link} from "react-router-dom"
 import "../../styles/Explore.css"
 
