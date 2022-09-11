@@ -1,0 +1,20 @@
+.explore_header {
+    color: black;
+    text-decoration: none;
+    line-height: 2;
+}
+
+.explore_header:hover {
+    color: black;
+    text-decoration: none;
+}
+
+.explore_subheader {
+    color: #828282;
+    text-decoration: none;
+}
+
+.explore_subheader:hover {
+    color: #404040;
+    text-decoration: none;
+}

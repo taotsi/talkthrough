@@ -17,12 +17,12 @@ export default function NavBar() {
                         <Input icon="search" placeholder="搜索或跳转..."/>
                     </Menu.Item>
 
-                    <Menu.Item as={Link} to="/pulls">
-                        <span className="text">合并请求</span>
-                    </Menu.Item>
-                    <Menu.Item as={Link} to="/issues">
-                        <span className="text">质疑</span>
-                    </Menu.Item>
+                    {/*<Menu.Item as={Link} to="/pulls">*/}
+                    {/*    <span className="text">合并请求</span>*/}
+                    {/*</Menu.Item>*/}
+                    {/*<Menu.Item as={Link} to="/issues">*/}
+                    {/*    <span className="text">质疑</span>*/}
+                    {/*</Menu.Item>*/}
 
                     <Menu.Item position="right">
                         <Dropdown item icon="plus" className="icon" direction="left">
@@ -49,9 +49,9 @@ export default function NavBar() {
                                     <Icon name="id card"/>
                                     <span className="text">你的档案</span>
                                 </Dropdown.Item>
-                                <Dropdown.Item as={Link} to={"/" + user.name + "?tab=papers"}>
+                                <Dropdown.Item as={Link} to={"/" + user.name + "?tab=repositories"}>
                                     <Icon name="book"/>
-                                    <span className="text">你的文章</span>
+                                    <span className="text">你的写作项目</span>
                                 </Dropdown.Item>
                                 <Dropdown.Item as={Link} to={"/" + user.name + "?tab=materials"}>
                                     <Icon name="lightbulb"/>
@@ -60,7 +60,7 @@ export default function NavBar() {
 
                                 <Dropdown.Divider/>
                                 <Dropdown.Item as={Link} to="/settings">
-                                    <Icon name="setting"/>
+                                    <Icon name="settings"/>
                                     <span className="text">设置</span>
                                 </Dropdown.Item>
                                 <Dropdown.Item as={Link} to="/doc">

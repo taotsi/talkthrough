@@ -1,9 +1,9 @@
 import React, {useState} from "react"
-import {Container, Item, Menu} from "semantic-ui-react"
+import {Container, Menu, Table} from "semantic-ui-react"
 import ExploreRepositoryItem from "./ExploreRepositoryItem"
 import {Outlet} from "react-router-dom"
 import ExploreMaterialItem from "./ExploreMaterialItem"
-import {EXPLORE_TAB, queryExploreHeaders} from "../api/BackendClient"
+import {EXPLORE_TAB, queryExploreHeaders} from "../../api/BackendClient"
 
 export default function Explore() {
     const [tab, setTab] = useState(EXPLORE_TAB.PAPERS)
@@ -23,9 +23,12 @@ export default function Explore() {
                         onClick={() => handleItemClick(EXPLORE_TAB.MATERIALS, setTab, setHeaders)}
                     />
                 </Menu>
-                <Item.Group>
-                    {renderItems(headers, tab)}
-                </Item.Group>
+
+                <Table basic='very'>
+                    <Table.Body>
+                        {renderItems(headers, tab)}
+                    </Table.Body>
+                </Table>
             </Container>
             <Outlet/>
         </div>

@@ -56,7 +56,7 @@ export default function NewRepository() {
                     <Form.Checkbox label="初始化为通用论文格式"/>
                     <Divider/>
 
-                    <Form.Button positive>创建项目</Form.Button>
+                    <Form.Button positive>新建项目</Form.Button>
                 </Form>
             </Container>
             <Outlet/>
