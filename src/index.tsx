@@ -36,9 +36,9 @@ root.render(
                     <Route index element={<Navigate to="explore" replace={true}/>}/>
 
                     <Route path="explore" element={<ExploreNav/>}>
-                        <Route index element={<Explore tab={EXPLORE_TAB.PAPERS.route}/>}/>
-                        <Route path="papers" element={<Explore tab={EXPLORE_TAB.PAPERS.route}/>}/>
-                        <Route path="materials" element={<Explore tab={EXPLORE_TAB.MATERIALS.route}/>}/>
+                        <Route index element={<Explore/>}/>
+                        <Route path={EXPLORE_TAB.PAPERS.route} element={<Explore/>}/>
+                        <Route path={EXPLORE_TAB.MATERIALS.route} element={<Explore/>}/>
                     </Route>
 
                     <Route path="pulls" element={<Pulls/>}/>

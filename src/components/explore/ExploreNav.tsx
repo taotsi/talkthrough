@@ -1,39 +1,35 @@
-import {Link, Outlet} from "react-router-dom"
+import {Outlet, useLocation} from "react-router-dom"
 import {Container, Menu} from "semantic-ui-react"
-import React, {useState} from "react"
+import React from "react"
+import {constantArrayByKey, pathTail} from "../utils"
+import TabItem from "../common/TabItem"
 
 export const EXPLORE_TAB = {
     PAPERS: {
         cn: "文章",
         en: "papers",
-        route: "papers"
+        route: "papers",
     },
     MATERIALS: {
         cn: "素材",
         en: "materials",
-        route: "materials"
+        route: "materials",
     }
 }
 
 export default function ExploreNav() {
-    const [tab, setTab] = useState(EXPLORE_TAB.PAPERS.en)
+    let currentTab = pathTail(useLocation().pathname)
+    const validTabs = constantArrayByKey(EXPLORE_TAB, "en")
+    if (!validTabs.includes(currentTab)) {
+        currentTab = EXPLORE_TAB.PAPERS.en
+    }
 
     return (
         <div>
             <Container>
                 <Menu pointing secondary>
-                    <Menu.Item
-                        as={Link} to={EXPLORE_TAB.PAPERS.en}
-                        name={EXPLORE_TAB.PAPERS.cn}
-                        active={tab === EXPLORE_TAB.PAPERS.en}
-                        onClick={() => setTab(EXPLORE_TAB.PAPERS.en)}
-                    />
-                    <Menu.Item
-                        as={Link} to={EXPLORE_TAB.MATERIALS.en}
-                        name={EXPLORE_TAB.MATERIALS.cn}
-                        active={tab === EXPLORE_TAB.MATERIALS.en}
-                        onClick={() => setTab(EXPLORE_TAB.MATERIALS.en)}
-                    />
+                    <TabItem currentTab={currentTab} value={EXPLORE_TAB.PAPERS}/>
+                    <TabItem currentTab={currentTab} value={EXPLORE_TAB.MATERIALS}/>
                 </Menu>
             </Container>
             <Outlet/>

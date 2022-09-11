@@ -1,21 +1,26 @@
 import React from "react"
 import {Container, Table} from "semantic-ui-react"
 import ExploreRepositoryItem from "./ExploreRepositoryItem"
-import {Outlet} from "react-router-dom"
+import {Outlet, useLocation} from "react-router-dom"
 import ExploreMaterialItem from "./ExploreMaterialItem"
 import {queryExploreHeaders} from "../../api/BackendClient"
 import {EXPLORE_TAB} from "./ExploreNav"
+import {constantArrayByKey, pathTail} from "../utils"
 
-export default function Explore(props: { tab: any }) {
-    const {tab} = props
+export default function Explore() {
+    let currentTab = pathTail(useLocation().pathname)
+    const validTabs = constantArrayByKey(EXPLORE_TAB, "en")
+    if (!validTabs.includes(currentTab)) {
+        currentTab = EXPLORE_TAB.PAPERS.en
+    }
+    const headers = queryExploreHeaders(currentTab)
 
-    const headers = queryExploreHeaders(EXPLORE_TAB.PAPERS.en)
     return (
         <div>
             <Container>
                 <Table basic="very">
                     <Table.Body>
-                        {renderItems(headers, tab)}
+                        {renderItems(headers, currentTab)}
                     </Table.Body>
                 </Table>
             </Container>
