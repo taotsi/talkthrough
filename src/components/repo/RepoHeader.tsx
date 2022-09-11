@@ -1,21 +1,40 @@
 import {Button, Icon, Menu} from "semantic-ui-react"
-import {Link, Navigate, Outlet, useParams} from "react-router-dom"
+import {Link, Navigate, Outlet, Router, useParams} from "react-router-dom"
 import "../../styles/Repo.css"
 import {queryRepository} from "../../api/BackendClient"
 import React, {useState} from "react"
 
-export const REPO_TAB_MATERIALS = "materials"
-export const REPO_TAB_ISSUES = "issues"
-export const REPO_TAB_PUBLICATION = "publication"
-export const REPO_TAB_PULLS = "pulls"
-export const REPO_TAB_SETTINGS = "settings"
-
 export const REPO_TAB = {
-    MATERIALS: "materials",
-    ISSUES: "issues",
-    PUBLICATION: "publication",
-    PULLS: "pulls",
-    SETTINGS: "settings"
+    INDEX: {
+        en: "repository",
+        route: "",
+        cn: "项目"
+    },
+    MATERIALS: {
+        en: "materials",
+        route: "materials",
+        cn: "素材"
+    },
+    ISSUES: {
+        en: "issues",
+        route: "issues",
+        cn: "质疑"
+    },
+    PUBLICATION: {
+        en: "publication",
+        route: "publication",
+        cn: "发表"
+    },
+    PULLS: {
+        en: "pulls",
+        route: "pulls",
+        cn: "合并请求"
+    },
+    SETTINGS: {
+        en: "settings",
+        route: "settings",
+        cn: "设置"
+    }
 }
 
 export default function RepoHeader() {
@@ -47,17 +66,18 @@ export default function RepoHeader() {
             </div>
 
             <Menu secondary pointing>
-                <TabItem tab={""} icon="" name="项目" currentTab={currentTab} setCurrentTab={setCurrentTab}/>
-                <TabItem tab={REPO_TAB_PUBLICATION} icon="" name="发表" currentTab={currentTab}
-                         setCurrentTab={setCurrentTab}/>
-                <TabItem tab={REPO_TAB_MATERIALS} icon="" name="素材" currentTab={currentTab}
-                         setCurrentTab={setCurrentTab}/>
-                <TabItem tab={REPO_TAB_ISSUES} icon="question" name="质疑" currentTab={currentTab}
-                         setCurrentTab={setCurrentTab}/>
-                <TabItem tab={REPO_TAB_PULLS} icon="fork" name="合并请求" currentTab={currentTab}
-                         setCurrentTab={setCurrentTab}/>
-                <TabItem tab={REPO_TAB_SETTINGS} icon="setting" name="设置" currentTab={currentTab}
-                         setCurrentTab={setCurrentTab}/>
+                <TabItem tab={REPO_TAB.INDEX.en} icon="wrench" name="项目" route={REPO_TAB.INDEX.route}
+                         currentTab={currentTab} setCurrentTab={setCurrentTab}/>
+                <TabItem tab={REPO_TAB.PUBLICATION.en} icon="book" name={REPO_TAB.PUBLICATION.cn} route={REPO_TAB.PUBLICATION.route}
+                         currentTab={currentTab} setCurrentTab={setCurrentTab}/>
+                <TabItem tab={REPO_TAB.MATERIALS.en} icon="lightbulb" name={REPO_TAB.MATERIALS.cn} route={REPO_TAB.MATERIALS.route}
+                         currentTab={currentTab} setCurrentTab={setCurrentTab}/>
+                <TabItem tab={REPO_TAB.ISSUES.en} icon="bug" name={REPO_TAB.ISSUES.cn} route={REPO_TAB.ISSUES.route}
+                         currentTab={currentTab} setCurrentTab={setCurrentTab}/>
+                <TabItem tab={REPO_TAB.PULLS.en} icon="fork" name={REPO_TAB.PULLS.cn} route={REPO_TAB.PULLS.route}
+                         currentTab={currentTab} setCurrentTab={setCurrentTab}/>
+                <TabItem tab={REPO_TAB.SETTINGS.en} icon="setting" name={REPO_TAB.SETTINGS.cn} route={REPO_TAB.SETTINGS.route}
+                         currentTab={currentTab} setCurrentTab={setCurrentTab}/>
             </Menu>
             <Outlet/>
         </div>
@@ -67,7 +87,7 @@ export default function RepoHeader() {
 const TabItem = (props: any) => {
     return (
         <Menu.Item
-            as={Link} to={props.tab}
+            as={Link} to={props.route}
             active={props.tab === props.currentTab}
             onClick={() => {
                 props.setCurrentTab(props.tab)

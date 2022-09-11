@@ -17,9 +17,9 @@ export function queryMaterialHeaders(): any[] {
 }
 
 export function queryExploreHeaders(tab: string): any[] {
-    if (tab === EXPLORE_TAB.PAPERS) {
+    if (tab === EXPLORE_TAB.PAPERS.en) {
         return queryPaperHeaders()
-    } else if (tab === EXPLORE_TAB.MATERIALS) {
+    } else if (tab === EXPLORE_TAB.MATERIALS.en) {
         return queryMaterialHeaders()
     }
     return []
