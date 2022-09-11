@@ -46,23 +46,36 @@ const HEADING_OPTIONS = [
     }
 ]
 
+const EMPTY_TEXT = [
+    {
+        "type": "paragraph",
+        "children": [
+            {
+                "text": ""
+            }
+        ]
+    }
+]
+
 export default function TheEditor(props) {
     const renderElement = useCallback(props => <Element {...props} />, [])
     const renderLeaf = useCallback(props => <Leaf {...props} />, [])
     const editor = useMemo(() => withHistory(withReact(createEditor())), [])
+
     const readOnly = props.readOnly === undefined ? false : props.readOnly
+    const value = props.text === undefined ? EMPTY_TEXT : props.text
 
     return (
         <Slate
             editor={editor}
-            value={editor_value_example}
+            value={value}
         >
             {!readOnly && toolBar()}
             <div class="editing_area">
                 <Editable
                     renderElement={renderElement}
                     renderLeaf={renderLeaf}
-                    placeholder="说些什么吧..."
+                    placeholder="..."
                     spellCheck
                     autoFocus
                     readOnly={readOnly}
