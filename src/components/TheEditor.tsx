@@ -46,13 +46,17 @@ const HEADING_OPTIONS = [
     }
 ]
 
-export default function TheEditor() {
+export default function TheEditor(props) {
     const renderElement = useCallback(props => <Element {...props} />, [])
     const renderLeaf = useCallback(props => <Leaf {...props} />, [])
     const editor = useMemo(() => withHistory(withReact(createEditor())), [])
+    const {readOnly} = props
 
     return (
-        <Slate editor={editor} value={editor_value_example}>
+        <Slate
+            editor={editor}
+            value={editor_value_example}
+        >
             <Menu icon attached borderless size={"tiny"}>
                 <HeadingButton/>
                 <MarkButton format="bold" icon="bold"/>
@@ -71,6 +75,7 @@ export default function TheEditor() {
                     placeholder="说些什么吧..."
                     spellCheck
                     autoFocus
+                    readOnly={readOnly === undefined ? false : readOnly}
                     onKeyDown={event => {
                         for (const hotkey in HOTKEYS) {
                             if (isHotkey(hotkey, event as any)) {
