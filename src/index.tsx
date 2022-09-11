@@ -2,10 +2,10 @@ import React from "react"
 import ReactDOM from "react-dom/client"
 import "./index.css"
 import reportWebVitals from "./reportWebVitals"
-import {BrowserRouter, Route, Routes} from "react-router-dom"
+import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom"
 import Navbar from "./components/Navbar"
-import NewRepository from "./components/NewRepository"
-import NewMaterial from "./components/NewMaterial"
+import NewRepository from "./components/repo/NewRepository"
+import NewMaterial from "./components/material/NewMaterial"
 import Explore from "./components/explore/Explore"
 import Page404 from "./components/Page404"
 import Settings from "./components/Settings"
@@ -18,7 +18,7 @@ import RepoMaterials from "./components/repo/RepoMaterials"
 import RepoIssues from "./components/repo/RepoIssues"
 import RepoPulls from "./components/repo/RepoPulls"
 import RepoSettings from "./components/repo/RepoSettings"
-import Material from "./components/Material"
+import Material from "./components/material/Material"
 import Publication from "./components/repo/Publication"
 import "semantic-ui-css/semantic.min.css"
 import RepoHeader, {
@@ -28,6 +28,7 @@ import RepoHeader, {
     REPO_TAB_PULLS,
     REPO_TAB_SETTINGS
 } from "./components/repo/RepoHeader"
+import ExploreNav, {EXPLORE_TAB} from "./components/explore/ExploreNav"
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
@@ -38,7 +39,14 @@ root.render(
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Navbar/>}>
-                    <Route index element={<Explore/>}/>
+                    <Route index element={<Navigate to="explore" replace={true}/>}/>
+
+                    <Route path="explore" element={<ExploreNav/>}>
+                        <Route index element={<Explore tab={EXPLORE_TAB.PAPERS}/>}/>
+                        <Route path="papers" element={<Explore tab={EXPLORE_TAB.PAPERS}/>}/>
+                        <Route path="materials" element={<Explore tab={EXPLORE_TAB.MATERIALS}/>}/>
+                    </Route>
+
                     <Route path="pulls" element={<Pulls/>}/>
                     <Route path="issues" element={<Issues/>}/>
                     <Route path="new/repository" element={<NewRepository/>}/>
@@ -56,9 +64,10 @@ root.render(
                         <Route path={REPO_TAB_SETTINGS} element={<RepoSettings/>}/>
                     </Route>
                     <Route path={":owner/:repository/" + REPO_TAB_PUBLICATION} element={<Publication/>}/>
+
                     <Route path="404" element={<Page404/>}/>
                 </Route>
-                {/*<Route path="*" element={<Page404/>}/>*/}
+                <Route path="*" element={<Page404/>}/>
             </Routes>
         </BrowserRouter>
     </React.StrictMode>

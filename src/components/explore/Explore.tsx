@@ -1,29 +1,18 @@
-import React, {useState} from "react"
-import {Container, Menu, Table} from "semantic-ui-react"
+import React from "react"
+import {Container, Table} from "semantic-ui-react"
 import ExploreRepositoryItem from "./ExploreRepositoryItem"
 import {Outlet} from "react-router-dom"
 import ExploreMaterialItem from "./ExploreMaterialItem"
-import {EXPLORE_TAB, queryExploreHeaders} from "../../api/BackendClient"
+import {queryExploreHeaders} from "../../api/BackendClient"
+import {EXPLORE_TAB} from "./ExploreNav"
 
-export default function Explore() {
-    const [tab, setTab] = useState(EXPLORE_TAB.PAPERS)
-    const [headers, setHeaders] = useState(queryExploreHeaders(EXPLORE_TAB.PAPERS))
+export default function Explore(props: { tab: any }) {
+    const {tab} = props
+
+    const headers = queryExploreHeaders(EXPLORE_TAB.PAPERS)
     return (
         <div>
             <Container>
-                <Menu pointing secondary>
-                    <Menu.Item
-                        name={EXPLORE_TAB.PAPERS}
-                        active={tab === EXPLORE_TAB.PAPERS}
-                        onClick={() => handleItemClick(EXPLORE_TAB.PAPERS, setTab, setHeaders)}
-                    />
-                    <Menu.Item
-                        name={EXPLORE_TAB.MATERIALS}
-                        active={tab === EXPLORE_TAB.MATERIALS}
-                        onClick={() => handleItemClick(EXPLORE_TAB.MATERIALS, setTab, setHeaders)}
-                    />
-                </Menu>
-
                 <Table basic="very">
                     <Table.Body>
                         {renderItems(headers, tab)}
@@ -35,10 +24,6 @@ export default function Explore() {
     )
 }
 
-function handleItemClick(tab: string, setTab: any, setHeaders: any) {
-    setTab(tab)
-    setHeaders(queryExploreHeaders(tab))
-}
 
 function renderItems(headers: any[] | undefined, tab: string) {
     let result: any[] = []

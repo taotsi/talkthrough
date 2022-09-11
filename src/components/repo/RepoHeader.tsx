@@ -10,6 +10,14 @@ export const REPO_TAB_PUBLICATION = "publication"
 export const REPO_TAB_PULLS = "pulls"
 export const REPO_TAB_SETTINGS = "settings"
 
+export const REPO_TAB = {
+    MATERIALS: "materials",
+    ISSUES: "issues",
+    PUBLICATION: "publication",
+    PULLS: "pulls",
+    SETTINGS: "settings"
+}
+
 export default function RepoHeader() {
     const params = useParams()
     const [currentTab, setCurrentTab] = useState("index")
