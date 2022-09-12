@@ -41,6 +41,7 @@ const handleKeyDown = (mode: string, editor: Editor, event: any) => {
             }
             break
         case EDITOR_MODE.READ:
+            event.preventDefault()
             break
         case EDITOR_MODE.DIFF:
             break

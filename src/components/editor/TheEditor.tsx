@@ -26,6 +26,7 @@ export default function TheEditor(props: TheEditorProps) {
                 // @ts-ignore
                 renderElement={renderElement}
                 renderLeaf={renderLeaf}
+                mode={mode}
             />
         </Slate>
     )
