@@ -14,19 +14,22 @@ export default function ExploreRepositoryItem(props: any) {
                         {header.title}
                     </Link>
                     <Header.Subheader>
-                        <Link className="explore_subheader" to={"/" + header.owner + "/" + header.repository + "/stargazers"}>
+                        <Link className="explore_subheader"
+                              to={"/" + header.owner + "/" + header.repository + "/stargazers"}>
                             <Icon name="star outline" size="small" fitted/>
                             {" " + header.stars}
                         </Link>
                         &nbsp;&nbsp;&nbsp;&nbsp;
 
-                        <Link className="explore_subheader" to={"/" + header.owner + "/" + header.repository + "/pulls"}>
+                        <Link className="explore_subheader"
+                              to={"/" + header.owner + "/" + header.repository + "/pulls"}>
                             <Icon name="code branch" size="small" fitted/>
                             {" " + header.pulls}
                         </Link>
                         &nbsp;&nbsp;&nbsp;&nbsp;
 
-                        <Link className="explore_subheader" to={"/" + header.owner + "/" + header.repository + "/issues"}>
+                        <Link className="explore_subheader"
+                              to={"/" + header.owner + "/" + header.repository + "/issues"}>
                             <Icon name="bug" size="small" fitted/>
                             {" " + header.issues}
                         </Link>

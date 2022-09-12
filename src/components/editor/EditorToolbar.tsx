@@ -16,7 +16,7 @@ export default function EditorToolbar() {
             <BlockButton format="numbered-list" icon="list ol"/>
             <BlockButton format="bulleted-list" icon="list ul"/>
         </Menu>
-    );
+    )
 }
 
 
