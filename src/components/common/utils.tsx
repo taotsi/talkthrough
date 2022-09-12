@@ -1,4 +1,4 @@
-import {Constants} from "../types/types"
+import {Constants} from "./types"
 
 export function pathTail(path: string) {
     const split = path.split("/")

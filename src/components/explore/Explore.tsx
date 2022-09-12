@@ -5,7 +5,7 @@ import {Outlet, useLocation} from "react-router-dom"
 import ExploreMaterialItem from "./ExploreMaterialItem"
 import {queryExploreHeaders} from "../../api/BackendClient"
 import {EXPLORE_TAB} from "./ExploreNav"
-import {constantArrayByKey, pathTail} from "../utils"
+import {constantArrayByKey, pathTail} from "../common/utils"
 
 export default function Explore() {
     let currentTab = pathTail(useLocation().pathname)

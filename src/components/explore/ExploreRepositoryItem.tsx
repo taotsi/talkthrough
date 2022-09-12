@@ -1,7 +1,7 @@
 import React from "react"
 import {Button, Header, Icon, Table} from "semantic-ui-react"
 import {Link} from "react-router-dom"
-import "../../styles/Explore.css"
+import "./styles.css"
 
 export default function ExploreRepositoryItem(props: any) {
     const header = props.header
@@ -10,23 +10,26 @@ export default function ExploreRepositoryItem(props: any) {
         <Table.Row>
             <Table.Cell>
                 <Header as="h3">
-                    <Link className="explore_header" to={"/" + header.owner + "/" + header.repository + "/publication"}>
+                    <Link className="explore_header" to={"/" + header.owner + "/" + header.repository}>
                         {header.title}
                     </Link>
                     <Header.Subheader>
-                        <Link className="explore_subheader" to={"/" + header.owner + "/" + header.repository + "/pulls"}>
+                        <Link className="explore_subheader"
+                              to={"/" + header.owner + "/" + header.repository + "/stargazers"}>
                             <Icon name="star outline" size="small" fitted/>
                             {" " + header.stars}
                         </Link>
                         &nbsp;&nbsp;&nbsp;&nbsp;
 
-                        <Link className="explore_subheader" to={"/" + header.owner + "/" + header.repository + "/pulls"}>
+                        <Link className="explore_subheader"
+                              to={"/" + header.owner + "/" + header.repository + "/pulls"}>
                             <Icon name="code branch" size="small" fitted/>
                             {" " + header.pulls}
                         </Link>
                         &nbsp;&nbsp;&nbsp;&nbsp;
 
-                        <Link className="explore_subheader" to={"/" + header.owner + "/" + header.repository + "/issues"}>
+                        <Link className="explore_subheader"
+                              to={"/" + header.owner + "/" + header.repository + "/issues"}>
                             <Icon name="bug" size="small" fitted/>
                             {" " + header.issues}
                         </Link>
@@ -34,10 +37,6 @@ export default function ExploreRepositoryItem(props: any) {
 
                         <Link className="explore_subheader" to={"/" + header.owner}>
                             {header.owner}
-                        </Link>
-                        {<strong style={{color: "#505050"}}>{" / "}</strong>}
-                        <Link className="explore_subheader" to={"/" + header.owner + "/" + header.repository}>
-                            {header.repository}
                         </Link>
                     </Header.Subheader>
                 </Header>

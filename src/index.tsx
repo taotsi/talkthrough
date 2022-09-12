@@ -7,19 +7,18 @@ import Navbar from "./components/Navbar"
 import NewRepository from "./components/repo/NewRepository"
 import NewMaterial from "./components/material/NewMaterial"
 import Explore from "./components/explore/Explore"
-import Page404 from "./components/Page404"
-import Settings from "./components/Settings"
+import Page404 from "./components/common/Page404"
+import Settings from "./components/user/Settings"
 import Doc from "./components/Doc"
-import User from "./components/User"
-import Pulls from "./components/Pulls"
-import Issues from "./components/Issues"
+import User from "./components/user/User"
+import Pulls from "./components/user/Pulls"
+import Issues from "./components/user/Issues"
 import RepoMain from "./components/repo/RepoMain"
 import RepoMaterials from "./components/repo/RepoMaterials"
 import RepoIssues from "./components/repo/RepoIssues"
 import RepoPulls from "./components/repo/RepoPulls"
 import RepoSettings from "./components/repo/RepoSettings"
 import Material from "./components/material/Material"
-import Publication from "./components/repo/Publication"
 import "semantic-ui-css/semantic.min.css"
 import RepoHeader, {REPO_TAB} from "./components/repo/RepoHeader"
 import ExploreNav, {EXPLORE_TAB} from "./components/explore/ExploreNav"
@@ -41,13 +40,16 @@ root.render(
                         <Route path={EXPLORE_TAB.MATERIALS.route} element={<Explore/>}/>
                     </Route>
 
-                    <Route path="pulls" element={<Pulls/>}/>
-                    <Route path="issues" element={<Issues/>}/>
                     <Route path="new/repository" element={<NewRepository/>}/>
                     <Route path="new/material" element={<NewMaterial/>}/>
-                    <Route path="settings" element={<Settings/>}/>
-                    <Route path="doc" element={<Doc/>}/>
+
                     <Route path=":user" element={<User/>}/>
+                    <Route path="pulls" element={<Pulls/>}/>
+                    <Route path="issues" element={<Issues/>}/>
+                    <Route path="settings" element={<Settings/>}/>
+
+                    <Route path="doc" element={<Doc/>}/>
+
                     <Route path=":owner/materials/:material" element={<Material/>}/>
 
                     <Route path=":owner/:repository" element={<RepoHeader/>}>
@@ -57,7 +59,6 @@ root.render(
                         <Route path={REPO_TAB.PULLS.route} element={<RepoPulls/>}/>
                         <Route path={REPO_TAB.SETTINGS.route} element={<RepoSettings/>}/>
                     </Route>
-                    <Route path={":owner/:repository/" + REPO_TAB.PUBLICATION.route} element={<Publication/>}/>
 
                     <Route path="404" element={<Page404/>}/>
                 </Route>

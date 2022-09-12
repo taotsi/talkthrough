@@ -1,10 +1,9 @@
-import {Constant} from "../../types/types"
+import {Constant} from "./types"
 import {Icon, Menu} from "semantic-ui-react"
 import {Link} from "react-router-dom"
 
-export default function TabItem(props: {value: Constant, currentTab: string}) {
+export default function TabItem(props: { value: Constant, currentTab: string }) {
     const icon = props.value.icon
-    console.log("icon: ", icon)
     return (
         <Menu.Item
             as={Link} to={props.value.route}
