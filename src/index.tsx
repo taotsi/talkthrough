@@ -19,7 +19,6 @@ import RepoIssues from "./components/repo/RepoIssues"
 import RepoPulls from "./components/repo/RepoPulls"
 import RepoSettings from "./components/repo/RepoSettings"
 import Material from "./components/material/Material"
-import Publication from "./components/repo/Publication"
 import "semantic-ui-css/semantic.min.css"
 import RepoHeader, {REPO_TAB} from "./components/repo/RepoHeader"
 import ExploreNav, {EXPLORE_TAB} from "./components/explore/ExploreNav"
@@ -57,7 +56,6 @@ root.render(
                         <Route path={REPO_TAB.PULLS.route} element={<RepoPulls/>}/>
                         <Route path={REPO_TAB.SETTINGS.route} element={<RepoSettings/>}/>
                     </Route>
-                    <Route path={":owner/:repository/" + REPO_TAB.PUBLICATION.route} element={<Publication/>}/>
 
                     <Route path="404" element={<Page404/>}/>
                 </Route>

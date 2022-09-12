@@ -10,11 +10,11 @@ export default function ExploreRepositoryItem(props: any) {
         <Table.Row>
             <Table.Cell>
                 <Header as="h3">
-                    <Link className="explore_header" to={"/" + header.owner + "/" + header.repository + "/publication"}>
+                    <Link className="explore_header" to={"/" + header.owner + "/" + header.repository}>
                         {header.title}
                     </Link>
                     <Header.Subheader>
-                        <Link className="explore_subheader" to={"/" + header.owner + "/" + header.repository + "/pulls"}>
+                        <Link className="explore_subheader" to={"/" + header.owner + "/" + header.repository + "/stargazers"}>
                             <Icon name="star outline" size="small" fitted/>
                             {" " + header.stars}
                         </Link>
@@ -34,10 +34,6 @@ export default function ExploreRepositoryItem(props: any) {
 
                         <Link className="explore_subheader" to={"/" + header.owner}>
                             {header.owner}
-                        </Link>
-                        {<strong style={{color: "#505050"}}>{" / "}</strong>}
-                        <Link className="explore_subheader" to={"/" + header.owner + "/" + header.repository}>
-                            {header.repository}
                         </Link>
                     </Header.Subheader>
                 </Header>

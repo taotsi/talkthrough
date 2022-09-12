@@ -78,7 +78,6 @@ export default function RepoHeader() {
 
             <Menu secondary pointing>
                 <TabItem value={REPO_TAB.INDEX} currentTab={currentTab}/>
-                <TabItem value={REPO_TAB.PUBLICATION} currentTab={currentTab}/>
                 <TabItem value={REPO_TAB.MATERIALS} currentTab={currentTab}/>
                 <TabItem value={REPO_TAB.ISSUES} currentTab={currentTab}/>
                 <TabItem value={REPO_TAB.PULLS} currentTab={currentTab}/>
