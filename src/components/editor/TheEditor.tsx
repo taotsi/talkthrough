@@ -15,7 +15,6 @@ const HOTKEYS = {
 }
 
 const LIST_TYPES = ["numbered-list", "bulleted-list"]
-const TEXT_ALIGN_TYPES = ["left", "center", "right", "justify"]
 
 const HEADING_OPTIONS = [
     {
@@ -123,31 +122,22 @@ const EditingArea = (props) => {
 }
 
 const toggleBlock = (editor, format) => {
-    const isActive = isBlockActive(
-        editor,
-        format,
-        TEXT_ALIGN_TYPES.includes(format) ? "align" : "type"
-    )
+    const isActive = isBlockActive(editor, format)
     const isList = LIST_TYPES.includes(format)
 
     Transforms.unwrapNodes(editor, {
         match: n =>
             !Editor.isEditor(n) &&
             SlateElement.isElement(n) &&
-            LIST_TYPES.includes(n.type) &&
-            !TEXT_ALIGN_TYPES.includes(format),
+            LIST_TYPES.includes(n.type),
         split: true
     })
     let newProperties: Partial<SlateElement>
-    if (TEXT_ALIGN_TYPES.includes(format)) {
-        newProperties = {
-            align: isActive ? undefined : format
-        }
-    } else {
-        newProperties = {
-            type: isActive ? "paragraph" : isList ? "list-item" : format
-        }
+
+    newProperties = {
+        type: isActive ? "paragraph" : isList ? "list-item" : format
     }
+
     Transforms.setNodes<SlateElement>(editor, newProperties)
 
     if (!isActive && isList) {
@@ -189,7 +179,7 @@ const getHeading = (editor) => {
     return result
 }
 
-const isBlockActive = (editor, format, blockType = "type") => {
+const isBlockActive = (editor, format) => {
     const {selection} = editor
     if (!selection) return false
     const [match] = Array.from(
@@ -198,7 +188,7 @@ const isBlockActive = (editor, format, blockType = "type") => {
             match: n =>
                 !Editor.isEditor(n) &&
                 SlateElement.isElement(n) &&
-                n[blockType] === format
+                n["type"] === format
         })
     )
 
@@ -328,11 +318,7 @@ const BlockButton = ({format, icon}) => {
     return (
         <Menu.Item
             name={format}
-            active={isBlockActive(
-                editor,
-                format,
-                TEXT_ALIGN_TYPES.includes(format) ? "align" : "type"
-            )}
+            active={isBlockActive(editor, format)}
             onClick={event => {
                 event.preventDefault()
                 toggleBlock(editor, format)
