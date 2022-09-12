@@ -1,63 +1,19 @@
-// @ts-nocheck
 import React, {useCallback, useMemo} from "react"
 import isHotkey from "is-hotkey"
-import {Editable, Slate, useSlate, withReact} from "slate-react"
-import {createEditor, Editor, Element as SlateElement, Transforms} from "slate"
+import {Editable, Slate, withReact} from "slate-react"
+import {createEditor} from "slate"
 import {withHistory} from "slate-history"
-import {Dropdown, Icon, Menu} from "semantic-ui-react"
 import "../../styles/TheEditor.css"
+import {EMPTY_TEXT, HOTKEYS} from "./constants"
+import EditorToolbar, {toggleMark} from "./EditorToolbar"
+import {EditingAreaProps, TheEditorProps} from "./types"
 
-const HOTKEYS = {
-    "mod+b": "bold",
-    "mod+i": "italic",
-    "mod+u": "underline",
-    "mod+`": "code"
-}
-
-const LIST_TYPES = ["numbered-list", "bulleted-list"]
-
-const HEADING_OPTIONS = [
-    {
-        key: "text",
-        text: "正文",
-        value: "text"
-    },
-    {
-        key: "h1",
-        text: "一级标题",
-        value: "heading-one"
-    },
-    {
-        key: "h2",
-        text: "二级标题",
-        value: "heading-two"
-    },
-    {
-        key: "h3",
-        text: "三级标题",
-        value: "heading-three"
-    },
-    {
-        key: "h4",
-        text: "四级标题",
-        value: "heading-four"
-    }
-]
-
-const EMPTY_TEXT = [
-    {
-        "type": "paragraph",
-        "children": [
-            {
-                "text": ""
-            }
-        ]
-    }
-]
-
-export default function TheEditor(props) {
+export default function TheEditor(props: TheEditorProps) {
+    // @ts-ignore
     const renderElement = useCallback(props => <Element {...props} />, [])
+    // @ts-ignore
     const renderLeaf = useCallback(props => <Leaf {...props} />, [])
+    // @ts-ignore
     const editor = useMemo(() => withHistory(withReact(createEditor())), [])
 
     const readOnly = props.readOnly === undefined ? false : props.readOnly
@@ -68,39 +24,29 @@ export default function TheEditor(props) {
             editor={editor}
             value={value}
         >
-            {!readOnly && toolBar()}
+            {!readOnly && <EditorToolbar/>}
             <EditingArea
                 readOnly={readOnly}
+                // @ts-ignore
                 renderElement={renderElement}
                 renderLeaf={renderLeaf}
+                editor={editor}
             />
 
         </Slate>
     )
 }
 
-const toolBar = () => {
-    return (
-        <Menu icon attached borderless size={"tiny"}>
-            <HeadingButton/>
-            <MarkButton format="bold" icon="bold"/>
-            <MarkButton format="italic" icon="italic"/>
-            <MarkButton format="underline" icon="underline"/>
-            <MarkButton format="code" icon="code"/>
-            <BlockButton format="block-quote" icon="quote left"/>
-            <BlockButton format="numbered-list" icon="list ol"/>
-            <BlockButton format="bulleted-list" icon="list ul"/>
-        </Menu>
-    )
-}
-
-const EditingArea = (props) => {
+const EditingArea = (props: EditingAreaProps) => {
     const readOnly = props.readOnly === undefined ? false : props.readOnly
+    const editor = props.editor
 
     return (
         <div className="editing_area">
             <Editable
+                // @ts-ignore
                 renderElement={props.renderElement}
+                // @ts-ignore
                 renderLeaf={props.renderLeaf}
                 placeholder="..."
                 spellCheck
@@ -111,6 +57,7 @@ const EditingArea = (props) => {
                     for (const hotkey in HOTKEYS) {
                         if (isHotkey(hotkey, event as any)) {
                             event.preventDefault()
+                            // @ts-ignore
                             const mark = HOTKEYS[hotkey]
                             toggleMark(editor, mark)
                         }
@@ -121,86 +68,7 @@ const EditingArea = (props) => {
     )
 }
 
-const toggleBlock = (editor, format) => {
-    const isActive = isBlockActive(editor, format)
-    const isList = LIST_TYPES.includes(format)
-
-    Transforms.unwrapNodes(editor, {
-        match: n =>
-            !Editor.isEditor(n) &&
-            SlateElement.isElement(n) &&
-            LIST_TYPES.includes(n.type),
-        split: true
-    })
-    let newProperties: Partial<SlateElement>
-
-    newProperties = {
-        type: isActive ? "paragraph" : isList ? "list-item" : format
-    }
-
-    Transforms.setNodes<SlateElement>(editor, newProperties)
-
-    if (!isActive && isList) {
-        const block = {type: format, children: []}
-        Transforms.wrapNodes(editor, block)
-    }
-}
-
-const toggleMark = (editor, format) => {
-    const isActive = isMarkActive(editor, format)
-    if (isActive) {
-        Editor.removeMark(editor, format)
-    } else {
-        Editor.addMark(editor, format, true)
-    }
-}
-
-const getHeading = (editor) => {
-    const {selection} = editor
-    if (!selection) {
-        return "正文"
-    }
-    const [node] = Array.from(
-        Editor.nodes(editor, {
-            at: Editor.unhangRange(editor, selection),
-            match: n =>
-                !Editor.isEditor(n) &&
-                SlateElement.isElement(n)
-        })
-    )
-    const type = node[0]["type"]
-
-    let result = "正文"
-    for (const option in HEADING_OPTIONS) {
-        if (option["value"] === type) {
-            result = option["text"]
-        }
-    }
-    return result
-}
-
-const isBlockActive = (editor, format) => {
-    const {selection} = editor
-    if (!selection) return false
-    const [match] = Array.from(
-        Editor.nodes(editor, {
-            at: Editor.unhangRange(editor, selection),
-            match: n =>
-                !Editor.isEditor(n) &&
-                SlateElement.isElement(n) &&
-                n["type"] === format
-        })
-    )
-
-    return !!match
-}
-
-const isMarkActive = (editor, format) => {
-    const marks = Editor.marks(editor)
-    return marks ? marks[format] === true : false
-}
-
-const Element = ({attributes, children, element}) => {
+const Element = ({attributes, children, element}: any) => {
     const style = {textAlign: element.align}
     switch (element.type) {
         case "block-quote":
@@ -260,7 +128,7 @@ const Element = ({attributes, children, element}) => {
     }
 }
 
-const Leaf = ({attributes, children, leaf}) => {
+const Leaf = ({attributes, children, leaf}: any) => {
     if (leaf.bold) {
         children = <strong>{children}</strong>
     }
@@ -278,53 +146,4 @@ const Leaf = ({attributes, children, leaf}) => {
     }
 
     return <span {...attributes}>{children}</span>
-}
-
-const HeadingButton = () => {
-    const editor = useSlate()
-
-    return (
-        <Dropdown
-            item
-            className="heading_dropdown"
-            options={HEADING_OPTIONS}
-            text={getHeading(editor)}
-            onChange={(event, props) => {
-                event.preventDefault()
-                toggleBlock(editor, props.value)
-            }}
-        />
-    )
-}
-
-const MarkButton = ({format, icon}) => {
-    const editor = useSlate()
-    return (
-        <Menu.Item
-            name={format}
-            active={isMarkActive(editor, format)}
-            onClick={event => {
-                event.preventDefault()
-                toggleMark(editor, format)
-            }}
-        >
-            <Icon name={icon}/>
-        </Menu.Item>
-    )
-}
-
-const BlockButton = ({format, icon}) => {
-    const editor = useSlate()
-    return (
-        <Menu.Item
-            name={format}
-            active={isBlockActive(editor, format)}
-            onClick={event => {
-                event.preventDefault()
-                toggleBlock(editor, format)
-            }}
-        >
-            <Icon name={icon}/>
-        </Menu.Item>
-    )
 }

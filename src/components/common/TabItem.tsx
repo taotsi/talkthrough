@@ -4,7 +4,6 @@ import {Link} from "react-router-dom"
 
 export default function TabItem(props: {value: Constant, currentTab: string}) {
     const icon = props.value.icon
-    console.log("icon: ", icon)
     return (
         <Menu.Item
             as={Link} to={props.value.route}
