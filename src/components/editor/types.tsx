@@ -1,9 +1,13 @@
 export interface TheEditorProps {
-    text?: any;
-    readOnly?: boolean
+    value?: any;
+    mode?: string;
 }
 
 export interface EditingAreaProps {
-    readOnly?: boolean,
-    editor: any
+    mode?: string;
+    editor: any;
+}
+
+export interface EditorToolbarProps {
+    mode?: string;
 }

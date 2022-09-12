@@ -1,22 +1,45 @@
 import {Dropdown, Icon, Menu} from "semantic-ui-react"
 import React from "react"
 import {useSlate} from "slate-react"
-import {HEADING_OPTIONS, LIST_TYPES} from "./constants"
+import {EDITOR_MODE, HEADING_OPTIONS, LIST_TYPES} from "./constants"
 import {Editor, Element as SlateElement, Transforms} from "slate"
+import {EditorToolbarProps} from "./types"
 
-export default function EditorToolbar() {
-    return (
-        <Menu icon attached borderless size={"tiny"}>
-            <HeadingButton/>
-            <MarkButton format="bold" icon="bold"/>
-            <MarkButton format="italic" icon="italic"/>
-            <MarkButton format="underline" icon="underline"/>
-            <MarkButton format="code" icon="code"/>
-            <BlockButton format="block-quote" icon="quote left"/>
-            <BlockButton format="numbered-list" icon="list ol"/>
-            <BlockButton format="bulleted-list" icon="list ul"/>
-        </Menu>
-    )
+export default function EditorToolbar(props: EditorToolbarProps) {
+    let mode = props.mode
+    mode = mode ? mode : EDITOR_MODE.EDIT
+
+    let result
+    switch (mode) {
+        case EDITOR_MODE.EDIT:
+            result =
+                <Menu icon attached borderless size={"tiny"}>
+                    <HeadingButton/>
+                    <MarkButton format="bold" icon="bold"/>
+                    <MarkButton format="italic" icon="italic"/>
+                    <MarkButton format="underline" icon="underline"/>
+                    <MarkButton format="code" icon="code"/>
+                    <BlockButton format="block-quote" icon="quote left"/>
+                    <BlockButton format="numbered-list" icon="list ol"/>
+                    <BlockButton format="bulleted-list" icon="list ul"/>
+                </Menu>
+            break
+        case EDITOR_MODE.READ:
+            result =
+                <Menu icon attached borderless size={"tiny"}>
+                    <MarkButton format="code" icon="code"/>
+                </Menu>
+            break
+        case EDITOR_MODE.DIFF:
+            result =
+                <Menu icon attached borderless size={"tiny"}>
+                    <MarkButton format="code" icon="code"/>
+                </Menu>
+            break
+        default:
+            result = <p>参数错误，工具栏渲染失败</p>
+    }
+    return result
 }
 
 

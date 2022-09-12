@@ -1,3 +1,9 @@
+export const EDITOR_MODE = {
+    EDIT: "edit",
+    READ: "read",
+    DIFF: "diff"
+}
+
 export const HOTKEYS = {
     "mod+b": "bold",
     "mod+i": "italic",

@@ -4,7 +4,7 @@ import {Editable, Slate, withReact} from "slate-react"
 import {createEditor} from "slate"
 import {withHistory} from "slate-history"
 import "./styles.css"
-import {EMPTY_TEXT, HOTKEYS} from "./constants"
+import {EDITOR_MODE, EMPTY_TEXT, HOTKEYS} from "./constants"
 import EditorToolbar, {toggleMark} from "./EditorToolbar"
 import {EditingAreaProps, TheEditorProps} from "./types"
 
@@ -16,29 +16,28 @@ export default function TheEditor(props: TheEditorProps) {
     // @ts-ignore
     const editor = useMemo(() => withHistory(withReact(createEditor())), [])
 
-    const readOnly = props.readOnly === undefined ? false : props.readOnly
-    const value = props.text === undefined ? EMPTY_TEXT : props.text
+    const value = props.value === undefined ? EMPTY_TEXT : props.value
+    const mode = props.mode === undefined ? EDITOR_MODE.EDIT : props.mode
 
     return (
         <Slate
             editor={editor}
             value={value}
         >
-            {!readOnly && <EditorToolbar/>}
+            <EditorToolbar
+                mode={mode}
+            />
             <EditingArea
-                readOnly={readOnly}
                 // @ts-ignore
                 renderElement={renderElement}
                 renderLeaf={renderLeaf}
                 editor={editor}
             />
-
         </Slate>
     )
 }
 
 const EditingArea = (props: EditingAreaProps) => {
-    const readOnly = props.readOnly === undefined ? false : props.readOnly
     const editor = props.editor
 
     return (
@@ -51,7 +50,6 @@ const EditingArea = (props: EditingAreaProps) => {
                 placeholder="..."
                 spellCheck
                 autoFocus
-                readOnly={readOnly}
                 onKeyDown={event => {
                     console.log(event)
                     for (const hotkey in HOTKEYS) {
