@@ -1,7 +1,7 @@
 import {Navigate, Outlet, useParams} from "react-router-dom"
 import {Container} from "semantic-ui-react"
 import {queryRepository} from "../../api/BackendClient"
-import TheEditor from "../TheEditor"
+import TheEditor from "../editor/TheEditor"
 
 export default function RepoMain() {
     const params = useParams()

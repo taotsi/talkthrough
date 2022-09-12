@@ -1,6 +1,6 @@
 import {Link, Navigate, Outlet, useParams} from "react-router-dom"
 import {Button, Container, Icon} from "semantic-ui-react"
-import TheEditor from "../TheEditor"
+import TheEditor from "../editor/TheEditor"
 import {queryRepository} from "../../api/BackendClient"
 
 export default function Publication() {
