@@ -1,13 +1,11 @@
 import React from "react"
-import {Segment} from "semantic-ui-react"
 import {Outlet} from "react-router-dom"
 
 export default function Page404() {
     return (
         <div>
-            <Segment textAlign="center">
-                <h1>页面不存在</h1>
-            </Segment>
+            <img alt="404"
+                 src="https://illustatus.herokuapp.com/?title=Oops,%20Page%20not%20found&fill=%234f86ed"/>
             <Outlet/>
         </div>
     )

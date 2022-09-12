@@ -2,7 +2,6 @@ import React from "react"
 import {Outlet} from "react-router-dom"
 import {Button, Container} from "semantic-ui-react"
 import TheEditor from "../editor/TheEditor"
-import "../../styles/NewMaterial.css"
 
 export default class NewMaterial extends React.Component<any, any> {
     render() {

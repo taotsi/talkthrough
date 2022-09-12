@@ -1,7 +1,7 @@
 import {Outlet, useLocation} from "react-router-dom"
 import {Container, Menu} from "semantic-ui-react"
 import React from "react"
-import {constantArrayByKey, pathTail} from "../utils"
+import {constantArrayByKey, pathTail} from "../common/utils"
 import TabItem from "../common/TabItem"
 
 export const EXPLORE_TAB = {

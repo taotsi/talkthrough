@@ -1,7 +1,7 @@
 import React from "react"
 import {Button, Header, Icon, Table} from "semantic-ui-react"
 import {Link} from "react-router-dom"
-import "../../styles/Explore.css"
+import "./styles.css"
 
 export default function ExploreRepositoryItem(props: any) {
     const header = props.header

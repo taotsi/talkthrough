@@ -1,4 +1,4 @@
-import {Constant} from "../../types/types"
+import {Constant} from "./types"
 import {Icon, Menu} from "semantic-ui-react"
 import {Link} from "react-router-dom"
 

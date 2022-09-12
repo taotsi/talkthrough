@@ -1,8 +1,8 @@
 import {Button, Icon, Menu} from "semantic-ui-react"
 import {Link, Navigate, Outlet, useLocation, useParams} from "react-router-dom"
-import "../../styles/Repo.css"
+import "./Repo.css"
 import {queryRepository} from "../../api/BackendClient"
-import {constantArrayByKey, pathTail} from "../utils"
+import {constantArrayByKey, pathTail} from "../common/utils"
 import TabItem from "../common/TabItem"
 
 export const REPO_TAB = {

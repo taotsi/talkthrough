@@ -7,12 +7,12 @@ import Navbar from "./components/Navbar"
 import NewRepository from "./components/repo/NewRepository"
 import NewMaterial from "./components/material/NewMaterial"
 import Explore from "./components/explore/Explore"
-import Page404 from "./components/Page404"
-import Settings from "./components/Settings"
+import Page404 from "./components/common/Page404"
+import Settings from "./components/user/Settings"
 import Doc from "./components/Doc"
-import User from "./components/User"
-import Pulls from "./components/Pulls"
-import Issues from "./components/Issues"
+import User from "./components/user/User"
+import Pulls from "./components/user/Pulls"
+import Issues from "./components/user/Issues"
 import RepoMain from "./components/repo/RepoMain"
 import RepoMaterials from "./components/repo/RepoMaterials"
 import RepoIssues from "./components/repo/RepoIssues"
@@ -40,13 +40,16 @@ root.render(
                         <Route path={EXPLORE_TAB.MATERIALS.route} element={<Explore/>}/>
                     </Route>
 
-                    <Route path="pulls" element={<Pulls/>}/>
-                    <Route path="issues" element={<Issues/>}/>
                     <Route path="new/repository" element={<NewRepository/>}/>
                     <Route path="new/material" element={<NewMaterial/>}/>
-                    <Route path="settings" element={<Settings/>}/>
-                    <Route path="doc" element={<Doc/>}/>
+
                     <Route path=":user" element={<User/>}/>
+                    <Route path="pulls" element={<Pulls/>}/>
+                    <Route path="issues" element={<Issues/>}/>
+                    <Route path="settings" element={<Settings/>}/>
+
+                    <Route path="doc" element={<Doc/>}/>
+
                     <Route path=":owner/materials/:material" element={<Material/>}/>
 
                     <Route path=":owner/:repository" element={<RepoHeader/>}>
