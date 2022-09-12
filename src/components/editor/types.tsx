@@ -5,7 +5,6 @@ export interface TheEditorProps {
 
 export interface EditingAreaProps {
     mode?: string;
-    editor: any;
 }
 
 export interface EditorToolbarProps {

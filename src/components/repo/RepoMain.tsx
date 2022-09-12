@@ -10,7 +10,6 @@ export default function RepoMain() {
     if (repo === undefined) {
         return <Navigate to="/404" replace={true}/>
     }
-    console.log("repo main")
 
     return (
         <div>

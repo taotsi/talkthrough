@@ -9,11 +9,10 @@ export default function EditorToolbar(props: EditorToolbarProps) {
     let mode = props.mode
     mode = mode ? mode : EDITOR_MODE.EDIT
 
-    let result
     switch (mode) {
         case EDITOR_MODE.EDIT:
-            result =
-                <Menu icon attached borderless size={"tiny"}>
+            return (
+                <Menu icon attached borderless size={"small"}>
                     <HeadingButton/>
                     <MarkButton format="bold" icon="bold"/>
                     <MarkButton format="italic" icon="italic"/>
@@ -22,24 +21,33 @@ export default function EditorToolbar(props: EditorToolbarProps) {
                     <BlockButton format="block-quote" icon="quote left"/>
                     <BlockButton format="numbered-list" icon="list ol"/>
                     <BlockButton format="bulleted-list" icon="list ul"/>
+
+                    <Menu.Item position="right">
+                        <Icon name="upload" color="green"/>
+                    </Menu.Item>
                 </Menu>
-            break
+            )
         case EDITOR_MODE.READ:
-            result =
-                <Menu icon attached borderless size={"tiny"}>
-                    <MarkButton format="code" icon="code"/>
+            return (
+                <Menu icon attached borderless size={"small"}>
+                    <Menu.Item>
+                        <Icon name="comment"/>
+                    </Menu.Item>
+                    <Menu.Item position="right">
+                        <Icon name="download" color="green"/>
+                    </Menu.Item>
                 </Menu>
-            break
+
+            )
         case EDITOR_MODE.DIFF:
-            result =
-                <Menu icon attached borderless size={"tiny"}>
+            return (
+                <Menu icon attached borderless size={"small"}>
                     <MarkButton format="code" icon="code"/>
                 </Menu>
-            break
+            )
         default:
-            result = <p>参数错误，工具栏渲染失败</p>
+            return <p>参数错误，工具栏渲染失败</p>
     }
-    return result
 }
 
 

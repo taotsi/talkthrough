@@ -1,12 +1,12 @@
 import React, {useCallback, useMemo} from "react"
-import isHotkey from "is-hotkey"
-import {Editable, Slate, withReact} from "slate-react"
+import {Slate, withReact} from "slate-react"
 import {createEditor} from "slate"
 import {withHistory} from "slate-history"
 import "./styles.css"
-import {EDITOR_MODE, EMPTY_TEXT, HOTKEYS} from "./constants"
-import EditorToolbar, {toggleMark} from "./EditorToolbar"
-import {EditingAreaProps, TheEditorProps} from "./types"
+import {EDITOR_MODE, EMPTY_TEXT} from "./constants"
+import EditorToolbar from "./EditorToolbar"
+import {TheEditorProps} from "./types"
+import {EditingArea} from "./EditingArea"
 
 export default function TheEditor(props: TheEditorProps) {
     // @ts-ignore
@@ -20,49 +20,14 @@ export default function TheEditor(props: TheEditorProps) {
     const mode = props.mode === undefined ? EDITOR_MODE.EDIT : props.mode
 
     return (
-        <Slate
-            editor={editor}
-            value={value}
-        >
-            <EditorToolbar
-                mode={mode}
-            />
+        <Slate editor={editor} value={value}>
+            <EditorToolbar mode={mode}/>
             <EditingArea
                 // @ts-ignore
                 renderElement={renderElement}
                 renderLeaf={renderLeaf}
-                editor={editor}
             />
         </Slate>
-    )
-}
-
-const EditingArea = (props: EditingAreaProps) => {
-    const editor = props.editor
-
-    return (
-        <div className="editing_area">
-            <Editable
-                // @ts-ignore
-                renderElement={props.renderElement}
-                // @ts-ignore
-                renderLeaf={props.renderLeaf}
-                placeholder="..."
-                spellCheck
-                autoFocus
-                onKeyDown={event => {
-                    console.log(event)
-                    for (const hotkey in HOTKEYS) {
-                        if (isHotkey(hotkey, event as any)) {
-                            event.preventDefault()
-                            // @ts-ignore
-                            const mark = HOTKEYS[hotkey]
-                            toggleMark(editor, mark)
-                        }
-                    }
-                }}
-            />
-        </div>
     )
 }
 
