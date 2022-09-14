@@ -3,6 +3,7 @@ import {Divider, Grid} from "semantic-ui-react"
 import {queryRepository} from "../../api/BackendClient"
 import TheEditor from "../editor/TheEditor"
 import {EDITOR_MODE} from "../editor/constants"
+// import HoveringMenuExample from "../editor/HoverMenuExample"
 
 export default function RepoMain() {
     const params = useParams()
@@ -25,7 +26,8 @@ export default function RepoMain() {
                     对这篇文章有贡献的人在这里列出来
                 </Grid.Column>
                 <Grid.Column width={9}>
-                    <TheEditor mode={EDITOR_MODE.READ} value={repo.text}></TheEditor>
+                    <TheEditor mode={EDITOR_MODE.READ} value={repo.text}/>
+                    {/*<HoveringMenuExample/>*/}
                 </Grid.Column>
                 <Grid.Column width={4}>
                     <h4>最近评论</h4>

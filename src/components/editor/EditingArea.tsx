@@ -2,7 +2,7 @@ import {EditingAreaProps} from "./types"
 import {Editable, useSlate} from "slate-react"
 import {EDITOR_MODE, HOTKEYS} from "./constants"
 import isHotkey from "is-hotkey"
-import {toggleMark} from "./EditorToolbar"
+import {toggleMark} from "./FixedToolbar"
 import React from "react"
 import _ from "lodash"
 import {Editor} from "slate"
@@ -41,6 +41,7 @@ const handleKeyDown = (mode: string, editor: Editor, event: any) => {
             }
             break
         case EDITOR_MODE.READ:
+            event.preventDefault()
             break
         case EDITOR_MODE.DIFF:
             break

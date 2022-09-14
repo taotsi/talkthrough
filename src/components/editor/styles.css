@@ -13,3 +13,16 @@
 .heading_dropdown {
     width: 100px;
 }
+
+.hovering_menu {
+    padding: 3px 0 3px 3px;
+    position: absolute;
+    z-index: 1;
+    top: -10000px;
+    left: -10000px;
+    margin-top: -6px;
+    opacity: 0;
+    background-color: #333;
+    border-radius: 6px;
+    transition: opacity 0.5s;
+}
