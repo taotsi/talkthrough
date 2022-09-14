@@ -10,3 +10,9 @@ export interface EditingAreaProps {
 export interface EditorToolbarProps {
     mode?: string;
 }
+
+export interface BaseProps {
+    className: string
+
+    [key: string]: unknown
+}
