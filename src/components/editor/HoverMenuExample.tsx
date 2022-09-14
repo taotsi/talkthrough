@@ -1,11 +1,12 @@
 // @ts-ignore
 import React, {useEffect, useMemo, useRef} from "react"
 import {Editable, Slate, useFocused, useSlate, withReact} from "slate-react"
-import {createEditor, Descendant, Editor, Range, Text, Transforms,} from "slate"
-import {css} from "@emotion/css"
+import {createEditor, Editor, Range, Text, Transforms,} from "slate"
+import {Button, Icon} from "semantic-ui-react"
 import {withHistory} from "slate-history"
+import "./styles.css"
 
-import {Button, Icon, Menu, Portal} from "./components"
+import {Menu, Portal} from "./components"
 
 const HoveringMenuExample = () => {
     // @ts-ignore
@@ -48,11 +49,13 @@ const toggleFormat = (editor, format) => {
 // @ts-ignore
 const isFormatActive = (editor, format) => {
     // @ts-ignore
-    const [match] = Editor.nodes(editor, {
-        // @ts-ignore
-        match: n => n[format] === true,
-        mode: "all",
-    })
+    const [match] = Editor.nodes(
+        editor,
+        {
+            // @ts-ignore
+            match: n => n[format] === true,
+            mode: "all",
+        })
     return !!match
 }
 
@@ -80,19 +83,13 @@ const HoveringToolbar = () => {
 
     useEffect(() => {
         const el = ref.current
-        console.log("el: ", el)
         const {selection} = editor
 
         if (!el) {
             return
         }
 
-        if (
-            !selection ||
-            !inFocus ||
-            Range.isCollapsed(selection) ||
-            Editor.string(editor, selection) === ""
-        ) {
+        if (!selection || !inFocus || Range.isCollapsed(selection) || Editor.string(editor, selection) === "") {
             el.removeAttribute("style")
             return
         }
@@ -101,12 +98,11 @@ const HoveringToolbar = () => {
         // @ts-ignore
         const domRange = domSelection.getRangeAt(0)
         const rect = domRange.getBoundingClientRect()
+        const top = rect.top + window.scrollY - el.offsetHeight
+        const left = rect.left + window.scrollX - el.offsetWidth / 2 + rect.width / 2
+        el.style.top = `${top}px`
+        el.style.left = `${left}px`
         el.style.opacity = "1"
-        el.style.top = `${rect.top + window.pageYOffset - el.offsetHeight}px`
-        el.style.left = `${rect.left +
-        window.pageXOffset -
-        el.offsetWidth / 2 +
-        rect.width / 2}px`
     })
 
     return (
@@ -114,27 +110,10 @@ const HoveringToolbar = () => {
             <Menu
                 // @ts-ignore
                 ref={ref}
-                className={css`
-                  padding: 8px 7px 6px;
-                  position: absolute;
-                  z-index: 1;
-                  top: -10000px;
-                  left: -10000px;
-                  margin-top: -6px;
-                  opacity: 0;
-                  background-color: #222;
-                  border-radius: 4px;
-                  transition: opacity 0.75s;
-                `}
-                // @ts-ignore
-                onMouseDown={e => {
-                    // prevent toolbar from taking focus away from editor
-                    e.preventDefault()
-                }}
+                className="hovering_menu"
+                onMouseDown={(e: { preventDefault: () => any }) => e.preventDefault()}
             >
-                <FormatButton format="bold" icon="format_bold"/>
-                <FormatButton format="italic" icon="format_italic"/>
-                <FormatButton format="underlined" icon="format_underlined"/>
+                <FormatButton format="bold" icon="bold"/>
             </Menu>
         </Portal>
     )
@@ -145,40 +124,24 @@ const FormatButton = ({format, icon}) => {
     const editor = useSlate()
     return (
         <Button
-            reversed
+            icon
             active={isFormatActive(editor, format)}
             onClick={() => toggleFormat(editor, format)}
         >
-            <Icon>{icon}</Icon>
+            <Icon name={icon}/>
         </Button>
     )
 }
 
-const initialValue: Descendant[] = [
+const initialValue = [
     {
         type: "paragraph",
         children: [
             {
-                text:
-                    "This example shows how you can make a hovering menu appear above your content, which you can use to make text ",
-            },
-            // @ts-ignore
-            {text: "bold", bold: true},
-            {text: ", "},
-            // @ts-ignore
-            {text: "italic", italic: true},
-            {text: ", or anything else you might want to do!"},
-        ],
-    },
-    {
-        type: "paragraph",
-        children: [
-            {text: "Try it out yourself! Just "},
-            // @ts-ignore
-            {text: "select any piece of text and the menu will appear", bold: true},
-            {text: "."},
-        ],
-    },
+                text: "This example shows how you can make a hovering menu appear above your content",
+            }
+        ]
+    }
 ]
 
 export default HoveringMenuExample

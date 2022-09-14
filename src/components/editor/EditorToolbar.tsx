@@ -165,6 +165,7 @@ const getHeading = (editor: Editor) => {
     }
     return result
 }
+
 const isBlockActive = (editor: Editor, format: any) => {
     const {selection} = editor
     if (!selection) return false
@@ -181,6 +182,7 @@ const isBlockActive = (editor: Editor, format: any) => {
 
     return !!match
 }
+
 const isMarkActive = (editor: Editor, format: any) => {
     const marks = Editor.marks(editor)
     // @ts-ignore
