@@ -24,7 +24,8 @@
     "slate-history": "^0.66.0",
     "slate-react": "^0.82.0",
     "typescript": "^4.5.0",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "react-top-loading-bar": "^2.3.1"
   },
   "scripts": {
     "start": "react-scripts start",
