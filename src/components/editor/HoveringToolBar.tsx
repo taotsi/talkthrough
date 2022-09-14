@@ -17,14 +17,14 @@ export const Menu = React.forwardRef(
             className={cx(
                 className,
                 css`
-          & > * {
-            display: inline-block;
-          }
+                  & > * {
+                    display: inline-block;
+                  }
 
-          & > * + * {
-            margin-left: 15px;
-          }
-        `
+                  & > * + * {
+                    margin-left: 15px;
+                  }
+                `
             )}
         />
     )
