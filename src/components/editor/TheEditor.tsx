@@ -4,7 +4,7 @@ import {createEditor} from "slate"
 import {withHistory} from "slate-history"
 import "./styles.css"
 import {EDITOR_MODE, EMPTY_TEXT} from "./constants"
-import EditorToolbar from "./EditorToolbar"
+import FixedToolbar from "./FixedToolbar"
 import {TheEditorProps} from "./types"
 import {EditingArea} from "./EditingArea"
 import HoveringToolbar from "./HoveringToolBar"
@@ -22,7 +22,7 @@ export default function TheEditor(props: TheEditorProps) {
 
     return (
         <Slate editor={editor} value={value}>
-            <EditorToolbar mode={mode}/>
+            <FixedToolbar mode={mode}/>
             {mode === EDITOR_MODE.READ && <HoveringToolbar/>}
             <EditingArea
                 // @ts-ignore

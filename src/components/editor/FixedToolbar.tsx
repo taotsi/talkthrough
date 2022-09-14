@@ -5,7 +5,7 @@ import {EDITOR_MODE, HEADING_OPTIONS, LIST_TYPES} from "./constants"
 import {Editor, Element as SlateElement, Transforms} from "slate"
 import {EditorToolbarProps} from "./types"
 
-export default function EditorToolbar(props: EditorToolbarProps) {
+export default function FixedToolbar(props: EditorToolbarProps) {
     let mode = props.mode
     mode = mode ? mode : EDITOR_MODE.EDIT
 
@@ -22,7 +22,10 @@ export default function EditorToolbar(props: EditorToolbarProps) {
                     <BlockButton format="numbered-list" icon="list ol"/>
                     <BlockButton format="bulleted-list" icon="list ul"/>
 
-                    <Menu.Item position="right">
+                    <Menu.Item
+                        position="right"
+                        onClick={() => {console.log("editor upload button clicked")}}
+                    >
                         <Icon name="upload" color="green"/>
                     </Menu.Item>
                 </Menu>
@@ -30,10 +33,10 @@ export default function EditorToolbar(props: EditorToolbarProps) {
         case EDITOR_MODE.READ:
             return (
                 <Menu icon attached borderless size={"small"}>
-                    <Menu.Item>
-                        <Icon name="comment"/>
-                    </Menu.Item>
-                    <Menu.Item position="right">
+                    <Menu.Item
+                        position="right"
+                        onClick={() => {console.log("editor download button clicked")}}
+                    >
                         <Icon name="download" color="green"/>
                     </Menu.Item>
                 </Menu>

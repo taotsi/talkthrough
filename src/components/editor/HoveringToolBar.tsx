@@ -6,35 +6,6 @@ import {BaseProps} from "./types"
 import {css, cx} from "@emotion/css/dist/emotion-css.cjs"
 import ReactDOM from "react-dom"
 
-export const Menu = React.forwardRef(
-    (
-        {className, ...props}: PropsWithChildren<BaseProps>,
-        ref: Ref<HTMLDivElement>
-    ) => (
-        <div
-            {...props}
-            ref={ref}
-            className={cx(
-                className,
-                css`
-                  & > * {
-                    display: inline-block;
-                  }
-
-                  & > * + * {
-                    margin-left: 15px;
-                  }
-                `
-            )}
-        />
-    )
-)
-// @ts-ignore
-export const Portal = ({children}) => {
-    return typeof document === "object"
-        ? ReactDOM.createPortal(children, document.body)
-        : null
-}
 export default function HoveringToolbar() {
     const ref = useRef<HTMLDivElement | null>()
     const editor = useSlate()
@@ -72,13 +43,47 @@ export default function HoveringToolbar() {
                 className="hovering_menu"
                 onMouseDown={(e: { preventDefault: () => any }) => e.preventDefault()}
             >
-                <Button
-                    icon
-                    onClick={() => console.log("hovering button clicked")}
+                <Button icon compact size="tiny"  inverted
+                    onClick={() => console.log("hovering button lightbulb clicked")}
                 >
-                    <Icon name="comment outline"/>
+                    <Icon name="lightbulb"/>
+                </Button>
+                <Button icon compact size="tiny"  inverted
+                    onClick={() => console.log("hovering button comment clicked")}
+                >
+                    <Icon name="comment"/>
                 </Button>
             </Menu>
         </Portal>
     )
+}
+
+export const Menu = React.forwardRef(
+    (
+        {className, ...props}: PropsWithChildren<BaseProps>,
+        ref: Ref<HTMLDivElement>
+    ) => (
+        <div
+            {...props}
+            ref={ref}
+            className={cx(
+                className,
+                css`
+                  & > * {
+                    display: inline-block;
+                  }
+
+                  & > * + * {
+                    margin-left: 15px;
+                  }
+                `
+            )}
+        />
+    )
+)
+
+export const Portal = ({children}: any) => {
+    return typeof document === "object"
+        ? ReactDOM.createPortal(children, document.body)
+        : null
 }
