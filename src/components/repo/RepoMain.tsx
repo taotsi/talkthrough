@@ -3,7 +3,6 @@ import {Divider, Grid} from "semantic-ui-react"
 import {queryRepository} from "../../api/BackendClient"
 import TheEditor from "../editor/TheEditor"
 import {EDITOR_MODE} from "../editor/constants"
-// import HoveringMenuExample from "../editor/HoverMenuExample"
 
 export default function RepoMain() {
     const params = useParams()

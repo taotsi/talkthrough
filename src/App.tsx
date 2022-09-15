@@ -1,4 +1,3 @@
-import LoadingBar from "react-top-loading-bar"
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom"
 import Navbar from "./components/Navbar"
 import ExploreNav, {EXPLORE_TAB} from "./components/explore/ExploreNav"
@@ -18,17 +17,11 @@ import RepoIssues from "./components/repo/RepoIssues"
 import RepoPulls from "./components/repo/RepoPulls"
 import RepoSettings from "./components/repo/RepoSettings"
 import Page404 from "./components/common/Page404"
-import React, {useState} from "react"
+import React from "react"
 
 export default function App() {
-    const [progress, setProgress] = useState(0)
     return (
         <BrowserRouter>
-            <LoadingBar
-                color="#f11946"
-                progress={progress}
-                onLoaderFinished={() => {setProgress(0)}}
-            />
             <Routes>
                 <Route path="/" element={<Navbar/>}>
                     <Route index element={<Navigate to="explore" replace={true}/>}/>
