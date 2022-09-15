@@ -48,11 +48,6 @@ export default function HoveringToolbar() {
                 >
                     <Icon name="lightbulb"/>
                 </Button>
-                <Button icon compact size="tiny"  inverted
-                    onClick={() => console.log("hovering button comment clicked")}
-                >
-                    <Icon name="comment"/>
-                </Button>
             </Menu>
         </Portal>
     )

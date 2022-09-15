@@ -8,6 +8,7 @@ import FixedToolbar from "./FixedToolbar"
 import {TheEditorProps} from "./types"
 import {EditingArea} from "./EditingArea"
 import HoveringToolbar from "./HoveringToolBar"
+import {Grid, Segment} from "semantic-ui-react"
 
 export default function TheEditor(props: TheEditorProps) {
     // @ts-ignore
@@ -20,17 +21,59 @@ export default function TheEditor(props: TheEditorProps) {
     const value = props.value === undefined ? EMPTY_TEXT : props.value
     const mode = props.mode === undefined ? EDITOR_MODE.EDIT : props.mode
 
+    let rendered = <span>wrong mode of the editor</span>
+    switch (mode) {
+        case EDITOR_MODE.EDIT:
+            rendered = <Slate editor={editor} value={value}>
+                <FixedToolbar mode={mode}/>
+                <EditingArea
+                    // @ts-ignore
+                    renderElement={renderElement}
+                    renderLeaf={renderLeaf}
+                    mode={mode}
+                />
+            </Slate>
+            break
+        case EDITOR_MODE.READ:
+            rendered = <Slate editor={editor} value={value}>
+                <HoveringToolbar/>
+                <Grid>
+                    <Grid.Row>
+                        <Grid.Column width={9}>
+                            <div>
+                                <FixedToolbar mode={mode}/>
+                                <EditingArea
+                                    // @ts-ignore
+                                    renderElement={renderElement}
+                                    renderLeaf={renderLeaf}
+                                    mode={mode}
+                                />
+                            </div>
+                        </Grid.Column>
+                        <Grid.Column width={4}>
+                            <IssueCard type="同义反复" notes="同义反复"/>
+                            <IssueCard type="稻草人" notes="树立不存在的攻击对象"/>
+                            <IssueCard type="缺少数据" notes="经验归纳需要提供数据证明，或者引用他人数据"/>
+                        </Grid.Column>
+                    </Grid.Row>
+                </Grid>
+
+            </Slate>
+            break
+        case EDITOR_MODE.DIFF:
+            rendered = <span>diff mode is not implemented yet</span>
+            break
+    }
+
+    return rendered
+}
+
+const IssueCard = ({type, notes}: any) => {
     return (
-        <Slate editor={editor} value={value}>
-            <FixedToolbar mode={mode}/>
-            {mode === EDITOR_MODE.READ && <HoveringToolbar/>}
-            <EditingArea
-                // @ts-ignore
-                renderElement={renderElement}
-                renderLeaf={renderLeaf}
-                mode={mode}
-            />
-        </Slate>
+        <Segment>
+            <h5>{type}</h5>
+            <p>{notes}</p>
+        </Segment>
     )
 }
 

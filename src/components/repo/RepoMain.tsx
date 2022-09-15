@@ -14,23 +14,19 @@ export default function RepoMain() {
     return (
         <div>
             <Grid centered>
-                <Grid.Column width={2}>
-                    <h4>About</h4>
-                    关于这个项目，这篇文章，都有些什么想说的，就写在这里
-                    <Divider/>
-                    <h4>发表</h4>
+                <Grid.Column width={3}>
+                    <h4>发表版本</h4>
+                    <span>
                     当文章写的差不多了，可能就想发表。这里会列出你历史上发表的版本
+                    </span>
                     <Divider/>
                     <h4>贡献者</h4>
+                    <span>
                     对这篇文章有贡献的人在这里列出来
+                    </span>
                 </Grid.Column>
-                <Grid.Column width={9}>
+                <Grid.Column width={12}>
                     <TheEditor mode={EDITOR_MODE.READ} value={repo.text}/>
-                    {/*<HoveringMenuExample/>*/}
-                </Grid.Column>
-                <Grid.Column width={4}>
-                    <h4>最近评论</h4>
-                    最近的质疑和合并请求可能会放在这里，但也不一定。可能会把这个功能合并进编辑器里。可能会加一个评论功能，但是想想似乎也不是特别有必要
                 </Grid.Column>
             </Grid>
             <Outlet/>
