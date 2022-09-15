@@ -3,12 +3,16 @@ export interface TheEditorProps {
     mode?: string;
 }
 
-export interface EditingAreaProps {
-    mode?: string;
+export interface EditorProps {
+    editor: any;
+    value: any;
+    renderElement: any;
+    renderLeaf: any;
 }
 
-export interface EditorToolbarProps {
-    mode?: string;
+export interface EditingAreaProps {
+    renderElement: any;
+    renderLeaf: any
 }
 
 export interface BaseProps {
@@ -16,3 +20,4 @@ export interface BaseProps {
 
     [key: string]: unknown
 }
+

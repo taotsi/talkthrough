@@ -5,9 +5,9 @@ import {withHistory} from "slate-history"
 import "./styles.css"
 import {EDITOR_MODE, EMPTY_TEXT} from "./constants"
 import {TheEditorProps} from "./types"
-import EditorEdit from "./EditorEdit"
-import EditorRead from "./EditorRead"
-import EditorDiff from "./EditorDiff"
+import EditorEdit from "./editor_mode/EditorEdit"
+import EditorRead from "./editor_mode/EditorRead"
+import EditorDiff from "./editor_mode/EditorDiff"
 
 export default function TheEditor(props: TheEditorProps) {
     // @ts-ignore
@@ -26,7 +26,6 @@ export default function TheEditor(props: TheEditorProps) {
                 <EditorEdit
                     editor={editor}
                     value={value}
-                    mode={mode}
                     renderElement={renderElement}
                     renderLeaf={renderLeaf}
                 />
@@ -36,14 +35,18 @@ export default function TheEditor(props: TheEditorProps) {
                 <EditorRead
                     editor={editor}
                     value={value}
-                    mode={mode}
                     renderElement={renderElement}
                     renderLeaf={renderLeaf}
                 />
             )
         case EDITOR_MODE.DIFF:
             return (
-                <EditorDiff/>
+                <EditorDiff
+                    editor={editor}
+                    value={value}
+                    renderElement={renderElement}
+                    renderLeaf={renderLeaf}
+                />
             )
         default:
             return <p>{"wrong mode of the editor, mode: " + mode}</p>
