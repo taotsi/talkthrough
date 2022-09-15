@@ -2,12 +2,22 @@
     display: grid;
     height: 100%;
     width: 100%;
-    min-width: 500px;
     min-height: 500px;
-    max-height: 80vh;
+    max-height: 70vh;
     overflow-y: scroll;
     border: 1px solid lightgrey;
     padding: 20px;
+}
+
+.issues_area {
+    display: grid;
+    height: 100%;
+    width: 100%;
+    min-height: 500px;
+    max-height: 75vh;
+    overflow-y: scroll;
+    /*border: 1px solid lightgrey;*/
+    padding-right: 15px;
 }
 
 .heading_dropdown {

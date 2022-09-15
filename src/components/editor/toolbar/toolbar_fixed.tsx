@@ -1,58 +1,62 @@
 import {Dropdown, Icon, Menu} from "semantic-ui-react"
 import React from "react"
 import {useSlate} from "slate-react"
-import {EDITOR_MODE, HEADING_OPTIONS, LIST_TYPES} from "./constants"
+import {HEADING_OPTIONS, LIST_TYPES} from "../constants"
 import {Editor, Element as SlateElement, Transforms} from "slate"
-import {EditorToolbarProps} from "./types"
 
-export default function FixedToolbar(props: EditorToolbarProps) {
-    let mode = props.mode
-    mode = mode ? mode : EDITOR_MODE.EDIT
-
-    switch (mode) {
-        case EDITOR_MODE.EDIT:
-            return (
-                <Menu icon attached borderless size={"small"}>
-                    <HeadingButton/>
-                    <MarkButton format="bold" icon="bold"/>
-                    <MarkButton format="italic" icon="italic"/>
-                    <MarkButton format="underline" icon="underline"/>
-                    <MarkButton format="code" icon="code"/>
-                    <BlockButton format="block-quote" icon="quote left"/>
-                    <BlockButton format="numbered-list" icon="list ol"/>
-                    <BlockButton format="bulleted-list" icon="list ul"/>
-
-                    <Menu.Item
-                        position="right"
-                        onClick={() => {console.log("editor upload button clicked")}}
-                    >
-                        <Icon name="upload" color="green"/>
-                    </Menu.Item>
-                </Menu>
-            )
-        case EDITOR_MODE.READ:
-            return (
-                <Menu icon attached borderless size={"small"}>
-                    <Menu.Item
-                        position="right"
-                        onClick={() => {console.log("editor download button clicked")}}
-                    >
-                        <Icon name="download" color="green"/>
-                    </Menu.Item>
-                </Menu>
-
-            )
-        case EDITOR_MODE.DIFF:
-            return (
-                <Menu icon attached borderless size={"small"}>
-                    <MarkButton format="code" icon="code"/>
-                </Menu>
-            )
-        default:
-            return <p>参数错误，工具栏渲染失败</p>
-    }
+export function ToolBarRead() {
+    return (
+        <Menu icon attached borderless size={"small"}>
+            <Menu.Item
+                position="right"
+                onClick={() => {
+                    console.log("editor download button clicked")
+                }}
+            >
+                <Icon name="download" color="green"/>
+            </Menu.Item>
+        </Menu>
+    )
 }
 
+export function ToolBarEdit() {
+    return (
+        <Menu icon attached borderless size={"small"}>
+            <HeadingButton/>
+            <MarkButton format="bold" icon="bold"/>
+            <MarkButton format="italic" icon="italic"/>
+            <MarkButton format="underline" icon="underline"/>
+            <MarkButton format="code" icon="code"/>
+            <BlockButton format="block-quote" icon="quote left"/>
+            <BlockButton format="numbered-list" icon="list ol"/>
+            <BlockButton format="bulleted-list" icon="list ul"/>
+
+            <Menu.Item
+                position="right"
+                onClick={() => {
+                    console.log("editor upload button clicked")
+                }}
+            >
+                <Icon name="upload" color="green"/>
+            </Menu.Item>
+        </Menu>
+    )
+}
+
+export const ToolBarDiff = () => {
+    return (
+        <Menu icon attached borderless size={"small"}>
+            <Menu.Item
+                position="right"
+                onClick={() => {
+                    console.log("editor upload button clicked")
+                }}
+            >
+                <Icon name="upload" color="green"/>
+            </Menu.Item>
+        </Menu>
+    )
+}
 
 const HeadingButton = () => {
     const editor = useSlate()

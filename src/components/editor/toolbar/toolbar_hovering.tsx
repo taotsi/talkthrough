@@ -2,11 +2,11 @@ import React, {PropsWithChildren, Ref, useEffect, useRef} from "react"
 import {useFocused, useSlate} from "slate-react"
 import {Editor, Range} from "slate"
 import {Button, Icon} from "semantic-ui-react"
-import {BaseProps} from "./types"
+import {BaseProps} from "../types"
 import {css, cx} from "@emotion/css/dist/emotion-css.cjs"
 import ReactDOM from "react-dom"
 
-export default function HoveringToolbar() {
+export function ToolBarReadHovering() {
     const ref = useRef<HTMLDivElement | null>()
     const editor = useSlate()
     const inFocus = useFocused()
@@ -43,15 +43,10 @@ export default function HoveringToolbar() {
                 className="hovering_menu"
                 onMouseDown={(e: { preventDefault: () => any }) => e.preventDefault()}
             >
-                <Button icon compact size="tiny"  inverted
-                    onClick={() => console.log("hovering button lightbulb clicked")}
+                <Button icon compact size="tiny" inverted
+                        onClick={() => console.log("hovering button bug clicked")}
                 >
-                    <Icon name="lightbulb"/>
-                </Button>
-                <Button icon compact size="tiny"  inverted
-                    onClick={() => console.log("hovering button comment clicked")}
-                >
-                    <Icon name="comment"/>
+                    <Icon name="bug"/>
                 </Button>
             </Menu>
         </Portal>
