@@ -6,7 +6,7 @@ import {BaseProps} from "../types"
 import {css, cx} from "@emotion/css/dist/emotion-css.cjs"
 import ReactDOM from "react-dom"
 
-export function ToolBarReadHovering() {
+export function ToolBarHovering() {
     const ref = useRef<HTMLDivElement | null>()
     const editor = useSlate()
     const inFocus = useFocused()
@@ -53,7 +53,7 @@ export function ToolBarReadHovering() {
     )
 }
 
-export const Menu = React.forwardRef(
+const Menu = React.forwardRef(
     (
         {className, ...props}: PropsWithChildren<BaseProps>,
         ref: Ref<HTMLDivElement>
@@ -77,7 +77,7 @@ export const Menu = React.forwardRef(
     )
 )
 
-export const Portal = ({children}: any) => {
+const Portal = ({children}: any) => {
     return typeof document === "object"
         ? ReactDOM.createPortal(children, document.body)
         : null

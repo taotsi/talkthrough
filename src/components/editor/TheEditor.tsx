@@ -5,9 +5,9 @@ import {withHistory} from "slate-history"
 import "./styles.css"
 import {EDITOR_MODE, EMPTY_TEXT} from "./constants"
 import {TheEditorProps} from "./types"
-import EditorEdit from "./editor_mode/EditorEdit"
-import EditorRead from "./editor_mode/EditorRead"
-import EditorDiff from "./editor_mode/EditorDiff"
+import EditorEdit from "./editor_edit/EditorEdit"
+import EditorRead from "./editor_read/EditorRead"
+import EditorDiff from "./editor_diff/EditorDiff"
 
 export default function TheEditor(props: TheEditorProps) {
     // @ts-ignore

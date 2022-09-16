@@ -1,18 +1,18 @@
-import {Slate} from "slate-react"
-import {ToolBarRead} from "../toolbar/toolbar_fixed"
-import {EditingAreaRead} from "../editing_area/editing_area"
+import {Editable, Slate, useSlate} from "slate-react"
 import React from "react"
-import {ToolBarReadHovering} from "../toolbar/toolbar_hovering"
-import {Grid, Segment} from "semantic-ui-react"
-import {EditorProps} from "../types"
-
+import {ToolBarHovering} from "./ToolBarHovering"
+import {Grid, Icon, Menu} from "semantic-ui-react"
+import {EditingAreaProps, EditorProps} from "../types"
+import _ from "lodash"
+import {Editor} from "slate"
+import IssueCard from "./IssueCard"
 
 export default function EditorRead(props: EditorProps) {
     const {editor, value, renderElement, renderLeaf} = props
 
     return (
         <Slate editor={editor} value={value}>
-            <ToolBarReadHovering/>
+            <ToolBarHovering/>
             <Grid>
                 <Grid.Row>
                     <Grid.Column width={11}>
@@ -42,11 +42,38 @@ export default function EditorRead(props: EditorProps) {
     )
 }
 
-const IssueCard = ({type, notes}: any) => {
+export function ToolBarRead() {
     return (
-        <Segment>
-            <h5>{type}</h5>
-            <p>{notes}</p>
-        </Segment>
+        <Menu icon attached borderless size={"small"}>
+            <Menu.Item
+                position="right"
+                onClick={() => {
+                    console.log("editor download button clicked")
+                }}
+            >
+                <Icon name="download" color="green"/>
+            </Menu.Item>
+        </Menu>
     )
+}
+
+export const EditingAreaRead = (props: EditingAreaProps) => {
+    const editor = useSlate()
+    const onKeyDown = _.curry(onKeyDownRead)(editor)
+
+    return (
+        <Editable
+            // @ts-ignore
+            renderElement={props.renderElement}
+            // @ts-ignore
+            renderLeaf={props.renderLeaf}
+            spellCheck
+            autoFocus
+            onKeyDown={onKeyDown}
+        />
+    )
+}
+
+const onKeyDownRead = (editor: Editor, event: any) => {
+    event.preventDefault()
 }
