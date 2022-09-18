@@ -20,7 +20,7 @@ export default function EditorRead(props: EditorProps) {
             <ToolBarHovering addIssueCard={addIssueCard}/>
             <Grid>
                 <Grid.Row verticalAlign="top">
-                    <Grid.Column width={11}>
+                    <Grid.Column width={10}>
                         {/*<ToolBarRead/>*/}
                         <div className="editing_area">
                             <EditingAreaRead
@@ -30,7 +30,7 @@ export default function EditorRead(props: EditorProps) {
                             />
                         </div>
                     </Grid.Column>
-                    <Grid.Column width={5}>
+                    <Grid.Column width={6}>
                         <div className="issues_area">
                             {
                                 issueCardProps.map(
