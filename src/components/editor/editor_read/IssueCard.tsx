@@ -14,7 +14,7 @@ export default function IssueCard(props: IssueCardProps) {
                         circular
                         bordered
                         size="small"
-                        name = {status.collapsed ? "angle right" : "angle down"}
+                        name={status.collapsed ? "angle right" : "angle down"}
                         onClick={() => {
                             if (handleCollapse) {
                                 handleCollapse(props.id, props.status)
@@ -23,11 +23,11 @@ export default function IssueCard(props: IssueCardProps) {
                     />
                     <span>{"type: " + content.type}</span>
                     <Icon basic floated="right" name="delete"
-                          style={{float:"right"}}
+                          style={{float: "right"}}
                           color="red"
                           onClick={() => {
                               if (handleDelete) {
-                                handleDelete(props.id)
+                                  handleDelete(props.id)
                               }
                           }}
                     />

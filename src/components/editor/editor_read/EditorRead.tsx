@@ -18,7 +18,7 @@ export default function EditorRead(props: EditorProps) {
     const handleIssueCardCollapse = (id: number) => {
         let cardProps = [...issueCardProps]
         for (let i = 0; i < cardProps.length; i++) {
-            const card = cardProps[i];
+            const card = cardProps[i]
             if (card.id === id) {
                 card.status.collapsed = !card.status.collapsed
                 break
@@ -30,7 +30,7 @@ export default function EditorRead(props: EditorProps) {
     const handleIssueCardDelete = (id: number) => {
         let cardProps = [...issueCardProps]
         for (let i = 0; i < cardProps.length; i++) {
-            const card = cardProps[i];
+            const card = cardProps[i]
             if (card.id === id) {
                 cardProps.splice(i, 1)
                 break

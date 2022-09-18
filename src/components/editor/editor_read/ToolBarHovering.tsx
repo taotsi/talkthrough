@@ -10,7 +10,7 @@ export function ToolBarHovering(props: ToolBarHoveringPros) {
     const ref = useRef<HTMLDivElement | null>()
     const editor = useSlate()
     const inFocus = useFocused()
-    const [idCount, setIdCount] = useState(0);
+    const [idCount, setIdCount] = useState(0)
 
     useEffect(() => {
         const el = ref.current
