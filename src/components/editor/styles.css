@@ -2,8 +2,8 @@
     display: grid;
     height: 100%;
     width: 100%;
-    min-height: 500px;
-    max-height: 70vh;
+    min-height: 300px;
+    max-height: 85vh;
     overflow-y: scroll;
     border: 1px solid lightgrey;
     padding: 20px;
@@ -13,8 +13,7 @@
     display: grid;
     height: 100%;
     width: 100%;
-    min-height: 500px;
-    max-height: 75vh;
+    max-height: 85vh;
     overflow-y: scroll;
     /*border: 1px solid lightgrey;*/
     padding-right: 15px;
