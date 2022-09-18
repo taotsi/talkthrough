@@ -21,15 +21,25 @@ export interface BaseProps {
     [key: string]: unknown
 }
 
-export interface IssueCardProps {
-    type: string;
-    notes: string;
+export interface IssueCardStatus {
     collapsed: boolean;
     editable: boolean;
-    key: number;
+}
+
+export interface IssueCardContent {
+    type: string;
+    notes: string
+}
+
+export interface IssueCardProps {
     id: number;
+    content: IssueCardContent
+    status: IssueCardStatus;
+    handleCollapse?: (id: number, ic: IssueCardStatus) => void;
+    handleDelete?: (id: number) => void;
+    key?: number;
 }
 
 export interface ToolBarHoveringPros {
-    addIssueCard: (ic: IssueCardProps) => void
+    addIssueCard: (ic: IssueCardProps) => void;
 }

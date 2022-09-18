@@ -15,6 +15,30 @@ export default function EditorRead(props: EditorProps) {
         return setIssueCardProps((cards: IssueCardProps[]) => [...cards, ic])
     }
 
+    const handleIssueCardCollapse = (id: number) => {
+        let cardProps = [...issueCardProps]
+        for (let i = 0; i < cardProps.length; i++) {
+            const card = cardProps[i];
+            if (card.id === id) {
+                card.status.collapsed = !card.status.collapsed
+                break
+            }
+        }
+        setIssueCardProps(cardProps)
+    }
+
+    const handleIssueCardDelete = (id: number) => {
+        let cardProps = [...issueCardProps]
+        for (let i = 0; i < cardProps.length; i++) {
+            const card = cardProps[i];
+            if (card.id === id) {
+                cardProps.splice(i, 1)
+                break
+            }
+        }
+        setIssueCardProps(cardProps)
+    }
+
     return (
         <Slate editor={editor} value={value}>
             <ToolBarHovering addIssueCard={addIssueCard}/>
@@ -35,11 +59,11 @@ export default function EditorRead(props: EditorProps) {
                             {
                                 issueCardProps.map(
                                     (props, index) => {
-                                        return <IssueCard type={props.type}
-                                                          notes={props.notes}
-                                                          collapsed={props.collapsed}
-                                                          editable={props.editable}
+                                        return <IssueCard content={props.content}
+                                                          status={props.status}
                                                           id={props.id}
+                                                          handleCollapse={handleIssueCardCollapse}
+                                                          handleDelete={handleIssueCardDelete}
                                                           key={index}/>
                                     })
                             }

@@ -47,11 +47,14 @@ export function ToolBarHovering(props: ToolBarHoveringPros) {
                 <Button icon compact size="tiny" inverted
                         onClick={() => {
                             const card = {
-                                type: "",
-                                notes: "",
-                                collapsed: false,
-                                editable: true,
-                                key: 0,
+                                content: {
+                                    type: "",
+                                    notes: ""
+                                },
+                                status: {
+                                    collapsed: false,
+                                    editable: true
+                                },
                                 id: idCount
                             }
                             props.addIssueCard(card)
