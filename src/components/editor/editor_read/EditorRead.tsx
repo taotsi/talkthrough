@@ -39,6 +39,33 @@ export default function EditorRead(props: EditorProps) {
         setIssueCardProps(cardProps)
     }
 
+    const handleIssueCardEdit = (id: number) => {
+        let cardProps = [...issueCardProps]
+        for (let i = 0; i < cardProps.length; i++) {
+            const card = cardProps[i]
+            if (card.id === id) {
+                card.status = {
+                    editable: true,
+                    collapsed: false
+                }
+                break
+            }
+        }
+        setIssueCardProps(cardProps)
+    }
+
+    const handleIssueCardSave = (id: number) => {
+        let cardProps = [...issueCardProps]
+        for (let i = 0; i < cardProps.length; i++) {
+            const card = cardProps[i]
+            if (card.id === id) {
+                card.status.editable = false
+                break
+            }
+        }
+        setIssueCardProps(cardProps)
+    }
+
     return (
         <Slate editor={editor} value={value}>
             <ToolBarHovering addIssueCard={addIssueCard}/>
@@ -64,6 +91,8 @@ export default function EditorRead(props: EditorProps) {
                                                           id={props.id}
                                                           handleCollapse={handleIssueCardCollapse}
                                                           handleDelete={handleIssueCardDelete}
+                                                          handleEdit={handleIssueCardEdit}
+                                                          handleSave={handleIssueCardSave}
                                                           key={index}/>
                                     })
                             }

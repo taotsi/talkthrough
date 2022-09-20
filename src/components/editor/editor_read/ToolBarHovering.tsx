@@ -48,12 +48,12 @@ export function ToolBarHovering(props: ToolBarHoveringPros) {
                         onClick={() => {
                             const card = {
                                 content: {
-                                    type: "",
-                                    notes: ""
+                                    type: "稻草人论证",
+                                    notes: "曲解对方观点，树立不存在的攻击对象，然后宣称已推翻对方的论证"
                                 },
                                 status: {
                                     collapsed: false,
-                                    editable: true
+                                    editable: false
                                 },
                                 id: idCount
                             }

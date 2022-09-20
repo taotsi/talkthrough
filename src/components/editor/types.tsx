@@ -37,6 +37,8 @@ export interface IssueCardProps {
     status: IssueCardStatus;
     handleCollapse?: (id: number, ic: IssueCardStatus) => void;
     handleDelete?: (id: number) => void;
+    handleEdit?: (id:number) => void;
+    handleSave?: (id:number) => void;
     key?: number;
 }
 
