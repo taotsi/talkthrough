@@ -24,6 +24,7 @@ export interface BaseProps {
 export interface IssueCardStatus {
     collapsed: boolean;
     editable: boolean;
+    selected: boolean;
 }
 
 export interface IssueCardContent {
@@ -39,6 +40,7 @@ export interface IssueCardProps {
     handleDelete?: (id: number) => void;
     handleEdit?: (id:number) => void;
     handleSave?: (id:number) => void;
+    handleSelect?: (id: number) => void;
     key?: number;
 }
 

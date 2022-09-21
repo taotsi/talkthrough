@@ -53,7 +53,8 @@ export function ToolBarHovering(props: ToolBarHoveringPros) {
                                 },
                                 status: {
                                     collapsed: false,
-                                    editable: false
+                                    editable: false,
+                                    selected: false
                                 },
                                 id: idCount
                             }

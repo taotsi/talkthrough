@@ -1,11 +1,10 @@
-import React, {useState} from "react"
+import React from "react"
 import {Form, Grid, Icon} from "semantic-ui-react"
 import {IssueCardProps} from "../types"
 import {ISSUE_TYPES} from "../constants"
 
 export default function IssueCard(props: IssueCardProps) {
-    const {content, status, handleCollapse, handleDelete, handleEdit, handleSave} = props
-    const [mouseOver, setMouseOver] = useState(false)
+    const {content, status, handleCollapse, handleDelete, handleEdit, handleSave, handleSelect} = props
 
     const CollapseButton = <Icon
         circular
@@ -25,7 +24,8 @@ export default function IssueCard(props: IssueCardProps) {
         color="red"
         size="small"
         bordered
-        onClick={() => {
+        onClick={(e: any) => {
+            e.stopPropagation()
             if (handleDelete) {
                 handleDelete(props.id)
             }
@@ -58,13 +58,13 @@ export default function IssueCard(props: IssueCardProps) {
         />
 
     return (
-        <div
-            className="issue_card"
-            onMouseEnter={() => setMouseOver(true)}
-            onMouseLeave={() => setMouseOver(false)}
-        >
-            <div className={mouseOver ? "issue_card_content_highlight" : "issue_card_content"}
-                 onClick={() => console.log("card clicked")}>
+        <div className="issue_card">
+            <div className={status.selected ? "issue_card_content_highlight" : "issue_card_content"}
+                 onClick={() => {
+                     if (handleSelect) {
+                         handleSelect(props.id)
+                     }
+                 }}>
                 <div>
                     <Grid>
                         <Grid.Row>
@@ -88,10 +88,14 @@ export default function IssueCard(props: IssueCardProps) {
                                             <Form.Group>
                                                 <Form.Select
                                                     options={ISSUE_TYPES}
-
                                                 />
                                             </Form.Group>
-                                            {!status.collapsed && <Form.TextArea value={content.notes}/>}
+                                            {
+                                                !status.collapsed
+                                                && <Form.TextArea
+                                                    value={content.notes}
+                                                />
+                                            }
                                         </Form>
                                         :
                                         <div>

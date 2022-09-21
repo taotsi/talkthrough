@@ -7,9 +7,22 @@ import _ from "lodash"
 import {Editor} from "slate"
 import IssueCard from "./IssueCard"
 
+const DUMMY_ISSUE_CARD_ID = -1
+
+const findIssueCard = (cards: IssueCardProps[], id: number): [IssueCardProps | null, number] =>  {
+    for (let i = 0; i < cards.length; i++) {
+        const card = cards[i]
+        if (card.id === id) {
+            return [card, i]
+        }
+    }
+    return [null, -1]
+}
+
 export default function EditorRead(props: EditorProps) {
     const {editor, value, renderElement, renderLeaf} = props
     const [issueCardProps, setIssueCardProps] = useState<IssueCardProps[]>([])
+    const [selectedCardId, setSelectedCardId] = useState(DUMMY_ISSUE_CARD_ID)
 
     const addIssueCard = (ic: IssueCardProps) => {
         return setIssueCardProps((cards: IssueCardProps[]) => [...cards, ic])
@@ -17,23 +30,20 @@ export default function EditorRead(props: EditorProps) {
 
     const handleIssueCardCollapse = (id: number) => {
         let cardProps = [...issueCardProps]
-        for (let i = 0; i < cardProps.length; i++) {
-            const card = cardProps[i]
-            if (card.id === id) {
-                card.status.collapsed = !card.status.collapsed
-                break
-            }
+        const [card] = findIssueCard(cardProps, id)
+        if (card) {
+            card.status.collapsed = !card.status.collapsed
         }
         setIssueCardProps(cardProps)
     }
 
     const handleIssueCardDelete = (id: number) => {
         let cardProps = [...issueCardProps]
-        for (let i = 0; i < cardProps.length; i++) {
-            const card = cardProps[i]
-            if (card.id === id) {
-                cardProps.splice(i, 1)
-                break
+        const [card, idx] = findIssueCard(cardProps, id)
+        if (card) {
+            cardProps.splice(idx, 1)
+            if (selectedCardId === id) {
+                setSelectedCardId(DUMMY_ISSUE_CARD_ID)
             }
         }
         setIssueCardProps(cardProps)
@@ -41,29 +51,35 @@ export default function EditorRead(props: EditorProps) {
 
     const handleIssueCardEdit = (id: number) => {
         let cardProps = [...issueCardProps]
-        for (let i = 0; i < cardProps.length; i++) {
-            const card = cardProps[i]
-            if (card.id === id) {
-                card.status = {
-                    editable: true,
-                    collapsed: false
-                }
-                break
-            }
+        const [card] = findIssueCard(cardProps, id)
+        if (card) {
+            card.status.editable = true
+            card.status.collapsed = false
         }
         setIssueCardProps(cardProps)
     }
 
     const handleIssueCardSave = (id: number) => {
         let cardProps = [...issueCardProps]
+        const [card] = findIssueCard(cardProps, id)
+        if (card) {
+            card.status.editable = false
+        }
+        setIssueCardProps(cardProps)
+    }
+
+    const handleSelect = (id: number) => {
+        setSelectedCardId(id)
+        let cardProps = [...issueCardProps]
         for (let i = 0; i < cardProps.length; i++) {
             const card = cardProps[i]
-            if (card.id === id) {
-                card.status.editable = false
+            if (selectedCardId === id) {
+                card.status.selected = false
+            } else if (card.id === id) {
+                card.status.selected = true
                 break
             }
         }
-        setIssueCardProps(cardProps)
     }
 
     return (
@@ -93,6 +109,7 @@ export default function EditorRead(props: EditorProps) {
                                                           handleDelete={handleIssueCardDelete}
                                                           handleEdit={handleIssueCardEdit}
                                                           handleSave={handleIssueCardSave}
+                                                          handleSelect={handleSelect}
                                                           key={index}/>
                                     })
                             }
