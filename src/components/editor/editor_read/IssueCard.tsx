@@ -1,10 +1,11 @@
-import React from "react"
+import React, {useState} from "react"
 import {Form, Grid, Icon} from "semantic-ui-react"
 import {IssueCardProps} from "../types"
 import {ISSUE_TYPES} from "../constants"
 
 export default function IssueCard(props: IssueCardProps) {
     const {content, status, handleCollapse, handleDelete, handleEdit, handleSave} = props
+    const [mouseOver, setMouseOver] = useState(false)
 
     const CollapseButton = <Icon
         // style={{float: "right"}}
@@ -53,8 +54,12 @@ export default function IssueCard(props: IssueCardProps) {
 
 
     return (
-        <div className="issue_card">
-            <div className="issue_card_content"
+        <div
+            className="issue_card"
+            onMouseEnter={() => setMouseOver(true)}
+            onMouseLeave={() => setMouseOver(false)}
+        >
+            <div className={mouseOver ? "issue_card_content_highlight" : "issue_card_content"}
                  onClick={() => console.log("card clicked")}>
                 <div>
                     <Grid divided>

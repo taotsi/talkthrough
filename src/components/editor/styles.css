@@ -51,3 +51,11 @@
     width: 100%;
     padding: 12px;
 }
+
+.issue_card_content_highlight {
+    border: 1px solid orange;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px 0 orangered;
+    width: 100%;
+    padding: 12px;
+}
