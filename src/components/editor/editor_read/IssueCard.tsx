@@ -8,7 +8,6 @@ export default function IssueCard(props: IssueCardProps) {
     const [mouseOver, setMouseOver] = useState(false)
 
     const CollapseButton = <Icon
-        // style={{float: "right"}}
         circular
         bordered
         size="small"
@@ -21,35 +20,41 @@ export default function IssueCard(props: IssueCardProps) {
         }}
     />
 
-    const DeleteButton = <Icon basic name="delete"
-        // style={{float: "right"}}
-                               color="red"
-                               onClick={() => {
-                                   if (handleDelete) {
-                                       handleDelete(props.id)
-                                   }
-                               }}
+    const DeleteButton = <Icon
+        name="delete"
+        color="red"
+        size="small"
+        bordered
+        onClick={() => {
+            if (handleDelete) {
+                handleDelete(props.id)
+            }
+        }}
     />
 
     const EditButton = status.editable ?
-        <Icon basic name="check"
-              color="green"
-            // style={{float: "right"}}
-              onClick={() => {
-                  if (handleSave) {
-                      handleSave(props.id)
-                  }
-              }}
+        <Icon
+            name="check"
+            bordered
+            size="small"
+            color="green"
+            onClick={() => {
+                if (handleSave) {
+                    handleSave(props.id)
+                }
+            }}
         />
         :
-        <Icon basic name="edit"
-              color="blue"
-            // style={{float: "right"}}
-              onClick={() => {
-                  if (handleEdit) {
-                      handleEdit(props.id)
-                  }
-              }}
+        <Icon
+            name="edit"
+            bordered
+            size="small"
+            color="blue"
+            onClick={() => {
+                if (handleEdit) {
+                    handleEdit(props.id)
+                }
+            }}
         />
 
     return (
@@ -61,27 +66,29 @@ export default function IssueCard(props: IssueCardProps) {
             <div className={mouseOver ? "issue_card_content_highlight" : "issue_card_content"}
                  onClick={() => console.log("card clicked")}>
                 <div>
-                    <Grid divided>
+                    <Grid>
                         <Grid.Row>
-                            <Grid.Column width={2}
-                                         textAlign="center"
-                                         verticalAlign="top"
+                            <Grid.Column
+                                width={2}
+                                verticalAlign="top"
                             >
-                                {CollapseButton}
-                                {!status.collapsed && <div>
-                                    {EditButton}
-                                    {DeleteButton}
-                                </div>}
+                                {CollapseButton}<br/>
+                                {
+                                    !status.collapsed
+                                    && <div className="issue_card_toolbar">
+                                        {EditButton}<br/>
+                                        {DeleteButton}
+                                    </div>
+                                }
                             </Grid.Column>
                             <Grid.Column width={14}>
                                 {
                                     status.editable ?
                                         <Form>
                                             <Form.Group>
-
                                                 <Form.Select
                                                     options={ISSUE_TYPES}
-                                                    size="mini"
+
                                                 />
                                             </Form.Group>
                                             {!status.collapsed && <Form.TextArea value={content.notes}/>}

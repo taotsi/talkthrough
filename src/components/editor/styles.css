@@ -59,3 +59,7 @@
     width: 100%;
     padding: 12px;
 }
+
+.issue_card_toolbar {
+    padding-top: 8px
+}
