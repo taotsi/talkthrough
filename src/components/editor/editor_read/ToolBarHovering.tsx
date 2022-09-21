@@ -5,6 +5,24 @@ import {Button, Icon} from "semantic-ui-react"
 import {BaseProps, ToolBarHoveringPros} from "../types"
 import {css, cx} from "@emotion/css/dist/emotion-css.cjs"
 import ReactDOM from "react-dom"
+import _ from "lodash"
+
+const INIT_CARD = {
+    content: {
+        type: "稻草人论证",
+        notes: "曲解对方观点，树立不存在的攻击对象，然后宣称已推翻对方的论证"
+    },
+    status: {
+        collapsed: false,
+        editable: false,
+        selected: false
+    },
+    id: -1
+}
+
+function markCardId(editor: Editor, id: number) {
+    editor.addMark("issue_id", id)
+}
 
 export function ToolBarHovering(props: ToolBarHoveringPros) {
     const ref = useRef<HTMLDivElement | null>()
@@ -46,19 +64,10 @@ export function ToolBarHovering(props: ToolBarHoveringPros) {
             >
                 <Button icon compact size="tiny" inverted
                         onClick={() => {
-                            const card = {
-                                content: {
-                                    type: "稻草人论证",
-                                    notes: "曲解对方观点，树立不存在的攻击对象，然后宣称已推翻对方的论证"
-                                },
-                                status: {
-                                    collapsed: false,
-                                    editable: false,
-                                    selected: false
-                                },
-                                id: idCount
-                            }
+                            const card = _.cloneDeep(INIT_CARD)
+                            card.id = idCount
                             props.addIssueCard(card)
+                            markCardId(editor, card.id)
                             setIdCount(idCount + 1)
                         }}
                 >

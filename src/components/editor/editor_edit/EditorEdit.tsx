@@ -128,7 +128,7 @@ const toggleBlock = (editor: Editor, format: any) => {
     }
 }
 
-const toggleMark = (editor: Editor, format: any) => {
+const toggleMark = (editor: Editor, format: string) => {
     const isActive = isMarkActive(editor, format)
     if (isActive) {
         Editor.removeMark(editor, format)

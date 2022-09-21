@@ -8,6 +8,8 @@ import {TheEditorProps} from "./types"
 import EditorEdit from "./editor_edit/EditorEdit"
 import EditorRead from "./editor_read/EditorRead"
 import EditorDiff from "./editor_diff/EditorDiff"
+import Leaf from "./Leaf"
+import {Element} from "../Element"
 
 export default function TheEditor(props: TheEditorProps) {
     // @ts-ignore
@@ -51,88 +53,4 @@ export default function TheEditor(props: TheEditorProps) {
         default:
             return <p>{"wrong mode of the editor, mode: " + mode}</p>
     }
-}
-
-const Element = ({attributes, children, element}: any) => {
-    const style = {textAlign: element.align}
-    switch (element.type) {
-        case "block-quote":
-            return (
-                <blockquote style={style} {...attributes}>
-                    {children}
-                </blockquote>
-            )
-        case "bulleted-list":
-            return (
-                <ul style={style} {...attributes}>
-                    {children}
-                </ul>
-            )
-        case "heading-one":
-            return (
-                <h1 style={style} {...attributes}>
-                    {children}
-                </h1>
-            )
-        case "heading-two":
-            return (
-                <h2 style={style} {...attributes}>
-                    {children}
-                </h2>
-            )
-        case "heading-three":
-            return (
-                <h3 style={style} {...attributes}>
-                    {children}
-                </h3>
-            )
-        case "heading-four":
-            return (
-                <h4 style={style} {...attributes}>
-                    {children}
-                </h4>
-            )
-        case "list-item":
-            return (
-                <li style={style} {...attributes}>
-                    {children}
-                </li>
-            )
-        case "numbered-list":
-            return (
-                <ol style={style} {...attributes}>
-                    {children}
-                </ol>
-            )
-        default:
-            return (
-                <p style={style} {...attributes}>
-                    {children}
-                </p>
-            )
-    }
-}
-
-const Leaf = ({attributes, children, leaf}: any) => {
-    if (leaf.bold) {
-        children = <strong>{children}</strong>
-    }
-
-    if (leaf.code) {
-        children = <code>{children}</code>
-    }
-
-    if (leaf.italic) {
-        children = <em>{children}</em>
-    }
-
-    if (leaf.underline) {
-        children = <u>{children}</u>
-    }
-
-    if (leaf.selected) {
-        children = <span className="selected_text">{children}</span>
-    }
-
-    return <span {...attributes}>{children}</span>
 }

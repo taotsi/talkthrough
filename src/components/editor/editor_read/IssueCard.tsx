@@ -10,7 +10,7 @@ export default function IssueCard(props: IssueCardProps) {
         circular
         bordered
         size="small"
-        name={status.collapsed ? "angle right" : "angle down"}
+        name={status.collapsed ? "angle left" : "angle down"}
         onClick={(e: any) => {
             e.stopPropagation()
             if (handleCollapse) {
@@ -38,7 +38,8 @@ export default function IssueCard(props: IssueCardProps) {
             bordered
             size="small"
             color="green"
-            onClick={() => {
+            onClick={(e: any) => {
+                e.stopPropagation()
                 if (handleSave) {
                     handleSave(props.id)
                 }
@@ -50,12 +51,23 @@ export default function IssueCard(props: IssueCardProps) {
             bordered
             size="small"
             color="blue"
-            onClick={() => {
+            onClick={(e: any) => {
+                e.stopPropagation()
                 if (handleEdit) {
                     handleEdit(props.id)
                 }
             }}
         />
+
+    const LocateButton = <Icon
+        name="crosshairs"
+        bordered
+        size="small"
+        onClick={(e: any) => {
+            e.stopPropagation()
+            console.log("locate button clicked")
+        }}
+    />
 
     return (
         <div className="issue_card">
@@ -68,20 +80,7 @@ export default function IssueCard(props: IssueCardProps) {
                 <div>
                     <Grid>
                         <Grid.Row>
-                            <Grid.Column
-                                width={2}
-                                verticalAlign="top"
-                            >
-                                {CollapseButton}<br/>
-                                {
-                                    !status.collapsed
-                                    && <div className="issue_card_toolbar">
-                                        {EditButton}<br/>
-                                        {DeleteButton}
-                                    </div>
-                                }
-                            </Grid.Column>
-                            <Grid.Column width={14}>
+                            <Grid.Column width={13}>
                                 {
                                     status.editable ?
                                         <Form>
@@ -102,6 +101,20 @@ export default function IssueCard(props: IssueCardProps) {
                                             <h4>{content.type}</h4>
                                             {!status.collapsed && <p>{content.notes}</p>}
                                         </div>
+                                }
+                            </Grid.Column>
+                            <Grid.Column
+                                width={3}
+                                verticalAlign="top"
+                            >
+                                {CollapseButton}<br/>
+                                {
+                                    !status.collapsed
+                                    && <div className="issue_card_toolbar">
+                                        {LocateButton}<br/>
+                                        {EditButton}<br/>
+                                        {DeleteButton}
+                                    </div>
                                 }
                             </Grid.Column>
                         </Grid.Row>
