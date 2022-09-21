@@ -63,3 +63,7 @@
 .issue_card_toolbar {
     padding-top: 8px
 }
+
+.selected_text {
+    background-color: lightgoldenrodyellow;
+}
