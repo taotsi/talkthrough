@@ -67,8 +67,6 @@ export default function EditorRead(props: EditorProps) {
         const [card] = findIssueCard(cardProps, id)
         if (card !== null) {
             card.status.selected = !card.status.selected
-            console.log("selected, current: ", card.status.selected, ", id: ", id)
-
             Transforms.setNodes(
                 editor,
                 // @ts-ignore
@@ -83,8 +81,6 @@ export default function EditorRead(props: EditorProps) {
                     at: []
                 }
             )
-            console.log("para after: ", editor.children[0])
-
         }
         setIssueCardProps(cardProps)
     }

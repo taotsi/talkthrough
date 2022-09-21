@@ -1,10 +1,11 @@
-import React from "react"
+import React, {useState} from "react"
 import {Form, Grid, Icon} from "semantic-ui-react"
 import {IssueCardProps} from "../types"
 import {ISSUE_TYPES} from "../constants"
 
 export default function IssueCard(props: IssueCardProps) {
     const {content, status, handleCollapse, handleDelete, handleEdit, handleSave, handleSelect} = props
+    const [mouseHanging, setMouseHanging] = useState(false)
 
     const CollapseButton = <Icon
         circular
@@ -76,11 +77,14 @@ export default function IssueCard(props: IssueCardProps) {
                      if (handleSelect) {
                          handleSelect(props.id)
                      }
-                 }}>
+                 }}
+                 onMouseEnter={() => setMouseHanging(true)}
+                 onMouseLeave={() => setMouseHanging(false)}
+            >
                 <div>
                     <Grid>
                         <Grid.Row>
-                            <Grid.Column width={13}>
+                            <Grid.Column width={14}>
                                 {
                                     status.editable ?
                                         <Form>
@@ -103,10 +107,7 @@ export default function IssueCard(props: IssueCardProps) {
                                         </div>
                                 }
                             </Grid.Column>
-                            <Grid.Column
-                                width={3}
-                                verticalAlign="top"
-                            >
+                            <Grid.Column width={2} verticalAlign="top">
                                 {CollapseButton}<br/>
                                 {
                                     !status.collapsed
