@@ -1,13 +1,13 @@
 import {Editable, Slate, useSlate} from "slate-react"
 import React, {useState} from "react"
 import {ToolBarHovering} from "./ToolBarHovering"
-import {Grid, Icon, Menu} from "semantic-ui-react"
+import {Grid} from "semantic-ui-react"
 import {EditingAreaProps, EditorProps, IssueCardProps} from "../types"
 import _ from "lodash"
 import {Editor, Transforms} from "slate"
 import IssueCard from "./IssueCard"
 
-const findIssueCard = (cards: IssueCardProps[], id: number): [IssueCardProps | null, number] =>  {
+const findIssueCard = (cards: IssueCardProps[], id: number): [IssueCardProps | null, number] => {
     for (let i = 0; i < cards.length; i++) {
         const card = cards[i]
         if (card.id === id) {
@@ -65,8 +65,26 @@ export default function EditorRead(props: EditorProps) {
     const handleSelect = (id: number) => {
         let cardProps = [...issueCardProps]
         const [card] = findIssueCard(cardProps, id)
-        if (card) {
+        if (card !== null) {
             card.status.selected = !card.status.selected
+            console.log("selected, current: ", card.status.selected, ", id: ", id)
+
+            Transforms.setNodes(
+                editor,
+                // @ts-ignore
+                {selected: card.status.selected},
+                {
+                    match: n => {
+                        return !Editor.isEditor(n)
+                            // && SlateText.isText(n)
+                            // @ts-ignore
+                            && n.issue_id === id;
+                    },
+                    at: []
+                }
+            )
+            console.log("para after: ", editor.children[0])
+
         }
         setIssueCardProps(cardProps)
     }
@@ -111,20 +129,20 @@ export default function EditorRead(props: EditorProps) {
     )
 }
 
-function ToolBarRead() {
-    return (
-        <Menu icon attached borderless size={"small"}>
-            <Menu.Item
-                position="right"
-                onClick={() => {
-                    console.log("editor download button clicked")
-                }}
-            >
-                <Icon name="download" color="green"/>
-            </Menu.Item>
-        </Menu>
-    )
-}
+// function ToolBarRead() {
+//     return (
+//         <Menu icon attached borderless size={"small"}>
+//             <Menu.Item
+//                 position="right"
+//                 onClick={() => {
+//                     console.log("editor download button clicked")
+//                 }}
+//             >
+//                 <Icon name="download" color="green"/>
+//             </Menu.Item>
+//         </Menu>
+//     )
+// }
 
 const EditingAreaRead = (props: EditingAreaProps) => {
     const editor = useSlate()

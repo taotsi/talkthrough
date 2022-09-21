@@ -9,7 +9,7 @@ import _ from "lodash"
 
 const INIT_CARD = {
     content: {
-        type: "稻草人论证",
+        type: "稻草人",
         notes: "曲解对方观点，树立不存在的攻击对象，然后宣称已推翻对方的论证"
     },
     status: {
