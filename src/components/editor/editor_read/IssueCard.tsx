@@ -52,7 +52,6 @@ export default function IssueCard(props: IssueCardProps) {
               }}
         />
 
-
     return (
         <div
             className="issue_card"
