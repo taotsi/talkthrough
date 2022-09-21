@@ -78,7 +78,7 @@ export default function EditorRead(props: EditorProps) {
                         return !Editor.isEditor(n)
                             // && SlateText.isText(n)
                             // @ts-ignore
-                            && n.issue_id === id;
+                            && n.issue_id === id
                     },
                     at: []
                 }
