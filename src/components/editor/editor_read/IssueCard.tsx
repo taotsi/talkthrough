@@ -1,5 +1,5 @@
 import React, {useState} from "react"
-import {Form, Grid, Icon, Select} from "semantic-ui-react"
+import {Dropdown, Form, Grid, Icon} from "semantic-ui-react"
 import {IssueCardProps} from "../types"
 import {ISSUE_TYPES} from "../constants"
 
@@ -96,9 +96,7 @@ export default function IssueCard(props: IssueCardProps) {
                             <Grid.Column width={7}>
                                 {
                                     status.editable ?
-                                        <Form>
-                                            <Select options={ISSUE_TYPES}/>
-                                        </Form>
+                                        <Dropdown options={ISSUE_TYPES} defaultValue={content.type}/>
                                         :
                                         <div>
                                             <h4>{content.type}</h4>

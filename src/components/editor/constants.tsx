@@ -56,7 +56,7 @@ export const EMPTY_TEXT = [
 ]
 
 export const ISSUE_TYPES = [
-    {key: "straw_man", text: "稻草人论证", value: "straw_man"},
+    {key: "straw_man", text: "稻草人论证", value: "稻草人论证"},
 ]
 export const INIT_ISSUE = {
     content: {
