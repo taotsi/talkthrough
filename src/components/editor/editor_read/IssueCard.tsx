@@ -146,7 +146,7 @@ export default function IssueCard(props: IssueCardProps) {
                                     :
                                     <Grid.Row>
                                         <Grid.Column>
-                                            <p>{notes}</p>
+                                            <div className="issue_card_notes">{notes}</div>
                                         </Grid.Column>
                                     </Grid.Row>
                             )

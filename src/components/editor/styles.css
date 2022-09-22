@@ -54,6 +54,10 @@
     padding: 12px;
 }
 
+.issue_card_notes {
+    padding: 10px 14px 10px 14px;
+}
+
 .issue_card_content_highlight {
     border: 1px solid orange;
     border-radius: 5px;
