@@ -74,7 +74,7 @@ export function ToolBarHovering(props: ToolBarHoveringPros) {
                     style={{color: "orange"}}
                 >
                     <Dropdown.Menu style={{opacity: 0.95}}>
-                        {ISSUE_TYPES.map((t, idx:number) => issueItem(t, idx))}
+                        {ISSUE_TYPES.map((t, idx: number) => issueItem(t, idx))}
                     </Dropdown.Menu>
                 </Dropdown>
             </Menu>
