@@ -2,8 +2,8 @@
     display: grid;
     height: 100%;
     width: 100%;
-    min-height: 500px;
-    max-height: 70vh;
+    min-height: 300px;
+    max-height: 85vh;
     overflow-y: scroll;
     border: 1px solid lightgrey;
     padding: 20px;
@@ -13,8 +13,7 @@
     display: grid;
     height: 100%;
     width: 100%;
-    min-height: 500px;
-    max-height: 75vh;
+    max-height: 68vh;
     overflow-y: scroll;
     /*border: 1px solid lightgrey;*/
     padding-right: 15px;
@@ -25,14 +24,52 @@
 }
 
 .hovering_menu {
-    padding: 3px 0 3px 3px;
+    padding: 3px 1px 3px 5px;
     position: absolute;
     z-index: 1;
     top: -10000px;
     left: -10000px;
     margin-top: -6px;
     opacity: 0;
-    background-color: #333;
-    border-radius: 6px;
+    background-color: ghostwhite;
+    border-radius: 5px;
+    border: 1px solid lightgrey;
     transition: opacity 0.5s;
+    box-shadow: 2px 2px 3px 0 grey;
+}
+
+.issue_card {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin: 0 auto;
+    padding: 4px 4px 4px 4px;
+}
+
+.issue_card_content {
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    box-shadow: 2px 2px 2px 0 grey;
+    width: 100%;
+    padding: 12px;
+}
+
+.issue_card_notes {
+    padding: 10px 14px 10px 14px;
+}
+
+.issue_card_content_highlight {
+    border: 1px solid orange;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px 0 orangered;
+    width: 100%;
+    padding: 12px;
+}
+
+.issue_card_toolbar {
+    /*padding-top: 8px*/
+}
+
+.selected_text {
+    background-color: orange;
 }

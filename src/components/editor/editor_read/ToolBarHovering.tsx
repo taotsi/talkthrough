@@ -1,15 +1,40 @@
-import React, {PropsWithChildren, Ref, useEffect, useRef} from "react"
+import React, {PropsWithChildren, Ref, useEffect, useRef, useState} from "react"
 import {useFocused, useSlate} from "slate-react"
 import {Editor, Range} from "slate"
-import {Button, Icon} from "semantic-ui-react"
-import {BaseProps} from "../types"
+import {Dropdown} from "semantic-ui-react"
+import {BaseProps, ToolBarHoveringPros} from "../types"
 import {css, cx} from "@emotion/css/dist/emotion-css.cjs"
 import ReactDOM from "react-dom"
+import {INIT_ISSUE, ISSUE_TYPES} from "../constants"
+import _ from "lodash"
 
-export function ToolBarReadHovering() {
+export function ToolBarHovering(props: ToolBarHoveringPros) {
     const ref = useRef<HTMLDivElement | null>()
     const editor = useSlate()
     const inFocus = useFocused()
+    const [idCount, setIdCount] = useState(0)
+
+    const issueItem = (issueType: any, idx: number) => {
+        return (
+            <Dropdown.Item
+                key={idx}
+                onClick={() => {
+                    const issue = _.cloneDeep(INIT_ISSUE)
+                    issue.id = idCount
+                    issue.content.type = issueType.text
+                    props.addIssueCard(issue)
+
+                    markCardId(editor, issue.id)
+
+                    setIdCount(idCount + 1)
+
+                    editor.selection = null // clear slate editor text selection
+                }}
+            >
+                {issueType.text}
+            </Dropdown.Item>
+        )
+    }
 
     useEffect(() => {
         const el = ref.current
@@ -43,17 +68,25 @@ export function ToolBarReadHovering() {
                 className="hovering_menu"
                 onMouseDown={(e: { preventDefault: () => any }) => e.preventDefault()}
             >
-                <Button icon compact size="tiny" inverted
-                        onClick={() => console.log("hovering button bug clicked")}
+                <Dropdown
+                    pointing="left"
+                    icon="bug"
+                    style={{color: "orange"}}
                 >
-                    <Icon name="bug"/>
-                </Button>
+                    <Dropdown.Menu style={{opacity: 0.95}}>
+                        {ISSUE_TYPES.map((t, idx: number) => issueItem(t, idx))}
+                    </Dropdown.Menu>
+                </Dropdown>
             </Menu>
         </Portal>
     )
 }
 
-export const Menu = React.forwardRef(
+const markCardId = (editor: Editor, id: number) => {
+    editor.addMark("issue_id", id)
+}
+
+const Menu = React.forwardRef(
     (
         {className, ...props}: PropsWithChildren<BaseProps>,
         ref: Ref<HTMLDivElement>
@@ -77,7 +110,7 @@ export const Menu = React.forwardRef(
     )
 )
 
-export const Portal = ({children}: any) => {
+const Portal = ({children}: any) => {
     return typeof document === "object"
         ? ReactDOM.createPortal(children, document.body)
         : null
