@@ -1,7 +1,7 @@
 import {Editable, Slate, useSlate} from "slate-react"
 import React, {useState} from "react"
 import {ToolBarHovering} from "./ToolBarHovering"
-import {Grid} from "semantic-ui-react"
+import {Button, Divider, Grid} from "semantic-ui-react"
 import {EditingAreaProps, EditorProps, IssueCardProps} from "../types"
 import _ from "lodash"
 import {Editor, Transforms} from "slate"
@@ -19,55 +19,54 @@ const findIssueCard = (issues: IssueCardProps[], id: number): [IssueCardProps | 
 
 export default function EditorRead(props: EditorProps) {
     const {editor, value, renderElement, renderLeaf} = props
-    const [IssueCardProps, setIssueCardProps] = useState<IssueCardProps[]>([])
+    const [issueCardProps, setIssueCardProps] = useState<IssueCardProps[]>([])
 
     const addIssueCard = (ic: IssueCardProps) => {
         return setIssueCardProps((issues: IssueCardProps[]) => [...issues, ic])
     }
 
     const handleIssueCardCollapse = (id: number) => {
-        let issueProps = [...IssueCardProps]
-        const [card] = findIssueCard(issueProps, id)
+        let issues = [...issueCardProps]
+        const [card] = findIssueCard(issues, id)
         if (card) {
             card.status.collapsed = !card.status.collapsed
         }
-        setIssueCardProps(issueProps)
+        setIssueCardProps(issues)
     }
 
     const handleIssueCardDelete = (id: number) => {
-        let issueProps = [...IssueCardProps]
-        const [card, idx] = findIssueCard(issueProps, id)
+        let issues = [...issueCardProps]
+        const [card, idx] = findIssueCard(issues, id)
         if (card) {
-            issueProps.splice(idx, 1)
+            issues.splice(idx, 1)
         }
-        setIssueCardProps(issueProps)
+        setIssueCardProps(issues)
     }
 
     const handleIssueCardEdit = (id: number) => {
-        let issueProps = [...IssueCardProps]
-        const [card] = findIssueCard(issueProps, id)
+        let issues = [...issueCardProps]
+        const [card] = findIssueCard(issues, id)
         if (card) {
             card.status.editable = true
             card.status.collapsed = false
         }
-        setIssueCardProps(issueProps)
+        setIssueCardProps(issues)
     }
 
     const handleIssueCardSave = (id: number, type: string, notes: string) => {
-        let issueProps = [...IssueCardProps]
-        const [card] = findIssueCard(issueProps, id)
+        let issues = [...issueCardProps]
+        const [card] = findIssueCard(issues, id)
         if (card) {
             card.status.editable = false
             card.content.type = type
             card.content.notes = notes
         }
-        setIssueCardProps(issueProps)
-        console.log("props after save: ", issueProps)
+        setIssueCardProps(issues)
     }
 
     const handleSelect = (id: number) => {
-        let issueProps = [...IssueCardProps]
-        const [card] = findIssueCard(issueProps, id)
+        let issues = [...issueCardProps]
+        const [card] = findIssueCard(issues, id)
         if (card !== null) {
             card.status.selected = !card.status.selected
             Transforms.setNodes(
@@ -85,7 +84,24 @@ export default function EditorRead(props: EditorProps) {
                 }
             )
         }
-        setIssueCardProps(issueProps)
+        setIssueCardProps(issues)
+    }
+
+    const unfoldAll = () => {
+        let issues = [...issueCardProps]
+        for (const issue of issues) {
+            issue.status.collapsed = false
+        }
+        setIssueCardProps(issues)
+    }
+
+    const foldAll = () => {
+        let issues = [...issueCardProps]
+        for (const issue of issues) {
+            issue.status.collapsed = true
+            issue.status.editable = false
+        }
+        setIssueCardProps(issues)
     }
 
     return (
@@ -104,9 +120,20 @@ export default function EditorRead(props: EditorProps) {
                         </div>
                     </Grid.Column>
                     <Grid.Column width={6}>
+                        {
+                            issueCardProps.length > 0
+                            && <div>
+                                <IssueAreaToolBar
+                                    unfoldAll={unfoldAll}
+                                    foldAll={foldAll}
+                                />
+                                <Divider/>
+                            </div>
+                        }
+
                         <div className="issues_area">
                             {
-                                IssueCardProps.map(
+                                issueCardProps.map(
                                     (props, index) => {
                                         return <IssueCard content={props.content}
                                                           status={props.status}
@@ -128,20 +155,42 @@ export default function EditorRead(props: EditorProps) {
     )
 }
 
-// function ToolBarRead() {
-//     return (
-//         <Menu icon attached borderless size={"small"}>
-//             <Menu.Item
-//                 position="right"
-//                 onClick={() => {
-//                     console.log("editor download button clicked")
-//                 }}
-//             >
-//                 <Icon name="download" color="green"/>
-//             </Menu.Item>
-//         </Menu>
-//     )
-// }
+function IssueAreaToolBar(props: any) {
+    return (
+        <div>
+            <Button
+                basic
+                compact
+                icon="compress"
+                size="tiny"
+                onClick={() => {
+                    props.foldAll()
+                }}
+            />
+            <Button
+                basic
+                compact
+                icon="expand"
+                size="tiny"
+                onClick={() => {
+                    props.unfoldAll()
+                }}
+            />
+            <Button
+                basic
+                compact
+                positive
+                floated="right"
+                icon="save"
+                size="tiny"
+                onClick={() => {
+                    console.warn("issue area save button clicked")
+                }}
+            />
+        </div>
+
+    )
+}
 
 const EditingAreaRead = (props: EditingAreaProps) => {
     const editor = useSlate()
