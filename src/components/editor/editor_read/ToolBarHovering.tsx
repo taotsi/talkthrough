@@ -62,7 +62,7 @@ export function ToolBarHovering(props: ToolBarHoveringPros) {
                 className="hovering_menu"
                 onMouseDown={(e: { preventDefault: () => any }) => e.preventDefault()}
             >
-                <Button icon compact size="tiny" inverted
+                <Button icon size="tiny" color="orange" compact
                         onClick={() => {
                             const card = _.cloneDeep(INIT_CARD)
                             card.id = idCount
