@@ -181,7 +181,7 @@ function IssueAreaToolBar(props: any) {
                 compact
                 positive
                 floated="right"
-                icon="save"
+                icon="upload"
                 size="tiny"
                 onClick={() => {
                     console.warn("issue area save button clicked")
