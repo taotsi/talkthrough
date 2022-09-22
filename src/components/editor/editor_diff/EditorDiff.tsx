@@ -45,7 +45,7 @@ const ToolBarDiff = () => {
             <Menu.Item
                 position="right"
                 onClick={() => {
-                    console.log("editor upload button clicked")
+                    console.warn("editor upload button clicked")
                 }}
             >
                 <Icon name="upload" color="green"/>

@@ -71,10 +71,9 @@ export default function IssueCard(props: IssueCardProps) {
         bordered
         size="small"
         style={{float: "right"}}
-        floated={"right"}
         onClick={(e: any) => {
             e.stopPropagation()
-            console.log("locate button clicked")
+            console.warn("issue card locate button clicked")
         }}
     />
 
