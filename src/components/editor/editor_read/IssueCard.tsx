@@ -1,17 +1,18 @@
 import React, {useState} from "react"
-import {Form, Grid, Icon} from "semantic-ui-react"
+import {Form, Grid, Icon, Select} from "semantic-ui-react"
 import {IssueCardProps} from "../types"
 import {ISSUE_TYPES} from "../constants"
 
 export default function IssueCard(props: IssueCardProps) {
     const {content, status, handleCollapse, handleDelete, handleEdit, handleSave, handleSelect} = props
-    const [mouseHanging, setMouseHanging] = useState(false)
+    const [mouseOver, setMouseOver] = useState(false)
 
     const CollapseButton = <Icon
         circular
         bordered
         size="small"
-        name={status.collapsed ? "angle left" : "angle down"}
+        style={{float: "left"}}
+        name={status.collapsed ? "angle right" : "angle down"}
         onClick={(e: any) => {
             e.stopPropagation()
             if (handleCollapse) {
@@ -24,6 +25,7 @@ export default function IssueCard(props: IssueCardProps) {
         name="delete"
         color="red"
         size="small"
+        style={{float: "right"}}
         bordered
         onClick={(e: any) => {
             e.stopPropagation()
@@ -38,6 +40,7 @@ export default function IssueCard(props: IssueCardProps) {
             name="check"
             bordered
             size="small"
+            style={{float: "right"}}
             color="green"
             onClick={(e: any) => {
                 e.stopPropagation()
@@ -51,6 +54,7 @@ export default function IssueCard(props: IssueCardProps) {
             name="edit"
             bordered
             size="small"
+            style={{float: "right"}}
             color="blue"
             onClick={(e: any) => {
                 e.stopPropagation()
@@ -64,6 +68,8 @@ export default function IssueCard(props: IssueCardProps) {
         name="crosshairs"
         bordered
         size="small"
+        style={{float: "right"}}
+        floated={"right"}
         onClick={(e: any) => {
             e.stopPropagation()
             console.log("locate button clicked")
@@ -78,47 +84,62 @@ export default function IssueCard(props: IssueCardProps) {
                          handleSelect(props.id)
                      }
                  }}
-                 onMouseEnter={() => setMouseHanging(true)}
-                 onMouseLeave={() => setMouseHanging(false)}
+                 onMouseEnter={() => setMouseOver(true)}
+                 onMouseLeave={() => setMouseOver(false)}
             >
                 <div>
                     <Grid>
-                        <Grid.Row>
-                            <Grid.Column width={14}>
+                        <Grid.Row verticalAlign="middle">
+                            <Grid.Column width={2}>
+                                {CollapseButton}
+                            </Grid.Column>
+                            <Grid.Column width={7}>
                                 {
                                     status.editable ?
                                         <Form>
-                                            <Form.Group>
-                                                <Form.Select
-                                                    options={ISSUE_TYPES}
-                                                />
-                                            </Form.Group>
-                                            {
-                                                !status.collapsed
-                                                && <Form.TextArea
-                                                    value={content.notes}
-                                                />
-                                            }
+                                            <Select options={ISSUE_TYPES}/>
                                         </Form>
                                         :
                                         <div>
                                             <h4>{content.type}</h4>
-                                            {!status.collapsed && <p>{content.notes}</p>}
                                         </div>
                                 }
                             </Grid.Column>
-                            <Grid.Column width={2} verticalAlign="top">
-                                {CollapseButton}<br/>
+                            <Grid.Column width={7} floated="right">
                                 {
-                                    !status.collapsed
-                                    && <div className="issue_card_toolbar">
-                                        {LocateButton}<br/>
-                                        {EditButton}<br/>
+                                    mouseOver
+                                    && <div>
+                                        {LocateButton}
+                                        {EditButton}
                                         {DeleteButton}
                                     </div>
                                 }
                             </Grid.Column>
                         </Grid.Row>
+                        {
+                            !status.collapsed &&
+                            (
+                                status.editable ?
+                                    <Grid.Row>
+                                        <Grid.Column>
+                                            <Form>
+                                                <Form.TextArea
+                                                    onClick={(e: any) => {
+                                                        e.stopPropagation()
+                                                    }}
+                                                    value={content.notes}
+                                                />
+                                            </Form>
+                                        </Grid.Column>
+                                    </Grid.Row>
+                                    :
+                                    <Grid.Row>
+                                        <Grid.Column>
+                                            <p>{content.notes}</p>
+                                        </Grid.Column>
+                                    </Grid.Row>
+                            )
+                        }
                     </Grid>
                 </div>
             </div>

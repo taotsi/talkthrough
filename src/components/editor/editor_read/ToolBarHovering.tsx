@@ -14,16 +14,21 @@ export function ToolBarHovering(props: ToolBarHoveringPros) {
     const inFocus = useFocused()
     const [idCount, setIdCount] = useState(0)
 
-    const issueItem = (issueType: any) => {
+    const issueItem = (issueType: any, idx: number) => {
         return (
             <Dropdown.Item
+                key={idx}
                 onClick={() => {
                     const issue = _.cloneDeep(INIT_ISSUE)
                     issue.id = idCount
                     issue.content.type = issueType.text
                     props.addIssueCard(issue)
+
                     markCardId(editor, issue.id)
+
                     setIdCount(idCount + 1)
+
+                    editor.selection = null // clear slate editor text selection
                 }}
             >
                 {issueType.text}
@@ -64,11 +69,12 @@ export function ToolBarHovering(props: ToolBarHoveringPros) {
                 onMouseDown={(e: { preventDefault: () => any }) => e.preventDefault()}
             >
                 <Dropdown
+                    pointing="left"
                     icon="bug"
                     style={{color: "orange"}}
                 >
-                    <Dropdown.Menu>
-                        {ISSUE_TYPES.map(t => issueItem(t))}
+                    <Dropdown.Menu style={{opacity: 0.95}}>
+                        {ISSUE_TYPES.map((t, idx:number) => issueItem(t, idx))}
                     </Dropdown.Menu>
                 </Dropdown>
             </Menu>
