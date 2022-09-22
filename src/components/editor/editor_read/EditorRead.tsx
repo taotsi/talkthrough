@@ -7,9 +7,9 @@ import _ from "lodash"
 import {Editor, Transforms} from "slate"
 import IssueCard from "./IssueCard"
 
-const findIssueCard = (cards: IssueCardProps[], id: number): [IssueCardProps | null, number] => {
-    for (let i = 0; i < cards.length; i++) {
-        const card = cards[i]
+const findIssueCard = (issues: IssueCardProps[], id: number): [IssueCardProps | null, number] => {
+    for (let i = 0; i < issues.length; i++) {
+        const card = issues[i]
         if (card.id === id) {
             return [card, i]
         }
@@ -22,7 +22,7 @@ export default function EditorRead(props: EditorProps) {
     const [issueCardProps, setIssueCardProps] = useState<IssueCardProps[]>([])
 
     const addIssueCard = (ic: IssueCardProps) => {
-        return setIssueCardProps((cards: IssueCardProps[]) => [...cards, ic])
+        return setIssueCardProps((issues: IssueCardProps[]) => [...issues, ic])
     }
 
     const handleIssueCardCollapse = (id: number) => {

@@ -1,34 +1,35 @@
 import React, {PropsWithChildren, Ref, useEffect, useRef, useState} from "react"
 import {useFocused, useSlate} from "slate-react"
 import {Editor, Range} from "slate"
-import {Button, Icon} from "semantic-ui-react"
+import {Dropdown} from "semantic-ui-react"
 import {BaseProps, ToolBarHoveringPros} from "../types"
 import {css, cx} from "@emotion/css/dist/emotion-css.cjs"
 import ReactDOM from "react-dom"
+import {INIT_ISSUE, ISSUE_TYPES} from "../constants"
 import _ from "lodash"
-
-const INIT_CARD = {
-    content: {
-        type: "稻草人",
-        notes: "曲解对方观点，树立不存在的攻击对象，然后宣称已推翻对方的论证"
-    },
-    status: {
-        collapsed: false,
-        editable: false,
-        selected: false
-    },
-    id: -1
-}
-
-function markCardId(editor: Editor, id: number) {
-    editor.addMark("issue_id", id)
-}
 
 export function ToolBarHovering(props: ToolBarHoveringPros) {
     const ref = useRef<HTMLDivElement | null>()
     const editor = useSlate()
     const inFocus = useFocused()
     const [idCount, setIdCount] = useState(0)
+
+    const issueItem = (issueType: any) => {
+        return (
+            <Dropdown.Item
+                onClick={() => {
+                    const issue = _.cloneDeep(INIT_ISSUE)
+                    issue.id = idCount
+                    issue.content.type = issueType.text
+                    props.addIssueCard(issue)
+                    markCardId(editor, issue.id)
+                    setIdCount(idCount + 1)
+                }}
+            >
+                {issueType.text}
+            </Dropdown.Item>
+        )
+    }
 
     useEffect(() => {
         const el = ref.current
@@ -62,20 +63,21 @@ export function ToolBarHovering(props: ToolBarHoveringPros) {
                 className="hovering_menu"
                 onMouseDown={(e: { preventDefault: () => any }) => e.preventDefault()}
             >
-                <Button icon size="tiny" color="orange" compact
-                        onClick={() => {
-                            const card = _.cloneDeep(INIT_CARD)
-                            card.id = idCount
-                            props.addIssueCard(card)
-                            markCardId(editor, card.id)
-                            setIdCount(idCount + 1)
-                        }}
+                <Dropdown
+                    icon="bug"
+                    style={{color: "orange"}}
                 >
-                    <Icon name="bug"/>
-                </Button>
+                    <Dropdown.Menu>
+                        {ISSUE_TYPES.map(t => issueItem(t))}
+                    </Dropdown.Menu>
+                </Dropdown>
             </Menu>
         </Portal>
     )
+}
+
+const markCardId = (editor: Editor, id: number) => {
+    editor.addMark("issue_id", id)
 }
 
 const Menu = React.forwardRef(
