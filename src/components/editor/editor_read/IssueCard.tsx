@@ -6,6 +6,8 @@ import {ISSUE_TYPES} from "../constants"
 export default function IssueCard(props: IssueCardProps) {
     const {content, status, handleCollapse, handleDelete, handleEdit, handleSave, handleSelect} = props
     const [mouseOver, setMouseOver] = useState(false)
+    const [type, setType] = useState(content.type)
+    const [notes, setNotes] = useState(content.notes)
 
     const CollapseButton = <Icon
         circular
@@ -45,7 +47,7 @@ export default function IssueCard(props: IssueCardProps) {
             onClick={(e: any) => {
                 e.stopPropagation()
                 if (handleSave) {
-                    handleSave(props.id)
+                    handleSave(props.id, type, notes)
                 }
             }}
         />
@@ -76,6 +78,14 @@ export default function IssueCard(props: IssueCardProps) {
         }}
     />
 
+    const handleTypeChange = (e: any, {value}: any) => {
+        setType(value)
+    }
+
+    const handleNotesChange = (e: any, {value}: any) => {
+        setNotes(value)
+    }
+
     return (
         <div className="issue_card">
             <div className={status.selected ? "issue_card_content_highlight" : "issue_card_content"}
@@ -96,10 +106,12 @@ export default function IssueCard(props: IssueCardProps) {
                             <Grid.Column width={7}>
                                 {
                                     status.editable ?
-                                        <Dropdown options={ISSUE_TYPES} defaultValue={content.type}/>
+                                        <Dropdown options={ISSUE_TYPES} value={type}
+                                                  onChange={handleTypeChange}
+                                        />
                                         :
                                         <div>
-                                            <h4>{content.type}</h4>
+                                            <h4>{type}</h4>
                                         </div>
                                 }
                             </Grid.Column>
@@ -122,10 +134,11 @@ export default function IssueCard(props: IssueCardProps) {
                                         <Grid.Column>
                                             <Form>
                                                 <Form.TextArea
+                                                    defaultValue={notes}
+                                                    onChange={handleNotesChange}
                                                     onClick={(e: any) => {
                                                         e.stopPropagation()
                                                     }}
-                                                    value={content.notes}
                                                 />
                                             </Form>
                                         </Grid.Column>
@@ -133,7 +146,7 @@ export default function IssueCard(props: IssueCardProps) {
                                     :
                                     <Grid.Row>
                                         <Grid.Column>
-                                            <p>{content.notes}</p>
+                                            <p>{notes}</p>
                                         </Grid.Column>
                                     </Grid.Row>
                             )

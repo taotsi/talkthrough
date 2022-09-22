@@ -19,52 +19,55 @@ const findIssueCard = (issues: IssueCardProps[], id: number): [IssueCardProps | 
 
 export default function EditorRead(props: EditorProps) {
     const {editor, value, renderElement, renderLeaf} = props
-    const [issueCardProps, setIssueCardProps] = useState<IssueCardProps[]>([])
+    const [IssueCardProps, setIssueCardProps] = useState<IssueCardProps[]>([])
 
     const addIssueCard = (ic: IssueCardProps) => {
         return setIssueCardProps((issues: IssueCardProps[]) => [...issues, ic])
     }
 
     const handleIssueCardCollapse = (id: number) => {
-        let cardProps = [...issueCardProps]
-        const [card] = findIssueCard(cardProps, id)
+        let issueProps = [...IssueCardProps]
+        const [card] = findIssueCard(issueProps, id)
         if (card) {
             card.status.collapsed = !card.status.collapsed
         }
-        setIssueCardProps(cardProps)
+        setIssueCardProps(issueProps)
     }
 
     const handleIssueCardDelete = (id: number) => {
-        let cardProps = [...issueCardProps]
-        const [card, idx] = findIssueCard(cardProps, id)
+        let issueProps = [...IssueCardProps]
+        const [card, idx] = findIssueCard(issueProps, id)
         if (card) {
-            cardProps.splice(idx, 1)
+            issueProps.splice(idx, 1)
         }
-        setIssueCardProps(cardProps)
+        setIssueCardProps(issueProps)
     }
 
     const handleIssueCardEdit = (id: number) => {
-        let cardProps = [...issueCardProps]
-        const [card] = findIssueCard(cardProps, id)
+        let issueProps = [...IssueCardProps]
+        const [card] = findIssueCard(issueProps, id)
         if (card) {
             card.status.editable = true
             card.status.collapsed = false
         }
-        setIssueCardProps(cardProps)
+        setIssueCardProps(issueProps)
     }
 
-    const handleIssueCardSave = (id: number) => {
-        let cardProps = [...issueCardProps]
-        const [card] = findIssueCard(cardProps, id)
+    const handleIssueCardSave = (id: number, type: string, notes: string) => {
+        let issueProps = [...IssueCardProps]
+        const [card] = findIssueCard(issueProps, id)
         if (card) {
             card.status.editable = false
+            card.content.type = type
+            card.content.notes = notes
         }
-        setIssueCardProps(cardProps)
+        setIssueCardProps(issueProps)
+        console.log("props after save: ", issueProps)
     }
 
     const handleSelect = (id: number) => {
-        let cardProps = [...issueCardProps]
-        const [card] = findIssueCard(cardProps, id)
+        let issueProps = [...IssueCardProps]
+        const [card] = findIssueCard(issueProps, id)
         if (card !== null) {
             card.status.selected = !card.status.selected
             Transforms.setNodes(
@@ -82,7 +85,7 @@ export default function EditorRead(props: EditorProps) {
                 }
             )
         }
-        setIssueCardProps(cardProps)
+        setIssueCardProps(issueProps)
     }
 
     return (
@@ -103,7 +106,7 @@ export default function EditorRead(props: EditorProps) {
                     <Grid.Column width={6}>
                         <div className="issues_area">
                             {
-                                issueCardProps.map(
+                                IssueCardProps.map(
                                     (props, index) => {
                                         return <IssueCard content={props.content}
                                                           status={props.status}
