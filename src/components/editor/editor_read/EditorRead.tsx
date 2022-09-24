@@ -107,7 +107,8 @@ export default function EditorRead(props: EditorProps) {
                 && SlateText.isText(n)
                 && "issues" in n
                 // @ts-ignore
-                && n.issues.includes(id)})
+                && n.issues.includes(id)
+        })
 
         // @ts-ignore
         for (const [node, path] of nodes) {
