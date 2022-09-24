@@ -69,6 +69,7 @@ export function ToolBarHovering(props: ToolBarHoveringPros) {
                 onMouseDown={(e: { preventDefault: () => any }) => e.preventDefault()}
             >
                 <Dropdown
+                    scrolling
                     pointing="left"
                     icon="bug"
                     style={{color: "orange"}}
