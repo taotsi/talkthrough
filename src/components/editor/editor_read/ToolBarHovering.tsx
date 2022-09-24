@@ -106,8 +106,9 @@ const bindIssueId = (editor: Editor, id: number) => {
         })
         at = rangeRef.unref()!
 
+        const nodes = Editor.nodes(editor, {at, match: SlateText.isText})
         // @ts-ignore
-        for (let [node, path] of Editor.nodes(editor, {at, match: SlateText.isText})) {
+        for (let [node, path] of nodes) {
             const properties: Partial<Node> = {}
             const newProperties: Partial<Node> = {}
 

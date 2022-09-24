@@ -67,7 +67,7 @@ export const INIT_ISSUE = {
     status: {
         collapsed: false,
         editable: true,
-        selected: false
+        highlight: false
     },
     id: -1
 }

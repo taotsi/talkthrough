@@ -34,6 +34,36 @@ export default function EditorRead(props: EditorProps) {
         let issues = [...issueCardProps]
         issues.splice(idx, 1)
         setIssueCardProps(issues)
+
+        const nodes = Editor.nodes(editor, {at: [], match: n => "issues" in n})
+        // @ts-ignore
+        for (const [node, path] of nodes) {
+            const issues = node.issues
+            let idx = -1
+            for (let i = 0; i < issues.length; i++) {
+                if (issues[i] === id) {
+                    idx = i
+                    break
+                }
+            }
+            if (idx === -1) {
+                continue
+            }
+
+            let newIssues = [...issues]
+            newIssues.splice(idx, 1)
+            const properties = {issues: issues, highlight: node.highlight}
+            // TODO: optimize: if new issues is empty
+            const newProperties = {issues: newIssues, highlight: false}
+            editor.apply({
+                type: "set_node",
+                path,
+                properties,
+                newProperties
+            })
+
+        }
+        // TODO: optimize: merge nodes
     }
 
     const setIssueCardEditMode = (id: number) => {
@@ -69,12 +99,12 @@ export default function EditorRead(props: EditorProps) {
         }
         let issues = [...issueCardProps]
         const issue = issues[idx]
-        issue.status.selected = !issue.status.selected
+        issue.status.highlight = !issue.status.highlight
 
         Transforms.setNodes(
             editor,
             // @ts-ignore
-            {selected: issue.status.selected},
+            {highlight: issue.status.highlight},
             {
                 match: n => {
                     return !!(!Editor.isEditor(n)
@@ -88,7 +118,6 @@ export default function EditorRead(props: EditorProps) {
             }
         )
         setIssueCardProps(issues)
-        console.log(editor.children[0])
     }
 
     const unfoldAllIssueCards = () => {

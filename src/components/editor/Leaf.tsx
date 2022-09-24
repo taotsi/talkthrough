@@ -17,7 +17,7 @@ export default function Leaf({attributes, children, leaf}: any) {
         children = <u>{children}</u>
     }
 
-    if (leaf.selected) {
+    if (leaf.highlight) {
         children = <span className="selected_text">{children}</span>
     }
 
