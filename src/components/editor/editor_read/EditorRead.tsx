@@ -4,7 +4,7 @@ import {ToolBarHovering} from "./ToolBarHovering"
 import {Button, Divider, Grid} from "semantic-ui-react"
 import {EditingAreaProps, EditorProps, IssueCardProps} from "../types"
 import _ from "lodash"
-import {Editor, Transforms} from "slate"
+import {Editor, Text as SlateText, Transforms} from "slate"
 import IssueCard from "./IssueCard"
 
 export default function EditorRead(props: EditorProps) {
@@ -70,16 +70,19 @@ export default function EditorRead(props: EditorProps) {
         let issues = [...issueCardProps]
         const issue = issues[idx]
         issue.status.selected = !issue.status.selected
+
         Transforms.setNodes(
             editor,
             // @ts-ignore
             {selected: issue.status.selected},
             {
                 match: n => {
-                    return !Editor.isEditor(n)
-                        // && SlateText.isText(n)
+                    return !!(!Editor.isEditor(n)
+                        && SlateText.isText(n)
+                        && "issues" in n
                         // @ts-ignore
-                        && n.issue_id === id
+                        && n.issues.includes(id))
+
                 },
                 at: []
             }

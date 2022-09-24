@@ -1,6 +1,6 @@
 import React, {PropsWithChildren, Ref, useEffect, useRef, useState} from "react"
 import {useFocused, useSlate} from "slate-react"
-import {Editor, Range} from "slate"
+import {BaseRange, Editor, Range, Text as SlateText, Transforms} from "slate"
 import {Dropdown} from "semantic-ui-react"
 import {BaseProps, ToolBarHoveringPros} from "../types"
 import {css, cx} from "@emotion/css/dist/emotion-css.cjs"
@@ -24,7 +24,7 @@ export function ToolBarHovering(props: ToolBarHoveringPros) {
                     issue.content.type = issueType.text
                     props.addIssueCard(issue)
 
-                    markCardId(editor, issue.id)
+                    bindIssueId(editor, issue.id)
 
                     setIdCount(idCount + 1)
 
@@ -82,8 +82,63 @@ export function ToolBarHovering(props: ToolBarHoveringPros) {
     )
 }
 
-const markCardId = (editor: Editor, id: number) => {
-    editor.addMark("issue_id", id)
+const bindIssueId = (editor: Editor, id: number) => {
+    Editor.withoutNormalizing(editor, () => {
+        let at = editor.selection
+        const rangeRef = Editor.rangeRef(editor, at as BaseRange, {affinity: "inward"})
+        const [start, end] = Range.edges(at as BaseRange)
+        const splitMode = "lowest"
+        const endAtEndOfNode = Editor.isEnd(editor, end, end.path)
+        Transforms.splitNodes(editor, {
+            at: end,
+            match: SlateText.isText,
+            mode: splitMode,
+            voids: false,
+            always: !endAtEndOfNode,
+        })
+        const startAtStartOfNode = Editor.isStart(editor, start, start.path)
+        Transforms.splitNodes(editor, {
+            at: start,
+            match: SlateText.isText,
+            mode: splitMode,
+            voids: false,
+            always: !startAtStartOfNode,
+        })
+        at = rangeRef.unref()!
+
+        // @ts-ignore
+        for (let [node, path] of Editor.nodes(editor, {at, match: SlateText.isText})) {
+            const properties: Partial<Node> = {}
+            const newProperties: Partial<Node> = {}
+
+            let changed = false
+            const issues = node.issues
+            if (issues) {
+                // @ts-ignore
+                properties.issues = issues
+                if (!issues.includes(id)) {
+                    // @ts-ignore
+                    newProperties.issues = [...issues, id]
+                    changed = true
+                }
+            } else {
+                // @ts-ignore
+                newProperties.issues = [id]
+                changed = true
+            }
+
+            if (changed) {
+                editor.apply({
+                    type: "set_node",
+                    path,
+                    // @ts-ignore
+                    properties,
+                    // @ts-ignore
+                    newProperties
+                })
+            }
+        }
+    })
 }
 
 const Menu = React.forwardRef(
