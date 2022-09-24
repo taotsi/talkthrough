@@ -4,7 +4,7 @@ import {ToolBarHovering} from "./ToolBarHovering"
 import {Button, Divider, Grid} from "semantic-ui-react"
 import {EditingAreaProps, EditorProps, IssueCardProps} from "../types"
 import _ from "lodash"
-import {Editor, Text as SlateText, Transforms} from "slate"
+import {Editor, Text as SlateText} from "slate"
 import IssueCard from "./IssueCard"
 
 export default function EditorRead(props: EditorProps) {
@@ -52,16 +52,15 @@ export default function EditorRead(props: EditorProps) {
 
             let newIssues = [...issues]
             newIssues.splice(idx, 1)
-            const properties = {issues: issues, highlight: node.highlight}
+            const properties = {issues: issues, highlightCount: node.highlightCount}
             // TODO: optimize: if new issues is empty
-            const newProperties = {issues: newIssues, highlight: false}
+            const newProperties = {issues: newIssues, highlightCount: node.highlightCount - 1}
             editor.apply({
                 type: "set_node",
                 path,
                 properties,
                 newProperties
             })
-
         }
         // TODO: optimize: merge nodes
     }
@@ -99,25 +98,33 @@ export default function EditorRead(props: EditorProps) {
         }
         let issues = [...issueCardProps]
         const issue = issues[idx]
-        issue.status.highlight = !issue.status.highlight
-
-        Transforms.setNodes(
-            editor,
-            // @ts-ignore
-            {highlight: issue.status.highlight},
-            {
-                match: n => {
-                    return !!(!Editor.isEditor(n)
-                        && SlateText.isText(n)
-                        && "issues" in n
-                        // @ts-ignore
-                        && n.issues.includes(id))
-
-                },
-                at: []
-            }
-        )
+        issue.status.selected = !issue.status.selected
         setIssueCardProps(issues)
+
+        const nodes = Editor.nodes(editor, {
+            at: [],
+            match: n => !Editor.isEditor(n)
+                && SlateText.isText(n)
+                && "issues" in n
+                // @ts-ignore
+                && n.issues.includes(id)})
+
+        // @ts-ignore
+        for (const [node, path] of nodes) {
+            let previousCount = node.highlightCount
+            const properties = {highlightCount: previousCount}
+            if (isNaN(previousCount)) {
+                previousCount = 0
+            }
+            const count = issue.status.selected ? previousCount + 1 : previousCount - 1
+            const newProperties = {highlightCount: count}
+            editor.apply({
+                type: "set_node",
+                path,
+                properties,
+                newProperties
+            })
+        }
     }
 
     const unfoldAllIssueCards = () => {

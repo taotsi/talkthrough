@@ -24,7 +24,7 @@ export interface BaseProps {
 export interface IssueCardStatus {
     collapsed: boolean;
     editable: boolean;
-    highlight: boolean;
+    selected: boolean;
 }
 
 export interface IssueCardContent {

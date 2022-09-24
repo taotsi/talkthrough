@@ -87,7 +87,7 @@ export default function IssueCard(props: IssueCardProps) {
 
     return (
         <div className="issue_card">
-            <div className={status.highlight ? "issue_card_content_highlight" : "issue_card_content"}
+            <div className={status.selected ? "issue_card_content_highlight" : "issue_card_content"}
                  onClick={() => {
                      if (handleSelect) {
                          handleSelect(props.id)
