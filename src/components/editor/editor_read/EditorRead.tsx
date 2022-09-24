@@ -4,18 +4,8 @@ import {ToolBarHovering} from "./ToolBarHovering"
 import {Button, Divider, Grid} from "semantic-ui-react"
 import {EditingAreaProps, EditorProps, IssueCardProps} from "../types"
 import _ from "lodash"
-import {Editor, Transforms} from "slate"
+import {Editor, Text as SlateText} from "slate"
 import IssueCard from "./IssueCard"
-
-const findIssueCard = (issues: IssueCardProps[], id: number): [IssueCardProps | null, number] => {
-    for (let i = 0; i < issues.length; i++) {
-        const card = issues[i]
-        if (card.id === id) {
-            return [card, i]
-        }
-    }
-    return [null, -1]
-}
 
 export default function EditorRead(props: EditorProps) {
     const {editor, value, renderElement, renderLeaf} = props
@@ -25,69 +15,120 @@ export default function EditorRead(props: EditorProps) {
         return setIssueCardProps((issues: IssueCardProps[]) => [...issues, ic])
     }
 
-    const handleIssueCardCollapse = (id: number) => {
-        let issues = [...issueCardProps]
-        const [card] = findIssueCard(issues, id)
-        if (card) {
-            card.status.collapsed = !card.status.collapsed
+    const collapseIssueCard = (id: number) => {
+        const [temp, idx] = findIssueCard(issueCardProps, id)
+        if (temp === null) {
+            return
         }
+        let issues = [...issueCardProps]
+        const issue = issues[idx]
+        issue.status.collapsed = !issue.status.collapsed
         setIssueCardProps(issues)
     }
 
-    const handleIssueCardDelete = (id: number) => {
-        let issues = [...issueCardProps]
-        const [card, idx] = findIssueCard(issues, id)
-        if (card) {
-            issues.splice(idx, 1)
+    const deleteIssueCard = (id: number) => {
+        const [temp, idx] = findIssueCard(issueCardProps, id)
+        if (temp === null) {
+            return
         }
-        setIssueCardProps(issues)
-    }
-
-    const handleIssueCardEdit = (id: number) => {
         let issues = [...issueCardProps]
-        const [card] = findIssueCard(issues, id)
-        if (card) {
-            card.status.editable = true
-            card.status.collapsed = false
-        }
+        issues.splice(idx, 1)
         setIssueCardProps(issues)
-    }
 
-    const handleIssueCardSave = (id: number, type: string, notes: string) => {
-        let issues = [...issueCardProps]
-        const [card] = findIssueCard(issues, id)
-        if (card) {
-            card.status.editable = false
-            card.content.type = type
-            card.content.notes = notes
-        }
-        setIssueCardProps(issues)
-    }
-
-    const handleSelect = (id: number) => {
-        let issues = [...issueCardProps]
-        const [card] = findIssueCard(issues, id)
-        if (card !== null) {
-            card.status.selected = !card.status.selected
-            Transforms.setNodes(
-                editor,
-                // @ts-ignore
-                {selected: card.status.selected},
-                {
-                    match: n => {
-                        return !Editor.isEditor(n)
-                            // && SlateText.isText(n)
-                            // @ts-ignore
-                            && n.issue_id === id
-                    },
-                    at: []
+        const nodes = Editor.nodes(editor, {at: [], match: n => "issues" in n})
+        // @ts-ignore
+        for (const [node, path] of nodes) {
+            const issues = node.issues
+            let idx = -1
+            for (let i = 0; i < issues.length; i++) {
+                if (issues[i] === id) {
+                    idx = i
+                    break
                 }
-            )
+            }
+            if (idx === -1) {
+                continue
+            }
+
+            let newIssues = [...issues]
+            newIssues.splice(idx, 1)
+            const properties = {issues: issues, highlightCount: node.highlightCount}
+            // TODO: optimize: if new issues is empty
+            const newProperties = {issues: newIssues, highlightCount: node.highlightCount - 1}
+            editor.apply({
+                type: "set_node",
+                path,
+                properties,
+                newProperties
+            })
         }
+        // TODO: optimize: merge nodes
+    }
+
+    const setIssueCardEditMode = (id: number) => {
+        const [temp, idx] = findIssueCard(issueCardProps, id)
+        if (temp === null) {
+            return
+        }
+        let issues = [...issueCardProps]
+        const issue = issues[idx]
+        issue.status.editable = true
+        issue.status.collapsed = false
         setIssueCardProps(issues)
     }
 
-    const unfoldAll = () => {
+    const setIssueCardSaveMode = (id: number, type: string, notes: string) => {
+
+        const [temp, idx] = findIssueCard(issueCardProps, id)
+        if (temp === null) {
+            return
+        }
+        let issues = [...issueCardProps]
+        const issue = issues[idx]
+        issue.status.editable = false
+        issue.content.type = type
+        issue.content.notes = notes
+        setIssueCardProps(issues)
+    }
+
+    const toggleIssueCardSelect = (id: number) => {
+        const [temp, idx] = findIssueCard(issueCardProps, id)
+        if (temp === null) {
+            return
+        }
+        let issues = [...issueCardProps]
+        const issue = issues[idx]
+        issue.status.selected = !issue.status.selected
+        setIssueCardProps(issues)
+
+        const nodes = Editor.nodes(editor, {
+            at: [],
+            match: n => !Editor.isEditor(n)
+                && SlateText.isText(n)
+                && "issues" in n
+                // @ts-ignore
+                && n.issues.includes(id)
+        })
+
+        // @ts-ignore
+        for (const [node, path] of nodes) {
+            let previousCount = node.highlightCount
+            const properties = {highlightCount: previousCount}
+            if (isNaN(previousCount)) {
+                previousCount = 0
+            }
+            const count = issue.status.selected ? previousCount + 1 : previousCount - 1
+            const newProperties = {highlightCount: count}
+            editor.apply({
+                type: "set_node",
+                path,
+                properties,
+                newProperties
+            })
+        }
+    }
+
+    const unfoldAllIssueCards = () => {
         let issues = [...issueCardProps]
         for (const issue of issues) {
             issue.status.collapsed = false
@@ -95,7 +136,7 @@ export default function EditorRead(props: EditorProps) {
         setIssueCardProps(issues)
     }
 
-    const foldAll = () => {
+    const foldAllIssueCards = () => {
         let issues = [...issueCardProps]
         for (const issue of issues) {
             issue.status.collapsed = true
@@ -124,8 +165,8 @@ export default function EditorRead(props: EditorProps) {
                             issueCardProps.length > 0
                             && <div>
                                 <IssueAreaToolBar
-                                    unfoldAll={unfoldAll}
-                                    foldAll={foldAll}
+                                    unfoldAll={unfoldAllIssueCards}
+                                    foldAll={foldAllIssueCards}
                                 />
                                 <Divider/>
                             </div>
@@ -138,11 +179,11 @@ export default function EditorRead(props: EditorProps) {
                                         return <IssueCard content={props.content}
                                                           status={props.status}
                                                           id={props.id}
-                                                          handleCollapse={handleIssueCardCollapse}
-                                                          handleDelete={handleIssueCardDelete}
-                                                          handleEdit={handleIssueCardEdit}
-                                                          handleSave={handleIssueCardSave}
-                                                          handleSelect={handleSelect}
+                                                          handleCollapse={collapseIssueCard}
+                                                          handleDelete={deleteIssueCard}
+                                                          handleEdit={setIssueCardEditMode}
+                                                          handleSave={setIssueCardSaveMode}
+                                                          handleSelect={toggleIssueCardSelect}
                                                           key={index}/>
                                     })
                             }
@@ -153,6 +194,16 @@ export default function EditorRead(props: EditorProps) {
 
         </Slate>
     )
+}
+
+const findIssueCard = (issues: IssueCardProps[], id: number): [IssueCardProps | null, number] => {
+    for (let i = 0; i < issues.length; i++) {
+        const issue = issues[i]
+        if (issue.id === id) {
+            return [issue, i]
+        }
+    }
+    return [null, -1]
 }
 
 function IssueAreaToolBar(props: any) {
@@ -181,7 +232,7 @@ function IssueAreaToolBar(props: any) {
                 compact
                 positive
                 floated="right"
-                icon="save"
+                icon="upload"
                 size="tiny"
                 onClick={() => {
                     console.warn("issue area save button clicked")
