@@ -97,7 +97,7 @@ export default function IssueCard(props: IssueCardProps) {
                  onMouseLeave={() => setMouseOver(false)}
             >
                 <div>
-                    <Grid>
+                    <Grid className={"narrow"}>
                         <Grid.Row verticalAlign="middle">
                             <Grid.Column width={2}>
                                 {CollapseButton}
@@ -105,7 +105,9 @@ export default function IssueCard(props: IssueCardProps) {
                             <Grid.Column width={7}>
                                 {
                                     status.editable ?
-                                        <Dropdown options={ISSUE_TYPES} value={type}
+                                        <Dropdown scrolling
+                                                  options={ISSUE_TYPES}
+                                                  value={type}
                                                   onChange={handleTypeChange}
                                         />
                                         :
@@ -118,9 +120,9 @@ export default function IssueCard(props: IssueCardProps) {
                                 {
                                     mouseOver
                                     && <div>
-                                        {LocateButton}
-                                        {EditButton}
                                         {DeleteButton}
+                                        {EditButton}
+                                        {LocateButton}
                                     </div>
                                 }
                             </Grid.Column>
