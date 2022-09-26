@@ -16,26 +16,8 @@ export default function NavBar() {
                     <Input icon="search" placeholder="搜索或跳转..."/>
                 </Menu.Item>
 
-                {/*<Menu.Item as={Link} to="/pulls">*/}
-                {/*    <span className="text">合并请求</span>*/}
-                {/*</Menu.Item>*/}
-                {/*<Menu.Item as={Link} to="/issues">*/}
-                {/*    <span className="text">质疑</span>*/}
-                {/*</Menu.Item>*/}
-
                 <Menu.Item position="right">
-                    <Dropdown item icon="plus" className="icon" direction="left">
-                        <Dropdown.Menu>
-                            <Dropdown.Item as={Link} to="/new/repository">
-                                <Icon name="book"/>
-                                <span className="text">写作项目</span>
-                            </Dropdown.Item>
-                            <Dropdown.Item as={Link} to="/new/material">
-                                <Icon name="lightbulb"/>
-                                <span className="text">素材</span>
-                            </Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown>
+                    <Dropdown item icon="plus" className="icon" direction="left" as={Link} to="/new"/>
 
                     <Dropdown item icon="user" className="icon" direction="left" position="right">
                         <Dropdown.Menu>
@@ -50,11 +32,7 @@ export default function NavBar() {
                             </Dropdown.Item>
                             <Dropdown.Item as={Link} to={"/" + user.name + "?tab=repositories"}>
                                 <Icon name="book"/>
-                                <span className="text">你的写作项目</span>
-                            </Dropdown.Item>
-                            <Dropdown.Item as={Link} to={"/" + user.name + "?tab=materials"}>
-                                <Icon name="lightbulb"/>
-                                <span className="text">你的素材</span>
+                                <span className="text">你的项目</span>
                             </Dropdown.Item>
 
                             <Dropdown.Divider/>
