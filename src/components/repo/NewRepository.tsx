@@ -14,7 +14,7 @@ export default function NewRepository() {
             <Container text>
                 <Form>
                     <br/>
-                    <h2>新建写作项目</h2>
+                    <h2>新建项目</h2>
                     <div className="ui disabled input">包含<strong>一篇</strong>文章和相关的素材</div>
                     <Divider/>
 

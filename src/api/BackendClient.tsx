@@ -1,6 +1,4 @@
 import repositories from "./mocked_values/repositories.json"
-import materials from "./mocked_values/materials.json"
-import {EXPLORE_TAB} from "../components/explore/ExploreNav"
 
 export function queryCurrentUser() {
     return {
@@ -12,17 +10,8 @@ export function queryPaperHeaders(): any[] {
     return repositories
 }
 
-export function queryMaterialHeaders(): any[] {
-    return materials
-}
-
-export function queryExploreHeaders(tab: string): any[] {
-    if (tab === EXPLORE_TAB.PAPERS.en) {
-        return queryPaperHeaders()
-    } else if (tab === EXPLORE_TAB.MATERIALS.en) {
-        return queryMaterialHeaders()
-    }
-    return []
+export function queryExploreHeaders(): any[] {
+    return queryPaperHeaders()
 }
 
 export function queryRepository(owner: string | undefined, repoName: string | undefined) {

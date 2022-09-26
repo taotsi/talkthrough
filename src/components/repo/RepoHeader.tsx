@@ -3,7 +3,7 @@ import {Link, Navigate, Outlet, useLocation, useParams} from "react-router-dom"
 import "./Repo.css"
 import {queryRepository} from "../../api/BackendClient"
 import {constantArrayByKey, pathTail} from "../common/utils"
-import TabItem from "../common/TabItem"
+import TabItem from "./TabItem"
 
 export const REPO_TAB = {
     INDEX: {
@@ -11,12 +11,6 @@ export const REPO_TAB = {
         route: "",
         cn: "项目",
         icon: "wrench"
-    },
-    MATERIALS: {
-        en: "materials",
-        route: "materials",
-        cn: "素材",
-        icon: "lightbulb"
     },
     ISSUES: {
         en: "issues",
@@ -78,7 +72,6 @@ export default function RepoHeader() {
 
             <Menu secondary pointing>
                 <TabItem value={REPO_TAB.INDEX} currentTab={currentTab}/>
-                <TabItem value={REPO_TAB.MATERIALS} currentTab={currentTab}/>
                 <TabItem value={REPO_TAB.ISSUES} currentTab={currentTab}/>
                 <TabItem value={REPO_TAB.PULLS} currentTab={currentTab}/>
                 <TabItem value={REPO_TAB.SETTINGS} currentTab={currentTab}/>

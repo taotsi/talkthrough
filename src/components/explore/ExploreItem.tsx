@@ -3,7 +3,7 @@ import {Button, Header, Icon, Table} from "semantic-ui-react"
 import {Link} from "react-router-dom"
 import "./styles.css"
 
-export default function ExploreRepositoryItem(props: any) {
+export default function ExploreItem(props: any) {
     const header = props.header
 
     return (
